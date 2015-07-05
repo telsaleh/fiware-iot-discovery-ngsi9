@@ -1,0 +1,8 @@
+{
+    "duration": "P1M",
+    "subscriptionId": "52a745e011f5816465943d59",
+    "statusCode": {
+        "code": "404",
+        "reasonPhrase": "No context elements found"
+    }
+}

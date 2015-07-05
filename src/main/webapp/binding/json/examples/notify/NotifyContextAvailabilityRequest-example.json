@@ -1,0 +1,36 @@
+{
+    "subscriptionId": "52a745e011f5816465943d59",
+    "contextRegistrationResponses": [
+        {
+            "contextRegistration": {
+                "entities": [
+                    {
+                        "type": "Room",
+                        "isPattern": "false",
+                        "id": "Room1"
+                    },
+                    {
+                        "type": "Room",
+                        "isPattern": "false",
+                        "id": "Room2"
+                    }
+                ],
+                "attributes": [
+                    {
+                        "name": "temperature",
+                        "type": "float",
+                        "isDomain": "false",
+                        "metadatas": [
+                            {
+                                "name": "accuracy",
+                                "type": "float",
+                                "value": "0.8"
+                            }
+                        ]
+                    }
+                ],
+                "providingApplication": "http://mysensors.com/Rooms"
+            }
+        }
+    ]
+}

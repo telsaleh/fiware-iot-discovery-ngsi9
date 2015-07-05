@@ -1,0 +1,74 @@
+{
+    "contextRegistrations": [
+        {
+            "entities": [
+                {
+                    "type": "Room",
+                    "isPattern": "false",
+                    "id": "Room1"
+                },
+                {
+                    "type": "Room",
+                    "isPattern": "false",
+                    "id": "Room2"
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "temperature",
+                    "type": "float",
+                    "isDomain": "true",
+                    "metadatas": [
+                        {
+                            "name": "accuracy",
+                            "type": "float",
+                            "value": "0.8"
+                        }
+                    ]
+                },
+                {
+                    "name": "pressure",
+                    "type": "integer",
+                    "isDomain": "false",
+                    "metadatas": [
+                        {
+                            "name": "location",
+                            "type": "point",
+                            "value": {                                
+                                "lat": "51.2",
+                                "lon": "-0.5"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "metadatas": [
+                {
+                    "name": "right_neighbour",
+                    "type": "Association",
+                    "value": {
+                        "source": {
+                            "id": "Room1",
+                            "type": "Room",
+                            "isPattern": "false"
+                        },
+                        "target": {
+                            "id": "Room2",
+                            "type": "Room",
+                            "isPattern": "false"
+                        },
+                        "associations": [
+                            {
+                                "source": "temperature",
+                                "target": "temperature"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "providingApplication": "http://www.fi-ware.eu/NGSI/association"
+        }
+    ],
+    "duration": "P1M",
+    "registrationId": "a"
+}

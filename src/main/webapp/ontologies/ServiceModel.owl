@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rm="http://www.surrey.ac.uk/ccsr/ontologies/ResourceModel.owl#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns="http://www.surrey.ac.uk/ccsr/ontologies/ServiceModel.owl#"
+    xmlns:vm="http://www.surrey.ac.uk/ccsr/ontologies/VirtualEntityModel.owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://www.surrey.ac.uk/ccsr/ontologies/ServiceModel.owl">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://purl.oclc.org/NET/ssnx/cf/cf-feature"/>
+    <owl:imports rdf:resource="http://www.surrey.ac.uk/ccsr/ontologies/VirtualEntityModel.owl"/>
+    <owl:imports rdf:resource="http://www.surrey.ac.uk/ccsr/ontologies/ResourceModel.owl"/>
+    <owl:imports rdf:resource="http://www.surrey.ac.uk/ccsr/ontologies/LocationModel.owl"/>
+  </owl:Ontology>
+  <rdfs:Class rdf:about="http://purl.oclc.org/NET/ssnx/ssn#Condition"/>
+  <rdfs:Class rdf:about="http://purl.oclc.org/NET/ssnx/ssn#Device"/>
+  <owl:Class rdf:ID="ServiceArea"/>
+  <owl:Class rdf:ID="ObservationSchedule">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ServiceSchedule"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="RectangularArea">
+    <rdfs:subClassOf rdf:resource="#ServiceArea"/>
+  </owl:Class>
+  <owl:Class rdf:ID="CircularArea">
+    <rdfs:subClassOf rdf:resource="#ServiceArea"/>
+  </owl:Class>
+  <owl:Class rdf:ID="PolygonalArea">
+    <rdfs:subClassOf rdf:resource="#ServiceArea"/>
+  </owl:Class>
+  <owl:Class rdf:ID="RestMethod"/>
+  <owl:Class rdf:ID="EntityService">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Service"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="ServiceEndpoint"/>
+  <owl:Class rdf:ID="ActuationSchedule">
+    <rdfs:subClassOf rdf:resource="#ServiceSchedule"/>
+  </owl:Class>
+  <owl:Class rdf:ID="RestfulServiceEndpoint">
+    <rdfs:subClassOf rdf:resource="#ServiceEndpoint"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ResourceService">
+    <rdfs:subClassOf rdf:resource="#Service"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="hasEntityInput">
+    <rdfs:range rdf:resource="http://www.surrey.ac.uk/ccsr/ontologies/VirtualEntityModel.owl#DomainAttribute"/>
+    <rdfs:domain rdf:resource="#EntityService"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasServiceType"/>
+  <owl:ObjectProperty rdf:ID="hasEffect">
+    <rdfs:domain rdf:resource="#Service"/>
+    <rdfs:range rdf:resource="http://purl.oclc.org/NET/ssnx/ssn#Condition"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isExposedThroughService">
+    <rdfs:range rdf:resource="#Service"/>
+    <owl:inverseOf>
+      <owl:FunctionalProperty rdf:ID="exposes"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasOutput">
+    <rdfs:range rdf:resource="http://purl.oclc.org/NET/ssnx/qu/qu#QuantityKind"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasType"/>
+  <owl:ObjectProperty rdf:ID="hasActuationSchedule">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:ID="hasServiceSchedule"/>
+    </rdfs:subPropertyOf>
+    <rdfs:range rdf:resource="#ActuationSchedule"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasPrecondition">
+    <rdfs:domain rdf:resource="#Service"/>
+    <rdfs:range rdf:resource="http://purl.oclc.org/NET/ssnx/ssn#Condition"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasObservationSchedule">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasServiceSchedule"/>
+    </rdfs:subPropertyOf>
+    <rdfs:range rdf:resource="#ObservationSchedule"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasServiceSchedule">
+    <rdfs:domain rdf:resource="#Service"/>
+    <rdfs:range rdf:resource="#ServiceSchedule"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasEntityOutput">
+    <rdfs:range rdf:resource="http://www.surrey.ac.uk/ccsr/ontologies/VirtualEntityModel.owl#DomainAttribute"/>
+    <owl:inverseOf rdf:resource="#hasEntityOutput"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:domain rdf:resource="#EntityService"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasResourceOutput">
+    <rdfs:domain rdf:resource="#ResourceService"/>
+    <rdfs:range rdf:resource="http://purl.oclc.org/NET/ssnx/qu/qu#QuantityKind"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasResourceInput">
+    <rdfs:range rdf:resource="http://purl.oclc.org/NET/ssnx/qu/qu#QuantityKind"/>
+    <rdfs:domain rdf:resource="#ResourceService"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasInput">
+    <rdfs:range rdf:resource="http://purl.oclc.org/NET/ssnx/qu/qu#QuantityKind"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasServiceEndpoint">
+    <rdfs:range rdf:resource="#ServiceEndpoint"/>
+    <rdfs:domain rdf:resource="#Service"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="ObjectProperty_9"/>
+  <owl:ObjectProperty rdf:ID="supportsMethod">
+    <rdfs:range rdf:resource="#RestMethod"/>
+    <rdfs:domain rdf:resource="#RestfulServiceEndpoint"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasServiceArea">
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#ServiceArea"/>
+          <rdf:Description rdf:about="http://www.surrey.ac.uk/ccsr/ontologies/LocationModel.owl#SpatialThing"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <rdfs:domain rdf:resource="#Service"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="endpointDescription">
+    <rdfs:domain rdf:resource="#ServiceEndpoint"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="endpointProtocol">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#ServiceEndpoint"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasLatitude">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="endpointPort">
+    <rdfs:domain rdf:resource="#ServiceEndpoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="endpointPath">
+    <rdfs:domain rdf:resource="#ServiceEndpoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:ID="hasGlobalLocation">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#exposes">
+    <rdfs:domain rdf:resource="#ResourceService"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="http://www.surrey.ac.uk/ccsr/ontologies/ResourceModel.owl#Resource"/>
+    <owl:inverseOf rdf:resource="#isExposedThroughService"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="NE_latitude">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#RectangularArea"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="centre_latitude">
+    <rdfs:domain rdf:resource="#CircularArea"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="SW_latitude">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#RectangularArea"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="hasAltitude">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="NE_longitude">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:domain rdf:resource="#RectangularArea"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="hasLongitude">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="SW_longitude">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#RectangularArea"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="endpointHost">
+    <rdfs:domain rdf:resource="#ServiceEndpoint"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="centre_longitude">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:domain rdf:resource="#CircularArea"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="radius">
+    <rdfs:domain rdf:resource="#CircularArea"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+  </owl:FunctionalProperty>  
+  <RestMethod rdf:ID="Create"/>  
+  <RestMethod rdf:ID="Update"/>  
+  <RestMethod rdf:ID="Read"/>  
+  <RestMethod rdf:ID="Delete"/>  
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4.8, Build 629)  http://protege.stanford.edu -->

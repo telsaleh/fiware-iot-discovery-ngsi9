@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<discoverContextAvailabilityRequest>
+   <entityIdList>
+      <entityId type="House" isPattern="false">
+         <id>house3</id>			
+      </entityId>
+   </entityIdList>
+   <attributeList>
+      <attribute>indoorTemperature</attribute>
+   </attributeList>
+   <restriction>
+      <scope>
+         <operationScope>
+            <scopeType>IncludeAssociations</scopeType>
+            <scopeValue>SOURCES</scopeValue>
+         </operationScope>
+      </scope>
+   </restriction>
+</discoverContextAvailabilityRequest>

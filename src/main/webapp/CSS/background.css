@@ -1,0 +1,60 @@
+body
+{
+font-size:75%;
+font-family:verdana,arial,'sans serif';
+background-image:url('/ngsi9/images/gradient.png');
+background-repeat:repeat-x;
+/*background-color:#FFFFF0;*/
+color:#000080;
+
+margin-right:200px;
+margin-left:200px;
+}
+
+h1 {font-size:200%;}
+h2 {font-size:140%;}
+h3 {font-size:110%;}
+
+th {background-color:#ADD8E6;}
+
+/*ul {list-style:circle;}*/
+/*ol {list-style:upper-roman;}*/
+
+/*a:link {color:#000080;}
+a:hover {color:red;}*/
+
+fieldset
+{
+box-shadow: 10px 10px 20px #888888;
+border:2px solid;
+border-radius:10px;
+}
+
+
+ul.nav{
+list-style-type:none;
+margin:0;
+padding:0;
+overflow:hidden;
+}
+
+li.nav{
+float:left;
+}
+
+a.nav:link,a.nav:visited
+{
+display:inline-block;
+width:120px;
+font-weight:bold;
+color:#FFFFFF;
+background-color:#98bf21;
+text-align:center;
+padding:4px;
+text-decoration:none;
+text-transform:uppercase;
+}
+a.nav:hover,a.nav:active
+{
+background-color:#7A991A;
+}

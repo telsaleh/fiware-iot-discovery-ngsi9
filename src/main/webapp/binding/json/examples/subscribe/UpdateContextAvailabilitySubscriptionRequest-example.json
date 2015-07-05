@@ -1,0 +1,11 @@
+{
+    "entities": [
+    {
+        "type": "Car",
+        "isPattern": "true",
+        "id": ".*"
+    }
+    ],
+    "duration": "P1M",
+    "subscriptionId": "52a745e011f5816465943d59"
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <description>NGSI-9 server for IoT Agents that want to register, update and discover IoT NGSI Context Entities</description>
+    <display-name>NGSI-9 Server / IoT Discovery</display-name>
+    <context-param>
+        <description>path to where the ngsi repository is to be located</description>
+        <param-name>repository_path</param-name>
+        <param-value>/home/fiware/ngsi9/repository/</param-value>
+    </context-param>
+    <filter>
+        <filter-name>ssi</filter-name>
+        <filter-class>
+            org.apache.catalina.ssi.SSIFilter
+        </filter-class>
+        <init-param>
+            <param-name>contentType</param-name>
+            <param-value>text/html</param-value>
+        </init-param>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>expires</param-name>
+            <param-value>666</param-value>
+        </init-param>
+        <init-param>
+            <param-name>isVirtualWebappRelative</param-name>
+            <param-value>0</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>ssi</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
+    <mime-mapping>
+        <extension>shtml</extension>
+        <mime-type>text/x-server-parsed-html</mime-type>
+    </mime-mapping>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.StorageStartup</listener-class>
+    </listener>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.PeriodicExpirationScanner</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>RestletServlet</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+        <init-param>
+            <param-name>org.restlet.application</param-name>
+            <param-value>uk.ac.surrey.ee.iot.fiware.ngsi9.endpoint.RestReqApplication</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.restlet.clients</param-name>
+            <param-value>HTTP HTTPS FILE</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RestletServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+</web-app>

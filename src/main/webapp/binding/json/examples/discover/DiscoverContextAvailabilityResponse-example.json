@@ -1,0 +1,65 @@
+{
+    "contextRegistrationResponses": [
+        {
+            "contextRegistration": {
+                "entities": [
+                    {
+                        "id": "Room1",
+                        "isPattern": "false",
+                        "type": "Room"
+                    }
+                ],
+                "attributes": [
+                    {
+                        "isDomain": "false",
+                        "name": "temperature",
+                        "type": "float",
+                        "metadatas": [
+                            {
+                                "name": "accuracy",
+                                "type": "float",
+                                "value": "0.8"
+                            }
+                        ]
+                    }
+                ],
+                "providingApplication": "http://mysensors.com/Rooms"
+            }
+        },
+        {
+            "contextRegistration": {
+                "metadatas": [
+                    {
+                        "name": "right_neighbour",
+                        "type": "Association",
+                        "value": {
+                            "attributeAssociations": [
+                                {
+                                    "source": "measurement",
+                                    "target": "temperature"
+                                }
+                            ],
+                            "entities": {
+                                "source": {
+                                    "id": "Room1",
+                                    "isPattern": "false",
+                                    "type": "Room"
+                                },
+                                "target": {
+                                    "id": "Room2",
+                                    "isPattern": "false",
+                                    "type": "Room"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "providingApplication": "http://www.fi-ware.eu/NGSI/association"
+            }
+        }
+    ],
+    "statusCode": {
+        "code": "404",
+        "reasonPhrase": "No context elements found"
+    }
+}

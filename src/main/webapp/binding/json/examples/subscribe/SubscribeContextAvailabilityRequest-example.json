@@ -1,0 +1,14 @@
+{
+    "entities": [
+        {
+            "type": "Room",
+            "isPattern": "true",
+            "id": ".*"
+        }
+    ],
+    "attributes": [
+        "temperature"
+    ],
+    "reference": "http://localhost:1028/accumulate",
+    "duration": "P1M"
+}

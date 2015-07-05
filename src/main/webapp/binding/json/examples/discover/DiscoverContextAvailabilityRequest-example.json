@@ -1,0 +1,20 @@
+{
+    "entities": [
+        {
+            "type": "Room",
+            "isPattern": "false",
+            "id": "Room2"
+        }
+    ],
+    "attributes": [
+        "temperature"
+    ],
+    "restriction": {
+        "scopes": [
+            {
+                "type": "IncludeAssociations",
+                "value": "SOURCES"
+            }
+        ]
+    }
+}

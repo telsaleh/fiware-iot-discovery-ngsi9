@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registerContextRequest>
+  <contextRegistrationList>
+     <contextRegistration>
+        <entityIdList>
+           <entityId type="TemperatureSensor" isPattern="false">
+               <id>Sensor5</id>
+           </entityId>
+        </entityIdList>
+        <contextRegistrationAttributeList>
+           <contextRegistrationAttribute>
+              <name>measurement</name>
+                 <isDomain>false</isDomain>
+           </contextRegistrationAttribute>
+        </contextRegistrationAttributeList>
+        <providingApplication>http://myHomeGateway22.org</providingApplication>
+     </contextRegistration>
+  </contextRegistrationList>
+  <duration>PT1M</duration>
+  <registrationId></registrationId>
+</registerContextRequest>
