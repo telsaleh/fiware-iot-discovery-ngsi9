@@ -5,19 +5,24 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.notify;
 
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistration;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponse;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.NotifyContextAvailabilityRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.SubscribeContextAvailabilityRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.bind.JAXBException;
+
+import org.restlet.data.MediaType;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ClientResource;
+
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.NotifyMarshaller;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistration;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponse;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.NotifyContextAvailabilityRequest;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.SubscribeContextAvailabilityRequest;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.SubscriptionStoreAccess;
 
 /**
@@ -46,6 +51,7 @@ public class AvailabilityNotifier implements Runnable{
         for (int i = 0; i < subReqListSize; i++) {
             
             NotifyContextAvailabilityRequest ncar = new NotifyContextAvailabilityRequest();
+        	
             List<ContextRegistrationResponse> crrl = new ArrayList<>();
 
             int crListSize = cr.size();
@@ -69,11 +75,21 @@ public class AvailabilityNotifier implements Runnable{
             }
 
             //notify subscriber
-            String callbackUrl = subReq.get(i).getReference();
+            String callbackUrl = subReq.get(i).getReference()+"/notifyContextAvailability";
+
+        	Logger.getLogger(AvailabilityNotifier.class.getName()).log(Level.SEVERE, callbackUrl);
+
             ClientResource ngsiClient = new ClientResource(callbackUrl);
+            
             String payload = notifMsg;
+            
+            StringRepresentation stringRep = new StringRepresentation(payload);
+            stringRep.setMediaType(MediaType.APPLICATION_XML);
+            
+        	Logger.getLogger(AvailabilityNotifier.class.getName()).log(Level.SEVERE, payload);
+            
             try {
-                ngsiClient.post(payload).write(System.out); //Response is not handled for now
+                ngsiClient.post(stringRep).write(System.out);//payload).write(System.out); //Response is not handled for now
             } catch (IOException ex) {
                 Logger.getLogger(AvailabilityNotifier.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -45,9 +45,20 @@ public class NotifyMarshaller {
 
         JAXBContext context = JAXBContext.newInstance(ObjectFactory.class);
         Marshaller marshaller = context.createMarshaller();
+
         //marshaller.marshal(entity, System.out);
         StringWriter w = new StringWriter();
-        marshaller.marshal(reqToMar, w);//(entity, System.out);
+        //marshaller.marshal(reqToMar, w);//(entity, System.out);
+
+        /* modified */
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+ 
+        // Marshal Billing Address
+        ObjectFactory objectFactory = new ObjectFactory();
+        JAXBElement<NotifyContextAvailabilityRequest> reqToMarJAXB =  objectFactory.createNotifyContextAvailabilityRequest(reqToMar);
+        marshaller.marshal(reqToMarJAXB, w);
+        
+        
         String result = prettyFormat(w.toString());
         //System.out.println(result);
         return result;
@@ -55,6 +66,8 @@ public class NotifyMarshaller {
 
     // RESPONSE MARSHALL (OBJECT TO XML) *MESSAGE*
     public String marshallResponse(NotifyContextAvailabilityResponse respToMar) throws JAXBException {
+
+	
 
         JAXBContext context = JAXBContext.newInstance(ObjectFactory.class);
         Marshaller marshaller = context.createMarshaller();
