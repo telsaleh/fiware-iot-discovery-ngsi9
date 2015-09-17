@@ -4,8 +4,6 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,15 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.bind.JAXBException;
+
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.DiscoveryMarshaller;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Association;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityRequest;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityResponse;
@@ -34,6 +34,9 @@ import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Value;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterResultFilter;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Resource which has only one representation.
@@ -215,7 +218,9 @@ public class Resource02_Discovery extends ServerResource {
             //create context registration response and response list            
             ContextRegistrationResponse crr ;//= new ContextRegistrationResponse();
             List<ContextRegistrationResponse> crrl = new ArrayList<>();
-
+            
+            List<String> entityTypes = new ArrayList<String>();
+            
             for (EntityId entityId : entityIdList) {
                 try {
               
@@ -238,7 +243,10 @@ public class Resource02_Discovery extends ServerResource {
                     	
                     	regFilter.getCrrContainsAttr(eIdResults, attributeList, crrl);
                     	
-                    	regFilter.removeSharedEntityType(crrl, entityId.getType());
+                    	//add type found to the list
+                    	entityTypes.add(entityId.getType());
+                    	
+                    	regFilter.removeSharedEntityType(crrl, entityTypes);
                     }
                     
 

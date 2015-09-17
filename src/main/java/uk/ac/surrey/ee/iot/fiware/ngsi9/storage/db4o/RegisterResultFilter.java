@@ -617,7 +617,7 @@ public class RegisterResultFilter {
     
     //remove EntityId that doesn't match the type "eType"
     public void removeSharedEntityType(
-    		List<ContextRegistrationResponse> crrl, String eType) {
+    		List<ContextRegistrationResponse> crrl, List<String> eTypes) {
         // TODO Auto-generated method stub
 
         int contRegRespListSize = crrl.size();
@@ -631,7 +631,7 @@ public class RegisterResultFilter {
                 String eTypeCheck = crrl.get(j)
                         .getContextRegistration()
                         .getEntityId().get(k).getType();
-                if (!eTypeCheck.equals(eType)) {
+                if (!eTypes.contains(eTypeCheck)) {
                 	crrl.get(j)
                             .getContextRegistration()
                             .getEntityId().remove(k);
