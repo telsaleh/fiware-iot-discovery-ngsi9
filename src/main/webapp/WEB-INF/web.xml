@@ -5,7 +5,7 @@
     <context-param>
         <description>path to where the ngsi repository is to be located</description>
         <param-name>repository_path</param-name>
-        <param-value>/home/fiware/ngsi9/repository/</param-value>
+        <param-value>/home/lorenzo/iotDiscoveryDB/ngsi9/repository</param-value>
     </context-param>
     <filter>
         <filter-name>ssi</filter-name>

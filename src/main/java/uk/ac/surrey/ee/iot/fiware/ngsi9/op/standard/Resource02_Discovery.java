@@ -218,15 +218,31 @@ public class Resource02_Discovery extends ServerResource {
 
             for (EntityId entityId : entityIdList) {
                 try {
+              
                     //...discovery request is for context provider
                     //retreive using IDs
                     List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);
                     //retrieve using attributes
-                    crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
-                    crr = regFilter.removeSharedEntityID(crr, entityIdList);
-                    //add retrieve response to response list
-                    //crr.getContextRegistration().getEntityIdList();
-                    crrl.add(crr);
+                    
+                    if(!entityId.getId().contentEquals(".*")){
+	                    crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
+	                    
+	                  
+	            		crr = regFilter.removeSharedEntityID(crr, entityIdList);
+	            		
+	                    //add retrieve response to response list
+	                    //crr.getContextRegistration().getEntityIdList();
+	                    crrl.add(crr);
+                    }
+                    else{
+                    	
+                    	regFilter.getCrrContainsAttr(eIdResults, attributeList, crrl);
+                    	
+                    	regFilter.removeSharedEntityType(crrl, entityId.getType());
+                    }
+                    
+
+                    
                 } catch (NullPointerException npe) {
                     System.out.println("get context entity error: " + npe.getMessage());
                 }
