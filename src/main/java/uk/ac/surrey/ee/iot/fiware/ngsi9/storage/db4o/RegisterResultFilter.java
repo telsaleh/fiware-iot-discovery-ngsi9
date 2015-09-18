@@ -615,7 +615,7 @@ public class RegisterResultFilter {
         return discContResp;
     }
     
-    //remove EntityId that doesn't match the type "eType"
+    //remove EntityId that doesn't match the list of types eTypes
     public void removeSharedEntityType(
     		List<ContextRegistrationResponse> crrl, List<String> eTypes) {
         // TODO Auto-generated method stub

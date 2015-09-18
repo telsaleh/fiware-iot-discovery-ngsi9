@@ -229,7 +229,8 @@ public class Resource02_Discovery extends ServerResource {
                     List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);
                     //retrieve using attributes
                     
-                    if(!entityId.getId().contentEquals(".*")){
+                    //two different way of filtering if it is used regExp or not
+                    if(!entityId.getId().contentEquals(".*") && !entityId.isIsPattern()){
 	                    crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
 	                    
 	                  
@@ -243,7 +244,7 @@ public class Resource02_Discovery extends ServerResource {
                     	
                     	regFilter.getCrrContainsAttr(eIdResults, attributeList, crrl);
                     	
-                    	//add type found to the list
+                    	//add type found to the list 
                     	entityTypes.add(entityId.getType());
                     	
                     	regFilter.removeSharedEntityType(crrl, entityTypes);
