@@ -8,10 +8,12 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import java.util.List;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -40,7 +42,7 @@ import javax.xml.bind.annotation.*;
 @XmlType(name = "ContextMetadata")
 @XmlRootElement(name = "contextMetadata")
 //@XmlSeeAlso (value={ContextMetadataString.class,ContextMetadataObject.class})
-public class ContextMetadata {
+public class ContextMetadata<T> {
 
     @XmlElement(name = "name", required = true)
     protected String name;
@@ -48,7 +50,7 @@ public class ContextMetadata {
     @XmlSchemaType(name = "anyURI")
     protected String type;
     @XmlElement(required = true, name="value")
-    public Value value;
+    public T/*Value*/ value;
 
     public String getName() {
         return name;
@@ -66,11 +68,11 @@ public class ContextMetadata {
         this.type = type;
     }
 
-    public Value getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(Value value) {
+    public void setValue(T value) {
         this.value = value;
     }
 

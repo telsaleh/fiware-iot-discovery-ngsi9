@@ -4,8 +4,6 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,15 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.bind.JAXBException;
+
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.DiscoveryMarshaller;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Association;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityRequest;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityResponse;
@@ -34,6 +34,9 @@ import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Value;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterResultFilter;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Resource which has only one representation.
@@ -215,18 +218,40 @@ public class Resource02_Discovery extends ServerResource {
             //create context registration response and response list            
             ContextRegistrationResponse crr ;//= new ContextRegistrationResponse();
             List<ContextRegistrationResponse> crrl = new ArrayList<>();
-
+            
+            List<String> entityTypes = new ArrayList<String>();
+            
             for (EntityId entityId : entityIdList) {
                 try {
+              
                     //...discovery request is for context provider
                     //retreive using IDs
                     List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);
                     //retrieve using attributes
-                    crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
-                    crr = regFilter.removeSharedEntityID(crr, entityIdList);
-                    //add retrieve response to response list
-                    //crr.getContextRegistration().getEntityIdList();
-                    crrl.add(crr);
+                    
+                    //two different way of filtering if it is used regExp or not
+                    if(!entityId.getId().contentEquals(".*") && !entityId.isIsPattern()){
+	                    crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
+	                    
+	                  
+	            		crr = regFilter.removeSharedEntityID(crr, entityIdList);
+	            		
+	                    //add retrieve response to response list
+	                    //crr.getContextRegistration().getEntityIdList();
+	                    crrl.add(crr);
+                    }
+                    else{
+                    	
+                    	regFilter.getCrrContainsAttr(eIdResults, attributeList, crrl);
+                    	
+                    	//add type found to the list 
+                    	entityTypes.add(entityId.getType());
+                    	
+                    	regFilter.removeSharedEntityType(crrl, entityTypes);
+                    }
+                    
+
+                    
                 } catch (NullPointerException npe) {
                     System.out.println("get context entity error: " + npe.getMessage());
                 }
