@@ -60,52 +60,52 @@ public class RegisterResultFilter {
         return crr;
     }
 
-    //ContextRegistrationResponse elements that match with the attributeList
-    public void getCrrContainsAttr(
-            List<RegisterContextRequest> result, ArrayList<String> attr, List<ContextRegistrationResponse> crrl) {
-
-        int resultListSize = result.size();
-        
-        for (int i = 0; i < resultListSize; i++) {
-
-            int contRegListSize = result.get(i).getContextRegistration().size();
-            for (int j = 0; j < contRegListSize; j++) {
-
-                boolean attributeFound = false;
-                int attributeListSize = result.get(i)
-                        .getContextRegistration()
-                        .get(j)
-                        .getContextRegistrationAttribute().size();
-                for (int k = 0; k < attributeListSize; k++) {
-
-                    String attributeCheck = result.get(i)
-                            
-                            .getContextRegistration().get(j)
-                            
-                            .getContextRegistrationAttribute().get(k).getName();
-
-                    //if (attributeCheck.equals(attr)) {
-                    if (attr.contains(attributeCheck)) {
-                        attributeFound = true;
-                        break;
-                    }
-                }
-                if (attributeFound || (attr.size() < 1)) {
-                    ContextRegistrationResponse crr = new ContextRegistrationResponse();
-                	
-                    ContextRegistration regCr = result.get(i)
-                            
-                            .getContextRegistration().get(j);
-
-                    crr.setContextRegistration(regCr);
-                	
-                    crrl.add(crr);
-                }
-
-            }
-        }
-
-    }
+//    //ContextRegistrationResponse elements that match with the attributeList
+//    public void getCrrContainsAttr(
+//            List<RegisterContextRequest> result, ArrayList<String> attr, List<ContextRegistrationResponse> crrl) {
+//
+//        int resultListSize = result.size();
+//        
+//        for (int i = 0; i < resultListSize; i++) {
+//
+//            int contRegListSize = result.get(i).getContextRegistration().size();
+//            for (int j = 0; j < contRegListSize; j++) {
+//
+//                boolean attributeFound = false;
+//                int attributeListSize = result.get(i)
+//                        .getContextRegistration()
+//                        .get(j)
+//                        .getContextRegistrationAttribute().size();
+//                for (int k = 0; k < attributeListSize; k++) {
+//
+//                    String attributeCheck = result.get(i)
+//                            
+//                            .getContextRegistration().get(j)
+//                            
+//                            .getContextRegistrationAttribute().get(k).getName();
+//
+//                    //if (attributeCheck.equals(attr)) {
+//                    if (attr.contains(attributeCheck)) {
+//                        attributeFound = true;
+//                        break;
+//                    }
+//                }
+//                if (attributeFound || (attr.size() < 1)) {
+//                    ContextRegistrationResponse crr = new ContextRegistrationResponse();
+//                	
+//                    ContextRegistration regCr = result.get(i)
+//                            
+//                            .getContextRegistration().get(j);
+//
+//                    crr.setContextRegistration(regCr);
+//                	
+//                    crrl.add(crr);
+//                }
+//
+//            }
+//        }
+//
+//    }
     
     //returns ContextRegistrationResponse for Standard Operation
     public ContextRegistrationResponse getCrrContainsEIdAttr(
@@ -395,6 +395,70 @@ public class RegisterResultFilter {
         return crrl;
     }
 
+    //MODIFICATO
+    //discovery done using eIdType and attributeList
+    public List<ContextRegistrationResponse> getContRegHasEntityTypeAttrList(
+            List<RegisterContextRequest> result, String eIdType, List<String> attrs) {
+    	
+    	List<ContextRegistrationResponse> crrl = new ArrayList<>();
+
+        int resultListSize = result.size();
+        for (int i = 0; i < resultListSize; i++) {
+
+            int contRegListSize = result.get(i)
+                    .getContextRegistration().size();
+            for (int j = 0; j < contRegListSize; j++) {
+
+                boolean eidTypeFound = false;
+                int entityIdListSize = result.get(i)
+                        .getContextRegistration()
+                        .get(j).getEntityId().size();
+                for (int k = 0; k < entityIdListSize; k++) {
+
+                    String eIdTypeCheck = result.get(i)
+                            
+                            .getContextRegistration().get(j)
+                            .getEntityId().get(k).getType();
+                    if (eIdTypeCheck.equals(eIdType)) {
+                        eidTypeFound = true;
+                        break;
+                    }
+                }
+
+                boolean attributeFound = false;
+                int attributeListSize = result.get(i)
+                        .getContextRegistration()
+                        .get(j)
+                        .getContextRegistrationAttribute().size();
+                for (int k = 0; k < attributeListSize; k++) {
+
+                    String attributeCheck = result.get(i)
+                            
+                            .getContextRegistration().get(j)
+                            
+                            .getContextRegistrationAttribute().get(k).getName();
+                    
+                    for(String attr: attrs){
+	                    if (attributeCheck.equals(attr)) {
+	                        attributeFound = true;
+	                        break;
+	                    }
+                    }
+                }
+                if (eidTypeFound && attributeFound) {
+                    ContextRegistration regCr = result.get(i)
+                            
+                            .getContextRegistration().get(j);
+                    ContextRegistrationResponse crr = new ContextRegistrationResponse();
+                    crr.setContextRegistration(regCr);
+                    crrl.add(crr);
+                    // return crrl;
+                }
+            }
+        }
+        return crrl;
+    }
+    
     public ContextRegistrationResponseList getContRegContainsETypeAttrDomain(
             List<RegisterContextRequest> result, String eIdType,
             String attrDomain) {
@@ -615,10 +679,11 @@ public class RegisterResultFilter {
         return discContResp;
     }
     
-    //remove EntityId that doesn't match the list of types eTypes
-    public void removeSharedEntityType(
-    		List<ContextRegistrationResponse> crrl, List<String> eTypes) {
-        // TODO Auto-generated method stub
+    //remove EntityId that not match with type
+    //this is done for the entityIdList in each contReg
+    //MODIFICATO
+    public List<ContextRegistrationResponse> removeSharedEntityType(
+    		List<ContextRegistrationResponse> crrl, String eType) {
 
         int contRegRespListSize = crrl.size();
         for (int j = 0; j < contRegRespListSize; j++) {
@@ -631,7 +696,7 @@ public class RegisterResultFilter {
                 String eTypeCheck = crrl.get(j)
                         .getContextRegistration()
                         .getEntityId().get(k).getType();
-                if (!eTypes.contains(eTypeCheck)) {
+                if (!eType.contentEquals(eTypeCheck)) {
                 	crrl.get(j)
                             .getContextRegistration()
                             .getEntityId().remove(k);
@@ -640,6 +705,8 @@ public class RegisterResultFilter {
                 }
             }
         }
+        
+        return crrl;
     }
 
     public DiscoveryContextAvailabilityResponse removeSharedAttribute(

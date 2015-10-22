@@ -1,18 +1,20 @@
 package uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistration;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationAttribute;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.EntityId;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Value;
+
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.query.Predicate;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Association;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationAttribute;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.EntityId;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Value;
 
 public class RegisterStoreAccess {
 
@@ -113,6 +115,103 @@ public class RegisterStoreAccess {
             return true;
         }
         return false;
+    }
+    
+    //MODIFICATO
+    //delete teh contReg inside the RegContReq that match the
+    //with one of the entityId inside teh entityIdList
+    public static void deleteRegistrationEntID(final List<String> entityIdList) {
+    	
+        //for each entId
+        for(String entId: entityIdList){
+
+            List<RegisterContextRequest> results;
+        	
+	        final String updateEntId = entId;
+	
+	        //results contains the RegContReq that contains in their list at
+	        // least one contReg that have an entId that match with updateEntId
+	        results = db.query(new Predicate<RegisterContextRequest>() {
+	            public boolean match(RegisterContextRequest req) {
+	                
+	            	//check in the contRegList if there is one
+	            	//with the entId that match the updateEntId
+	            	
+	            	List<ContextRegistration> contRegList = req.getContextRegistration();
+	            	
+	    	        //for each contReg
+	    	        for(ContextRegistration cr: contRegList){
+	    	        	
+	    	        	//for each entId in contReg
+	    	        	for(EntityId entId: cr.getEntityId()){
+	    	        		
+	    	        		if(entId.getId().contentEquals(updateEntId))
+	    	        			return true;
+	    	        	}
+	    	        }
+	    	        
+	    	        return false;
+	            }
+	        });
+	
+	        
+	        if (results.size() > 0) {
+	        	
+	        	//for each RegContReq find out which
+	        	//contReg hash the entityId that match
+	        	//with updateEntId and remove it
+	        	//store a backup copy of that
+	        	//RegContReq because it must be delete
+	        	//before writing the new one
+	        	for(RegisterContextRequest regContReq: results){
+	        		
+	            	//check in the contRegList if there is one
+	            	//with the entId that match the updateEntId
+	            	
+	            	List<ContextRegistration> contRegList = regContReq.getContextRegistration();
+	            	
+	    	        //for each contReg
+	    	        for(ContextRegistration cr: contRegList){
+	    	        	
+	    	        	//for each entId in contReg
+	    	        	for(EntityId id: cr.getEntityId()){
+	    	        		
+	    	        		if(id.getId().contentEquals(updateEntId)){
+	    	        			
+	    	        			//delete the RegisterContextReq with matching entId
+	    	        			RegisterContextRequest found = regContReq;
+	    	    	            System.out.println("Deleting registration");
+	    	    	            db.delete(found);
+	    	    	            db.commit();
+	    	        			
+	    	    	            //delete the contReg, inside the RegContReq, that have a
+	    	    	            //matching entId
+	    	    	            regContReq.getContextRegistration().remove(cr);
+	    	    	            
+	    	    	        	//if the RegisterContextRequest is not empty
+	    	    	            //it must be re-store the contRegs inside
+	    	    	            //the RegisterContextRequest that haven't a match
+	    	    	            //with updateEntId
+	    	    	            if(!regContReq.getContextRegistration().isEmpty()){
+	    	    	            	
+	    	    	            	storeRegistration(regContReq);
+	    	    	            }
+	    	        		}
+	    	        	}
+	    	        	
+	    	        	if(contRegList.isEmpty()){
+	    	        		break;
+	    	        	}
+	    	        }
+	        		
+	        	}
+	        	
+
+
+	        }
+
+        }
+
     }
 
     public static ObjectSet<RegisterContextRequest> getAllRegistrations() {
@@ -362,6 +461,7 @@ public class RegisterStoreAccess {
                 return false;
             }
         });
+        
         return results;
     }
 

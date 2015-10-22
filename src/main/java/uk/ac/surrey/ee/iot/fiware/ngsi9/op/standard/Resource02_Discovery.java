@@ -25,6 +25,7 @@ import org.restlet.resource.ServerResource;
 
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.DiscoveryMarshaller;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponse;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponseList;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityRequest;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.EntityId;
@@ -219,8 +220,6 @@ public class Resource02_Discovery extends ServerResource {
             ContextRegistrationResponse crr ;//= new ContextRegistrationResponse();
             List<ContextRegistrationResponse> crrl = new ArrayList<>();
             
-            List<String> entityTypes = new ArrayList<String>();
-            
             for (EntityId entityId : entityIdList) {
                 try {
               
@@ -229,8 +228,15 @@ public class Resource02_Discovery extends ServerResource {
                     List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);
                     //retrieve using attributes
                     
+                    //MODIFICATO
                     //two different way of filtering if it is used regExp or not
                     if(!entityId.getId().contentEquals(".*") && !entityId.isIsPattern()){
+                    	
+                    	//NOTES for each entityId the response is a contRegResp when discovery is done
+                    	//		with a String as id of the contextEntity and type 
+                    	
+                    	//returns the first conteRegResp that match id of the contextEntity
+                    	//and attrList
 	                    crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
 	                    
 	                  
@@ -241,13 +247,25 @@ public class Resource02_Discovery extends ServerResource {
 	                    crrl.add(crr);
                     }
                     else{
+                    	//NOTES for each entityId the response is a List<contRegResp> when discovery is done
+                    	//		with a regExp as id of the contextEntity and type as String
                     	
-                    	regFilter.getCrrContainsAttr(eIdResults, attributeList, crrl);
+                    	//in the case of discovery with regExp
+                    	//the result can be a list of ConteRegResp and not only
+                    	//a single contRegResp so i use a temp Obj
+                    	//that i add to the final one crrl
+                    	List<ContextRegistrationResponse> crrlTemp = new ArrayList<>();
                     	
-                    	//add type found to the list 
-                    	entityTypes.add(entityId.getType());
+                    	//returns all the contRegResp that match the type ad at least one of the
+                    	//attr in the attr list
                     	
-                    	regFilter.removeSharedEntityType(crrl, entityTypes);
+                    	//filter the contextEnt with the entIdType and the attribute list requested
+                        crrlTemp = regFilter.getContRegHasEntityTypeAttrList(eIdResults, entityId.getType(), attributeList);
+                        
+                        //remove entityType in each contReg that not match with entType
+                        crrlTemp = regFilter.removeSharedEntityType(crrlTemp, entityId.getType());
+                    	
+                        crrl.addAll(crrlTemp);
                     }
                     
 

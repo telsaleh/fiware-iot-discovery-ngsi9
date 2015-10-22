@@ -4,21 +4,19 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard;
 
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextResponse;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
+
 import javax.xml.bind.JAXBException;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
@@ -26,10 +24,18 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.RegisterMarshaller;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.notify.AvailabilityNotifier;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistration;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.EntityId;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextResponse;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.StorageStartup;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Resource which has only one representation.
@@ -174,6 +180,7 @@ public class Resource01_ContextRegistration extends ServerResource {
         //check if update is required
         boolean doUpdate = false;
         String regId = req.getRegistrationId();
+        
         //does description have a registration ID that has the prefix "UniS_"?
         try {
             if (regId.startsWith("UniS_")) {
@@ -193,6 +200,34 @@ public class Resource01_ContextRegistration extends ServerResource {
             //npe.printStackTrace();
             System.out.println("Registration ID not provided");
         }
+        
+        //MODIFICATO
+        //if there is no update to do
+        //check if there some contReg with the same Id
+        //of the ones that it will be stored now
+        if(!doUpdate){
+	        //check if there is some RegisterContextRequest that have the same
+	        //id of the one that will store. in case of match i have to do update
+	        List<ContextRegistration> contRegList = req.getContextRegistration();
+	        
+	        //id list to check with contReg has this id
+	        //and delete it if there is a match
+	        List<String> entIdList = new ArrayList<>();
+	        
+	        //for each contReg
+	        for(ContextRegistration cr: contRegList){
+	        	
+	        	//for each entId in contReg
+	        	for(EntityId entId: cr.getEntityId()){
+	        		
+	        		if(!entIdList.contains(entId.getId()))
+	        			entIdList.add(entId.getId());
+	        	}
+	        }
+	        
+	        RegisterStoreAccess.deleteRegistrationEntID(entIdList);
+        }
+	        
         // store/update registration
         try {
             if (!doUpdate) {
