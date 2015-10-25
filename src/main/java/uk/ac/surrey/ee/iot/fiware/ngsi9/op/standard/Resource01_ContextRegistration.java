@@ -201,32 +201,31 @@ public class Resource01_ContextRegistration extends ServerResource {
             System.out.println("Registration ID not provided");
         }
         
-        //MODIFICATO
-        //if there is no update to do
+
         //check if there some contReg with the same Id
         //of the ones that it will be stored now
-        if(!doUpdate){
-	        //check if there is some RegisterContextRequest that have the same
-	        //id of the one that will store. in case of match i have to do update
-	        List<ContextRegistration> contRegList = req.getContextRegistration();
-	        
-	        //id list to check with contReg has this id
-	        //and delete it if there is a match
-	        List<String> entIdList = new ArrayList<>();
-	        
-	        //for each contReg
-	        for(ContextRegistration cr: contRegList){
-	        	
-	        	//for each entId in contReg
-	        	for(EntityId entId: cr.getEntityId()){
-	        		
-	        		if(!entIdList.contains(entId.getId()))
-	        			entIdList.add(entId.getId());
-	        	}
-	        }
-	        
-	        RegisterStoreAccess.deleteRegistrationEntID(entIdList);
+
+        //check if there is some RegisterContextRequest that have the same
+        //id of the one that will store. in case of match i have to do update
+        List<ContextRegistration> contRegList = req.getContextRegistration();
+        
+        //id list to check with contReg has this id
+        //and delete it if there is a match
+        List<String> entIdList = new ArrayList<>();
+        
+        //for each contReg
+        for(ContextRegistration cr: contRegList){
+        	
+        	//for each entId in contReg
+        	for(EntityId entId: cr.getEntityId()){
+        		
+        		if(!entIdList.contains(entId.getId()))
+        			entIdList.add(entId.getId());
+        	}
         }
+        
+        RegisterStoreAccess.deleteRegistrationEntID(entIdList);
+        
 	        
         // store/update registration
         try {
