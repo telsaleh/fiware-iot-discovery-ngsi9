@@ -1,3 +1,5 @@
+
+
 ## Installation and Administration Guide
 
 # Introduction
@@ -200,7 +202,7 @@ This page contains information about the version of the GEi and which operations
 
 #### Test 2
 After that it is possible to test one of the supported NGSI-9 resources. For example let us try to send an **HTTP GET** to the ''contextEntity/EntityId'' resource. 
-<pre>http://{serverRoot}/ngsi9/contextEntities/Kitchen
+<pre>http://{serverRoot}/ngsi9/contextEntities/Kitchen</pre>
 
 The response should be a **discoverContextAvailabilityResponse** response in XML, with the ERROR CODE:
 ```xml
