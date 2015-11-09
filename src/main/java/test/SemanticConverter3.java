@@ -27,13 +27,15 @@ import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
  *
  * @author te0003
  */
-public class SemanticConverter2 {
+public class SemanticConverter3 {
 
 //    public String ONT_URL = "http://iot.ee.surrey.ac.uk/fiware/ontologies/iot-lite.owl#";
 //    public String ONT_URL = "http://www.surrey.ac.uk/ccsr/ontologies/ServiceModel.owl#";
-    public String ONT_URL = "http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#";
-    protected String ONT_FILE = "web/ontologies/iot-lite.ttl";// web/IoTA-Models/ResourceModel.owl";
-    protected String NGSI_FILE = "web\\examples\\registerContextRequest.xml";
+    public String MAIN_ONT_URL = "http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#";
+    public String SSN_ONT_URL = "http://purl.oclc.org/NET/ssnx/ssn#";
+//    protected String ONT_FILE = "web/ontologies/iot-lite.ttl";
+    protected String ONT_FILE = "C:\\Users\\te0003\\Documents\\NetBeansProjects\\Ngsi9Server_r4_2\\src\\main\\webapp\\ontologies\\iot-lite.ttl";
+    protected String NGSI_FILE = "\\src\\main\\webapp\\examples\\registerContextRequest.xml";
 
     public void createJenaModel(RegisterContextRequest rcr) {
 
@@ -50,20 +52,25 @@ public class SemanticConverter2 {
             System.out.println(ontProp.getLocalName());
         }
 
-        OntClass entityGroup = (OntClass) ontModel.getOntClass(ONT_URL + "EntityGroup");
-        OntClass entity = (OntClass) ontModel.getOntClass(ONT_URL + "Entity");
-        OntClass attribute = (OntClass) ontModel.getOntClass(ONT_URL + "Attribute");
-        OntClass metadata = (OntClass) ontModel.getOntClass(ONT_URL + "Metadata");
+        OntClass entityGroup = (OntClass) ontModel.getOntClass(MAIN_ONT_URL + "EntityGroup");
+        OntClass entity = (OntClass) ontModel.getOntClass(MAIN_ONT_URL + "Entity");
+        
+        OntClass metadata = (OntClass) ontModel.getOntClass(MAIN_ONT_URL + "Metadata");
         OntClass location = (OntClass) ontModel.getOntClass(entityOnt.getNsPrefixURI("geo") + "Point");
+        
+        OntClass sensingDevice = (OntClass) ontModel.getOntClass(SSN_ONT_URL + "SensingDevice");
+        OntClass iotObject = (OntClass) ontModel.getOntClass(MAIN_ONT_URL + "Object");
+        OntClass attribute = (OntClass) ontModel.getOntClass(MAIN_ONT_URL + "Attribute");
+        
 
         String ngsiValue = "";
         ngsiValue = rcr.getRegistrationId();
-        Individual entityGroupIndiv = ontModel.createIndividual(ONT_URL + ngsiValue, entityGroup);
-        entityGroupIndiv.setPropertyValue(ontModel.getProperty(ONT_URL + "registrationId"), ontModel.createLiteral(ngsiValue));
+        Individual entityGroupIndiv = ontModel.createIndividual(MAIN_ONT_URL + ngsiValue, entityGroup);
+        entityGroupIndiv.setPropertyValue(ontModel.getProperty(MAIN_ONT_URL + "registrationId"), ontModel.createLiteral(ngsiValue));
         ngsiValue = rcr.getTimestamp().toString();
-        entityGroupIndiv.setPropertyValue(ontModel.getProperty(ONT_URL + "regTimeStamp"), ontModel.createLiteral(ngsiValue));
+        entityGroupIndiv.setPropertyValue(ontModel.getProperty(MAIN_ONT_URL + "regTimeStamp"), ontModel.createLiteral(ngsiValue));
         ngsiValue = rcr.getDuration();
-        entityGroupIndiv.setPropertyValue(ontModel.getProperty(ONT_URL + "duration"), ontModel.createLiteral(ngsiValue));
+        entityGroupIndiv.setPropertyValue(ontModel.getProperty(MAIN_ONT_URL + "duration"), ontModel.createLiteral(ngsiValue));
 
         int contRegListSize = rcr.getContextRegistration().size();
         for (int i = 0; i < contRegListSize; i++) {
@@ -78,8 +85,8 @@ public class SemanticConverter2 {
                     int entityListSize = rcr.getContextRegistration().get(i).getEntityId().size();
                     for (int j = 0; j < entityListSize; j++) {
                         ngsiValue = rcr.getContextRegistration().get(i).getEntityId().get(j).getId();
-                        Individual entityInstance = ontModel.createIndividual(ONT_URL + ngsiValue, entity);
-                        entityGroupIndiv.addProperty(ontModel.getProperty(ONT_URL + "hasEntity"), entityInstance);
+                        Individual entityInstance = ontModel.createIndividual(MAIN_ONT_URL + ngsiValue, entity);
+                        entityGroupIndiv.addProperty(ontModel.getProperty(MAIN_ONT_URL + "hasEntity"), entityInstance);
 
                         int attrListSize = rcr.getContextRegistration().get(i).getContextRegistrationAttribute().size();
                         for (int k = 0; k < attrListSize; k++) {
@@ -87,21 +94,21 @@ public class SemanticConverter2 {
                             if (ngsiValue.isEmpty()) {
                                 continue;
                             }
-                            Individual attrInstance = ontModel.createIndividual(ONT_URL + ngsiValue, attribute);
-                            entityInstance.addProperty(ontModel.getProperty(ONT_URL + "hasAttribute"), attrInstance);
+                            Individual attrInstance = ontModel.createIndividual(MAIN_ONT_URL + ngsiValue, attribute);
+                            entityInstance.addProperty(ontModel.getProperty(MAIN_ONT_URL + "hasAttribute"), attrInstance);
                             ngsiValue = rcr.getContextRegistration().get(i).getContextRegistrationAttribute().get(k).getType();
-                            attrInstance.setPropertyValue(ontModel.getProperty(ONT_URL + "type"), ontModel.createLiteral(ngsiValue));
+                            attrInstance.setPropertyValue(ontModel.getProperty(MAIN_ONT_URL + "type"), ontModel.createLiteral(ngsiValue));
 
                             int mdListSize = rcr.getContextRegistration().get(i).getContextRegistrationAttribute().get(k).getContextMetadata().size();
                             for (int l = 0; l < mdListSize; l++) {
                                 ngsiValue = rcr.getContextRegistration().get(i).getContextRegistrationAttribute().get(k).getContextMetadata().get(l).getName();
-                                Individual mdataInstance = ontModel.createIndividual(ONT_URL + ngsiValue, metadata);
-                                attrInstance.addProperty(ontModel.getProperty(ONT_URL + "hasMetadata"), mdataInstance);
+                                Individual mdataInstance = ontModel.createIndividual(MAIN_ONT_URL + ngsiValue, metadata);
+                                attrInstance.addProperty(ontModel.getProperty(MAIN_ONT_URL + "hasMetadata"), mdataInstance);
 
                                 ngsiValue = rcr.getContextRegistration().get(i).getContextRegistrationAttribute().get(k).getContextMetadata().get(l).getType();
-                                mdataInstance.setPropertyValue(ontModel.getProperty(ONT_URL + "type"), ontModel.createLiteral(ngsiValue));
+                                mdataInstance.setPropertyValue(ontModel.getProperty(MAIN_ONT_URL + "type"), ontModel.createLiteral(ngsiValue));
                                 ngsiValue = rcr.getContextRegistration().get(i).getContextRegistrationAttribute().get(k).getContextMetadata().get(l).getValue().toString();
-                                mdataInstance.setPropertyValue(ontModel.getProperty(ONT_URL + "value"), ontModel.createLiteral(ngsiValue));
+                                mdataInstance.setPropertyValue(ontModel.getProperty(MAIN_ONT_URL + "value"), ontModel.createLiteral(ngsiValue));
                             }
                         }
 
@@ -152,7 +159,7 @@ public class SemanticConverter2 {
 
     public static void main(String[] args) throws JAXBException {
 
-        SemanticConverter2 ri = new SemanticConverter2();
+        SemanticConverter3 ri = new SemanticConverter3();
 
         RegisterMarshaller rm = new RegisterMarshaller();
         RegisterContextRequest rcr = rm.unmarshallRequest(ri.NGSI_FILE);

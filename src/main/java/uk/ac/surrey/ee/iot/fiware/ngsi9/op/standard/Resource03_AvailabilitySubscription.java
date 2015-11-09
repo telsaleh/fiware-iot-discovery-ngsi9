@@ -24,6 +24,8 @@ import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.SubscribeMarshaller;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.notify.NotifierAtRegistration;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.notify.NotifierAtSubscription;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.SubscribeContextAvailabilityRequest;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.SubscribeContextAvailabilityResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.SubscriptionStoreAccess;
@@ -213,6 +215,14 @@ public class Resource03_AvailabilitySubscription extends ServerResource {
         subResp.setErrorCode(sc);
         //set Subscription ID
         subResp.setSubscriptionId(req.getSubscriptionId());
+        
+        try {
+            Thread notifySubs = new Thread(new NotifierAtSubscription(req));
+            notifySubs.start();
+        } catch (NullPointerException npe) {
+            System.out.println("Notification error: " + npe.getMessage());
+        } finally {
+        }
         
         return subResp;
     }

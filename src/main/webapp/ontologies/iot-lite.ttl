@@ -1,16 +1,23 @@
 @prefix : <http://www.semanticweb.org/owl/owlapi/turtle#> .
+@prefix qu: <http://purl.org/NET/ssnx/qu/qu#> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ssn: <http://www.w3.org/2005/Incubator/ssn/ssnx/ssn#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix time: <http://www.w3.org/2006/time#> .
-@prefix iot-l: <http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#> .
-@prefix iotaS: <http://iot.ee.surrey.ac.uk/iot-a/ontologies/ServiceModel#> .
-@base <http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#> .
+@prefix iot-lite: <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> .
+@base <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> .
 
-<http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#> rdf:type owl:Ontology .
+<http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> rdf:type owl:Ontology ;
+                                                 
+                                                 rdfs:label "iot-lite" ;
+                                                 
+                                                 owl:versionInfo "0.2" ;
+                                                 
+                                                 rdfs:comment "iot-lite is a lightweight ontology based on SSN to describe Internet of Things (IoT) concepts and relationships."@en .
 
 
 #################################################################
@@ -20,21 +27,21 @@
 #################################################################
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#RelativeLocation
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#RelativeLocation
 
-iot-l:RelativeLocation rdf:type owl:AnnotationProperty ;
-                       
-                       rdfs:domain geo:Point .
+iot-lite:RelativeLocation rdf:type owl:AnnotationProperty ;
+                          
+                          rdfs:domain geo:Point .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#altRelative
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#altRelative
 
-iot-l:altRelative rdf:type owl:AnnotationProperty ;
-                  
-                  rdfs:range xsd:string ;
-                  
-                  rdfs:domain geo:Point .
+iot-lite:altRelative rdf:type owl:AnnotationProperty ;
+                     
+                     rdfs:range xsd:string ;
+                     
+                     rdfs:domain geo:Point .
 
 
 
@@ -71,73 +78,85 @@ geo:long rdf:type owl:AnnotationProperty ;
 #################################################################
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#hasAttribute
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#exposedBy
 
-iot-l:hasAttribute rdf:type owl:ObjectProperty ;
+iot-lite:exposedBy rdf:type owl:ObjectProperty ;
                    
-                   rdfs:range iot-l:Attribute ;
+                   rdfs:range iot-lite:Service ;
                    
-                   rdfs:domain iot-l:Entity .
+                   rdfs:domain ssn:Device .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#hasAvailability
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasAttribute
 
-iot-l:hasAvailability rdf:type owl:ObjectProperty ;
+iot-lite:hasAttribute rdf:type owl:ObjectProperty ;
                       
-                      rdfs:domain iotaS:Service ;
+                      rdfs:range iot-lite:Attribute ;
                       
-                      rdfs:range iot-l:Availability .
+                      rdfs:domain iot-lite:Object .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#hasCoverage
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasCoverage
 
-iot-l:hasCoverage rdf:type owl:ObjectProperty ;
+iot-lite:hasCoverage rdf:type owl:ObjectProperty ;
+                     
+                     rdfs:range iot-lite:Coverage ;
+                     
+                     rdfs:domain ssn:Device .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasMetadata
+
+iot-lite:hasMetadata rdf:type owl:ObjectProperty ;
+                     
+                     rdfs:range iot-lite:Metadata .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasPoint
+
+iot-lite:hasPoint rdf:type owl:ObjectProperty ;
                   
-                  rdfs:domain iotaS:Service ;
+                  rdfs:domain iot-lite:Coverage ;
                   
-                  rdfs:range iot-l:Coverage .
+                  rdfs:range geo:Point .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#hasEntity
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasQuantityKind
 
-iot-l:hasEntity rdf:type owl:ObjectProperty ;
-                
-                rdfs:range iot-l:Entity ;
-                
-                rdfs:domain iot-l:EntityGroup .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#hasMetadata
-
-iot-l:hasMetadata rdf:type owl:ObjectProperty ;
-                  
-                  rdfs:domain iot-l:Attribute ;
-                  
-                  rdfs:range iot-l:Metadata .
+iot-lite:hasQuantityKind rdf:type owl:ObjectProperty ;
+                         
+                         rdfs:range qu:QuantityKind ;
+                         
+                         rdfs:domain [ rdf:type owl:Class ;
+                                       owl:unionOf ( iot-lite:Attribute
+                                                     ssn:Sensor
+                                                   )
+                                     ] .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#hasPoint
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasUnit
 
-iot-l:hasPoint rdf:type owl:ObjectProperty ;
-               
-               rdfs:domain iot-l:Coverage ;
-               
-               rdfs:range geo:Point .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#hasService
-
-iot-l:hasService rdf:type owl:ObjectProperty ;
+iot-lite:hasUnit rdf:type owl:ObjectProperty ;
                  
-                 rdfs:range iotaS:Service ;
+                 rdfs:range qu:Unit ;
                  
-                 rdfs:domain iot-l:Entity .
+                 rdfs:domain ssn:Sensor .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#isAssociatedWith
+
+iot-lite:isAssociatedWith rdf:type owl:ObjectProperty ;
+                          
+                          rdfs:domain iot-lite:Attribute ;
+                          
+                          rdfs:range ssn:Device .
 
 
 
@@ -149,23 +168,33 @@ geo:hasLocation rdf:type owl:ObjectProperty ;
 
 
 
-###  http://www.w3.org/2006/time#hasBeginning
+###  http://www.w3.org/2005/Incubator/ssn/ssnx/ssn#hasDeployment
 
-time:hasBeginning rdf:type owl:ObjectProperty ;
+ssn:hasDeployment rdf:type owl:ObjectProperty ;
                   
-                  rdfs:domain iot-l:Availability ;
+                  rdfs:range ssn:Deployment ;
                   
-                  rdfs:range time:Instant .
+                  rdfs:domain ssn:Device .
 
 
 
-###  http://www.w3.org/2006/time#hasEnd
+###  iot-lite:hasSensingDevice
 
-time:hasEnd rdf:type owl:ObjectProperty ;
-            
-            rdfs:domain iot-l:Availability ;
-            
-            rdfs:range time:Instant .
+iot-lite:hasSensingDevice rdf:type owl:ObjectProperty ;
+                            
+                            rdfs:range ssn:SensingDevice ;
+                            
+                            rdfs:domain ssn:Sensor .
+
+
+
+###  ssn:hasSubsystem
+
+ssn:hasSubsystem rdf:type owl:ObjectProperty ;
+                   
+                   rdfs:range ssn:System ;
+                   
+                   rdfs:domain ssn:System .
 
 
 
@@ -178,89 +207,59 @@ time:hasEnd rdf:type owl:ObjectProperty ;
 #################################################################
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#RegistrationDuration
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#description
 
-iot-l:RegistrationDuration rdf:type owl:DatatypeProperty ;
-                           
-                           rdfs:domain iot-l:EntityGroup .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#RegistrationTimeStamp
-
-iot-l:RegistrationTimeStamp rdf:type owl:DatatypeProperty ;
-                            
-                            rdfs:domain iot-l:EntityGroup .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#endpoint
-
-iot-l:endpoint rdf:type owl:DatatypeProperty ;
-               
-               rdfs:domain iotaS:Service ;
-               
-               rdfs:range xsd:anyURI .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#id
-
-iot-l:id rdf:type owl:DatatypeProperty ;
-         
-         rdfs:domain iot-l:Entity ;
-         
-         rdfs:range xsd:string .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#radius
-
-iot-l:radius rdf:type owl:DatatypeProperty ;
-             
-             rdfs:domain iot-l:Circle .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#registrationId
-
-iot-l:registrationId rdf:type owl:DatatypeProperty ;
+iot-lite:description rdf:type owl:DatatypeProperty ;
                      
-                     rdfs:domain iot-l:EntityGroup ;
+                     rdfs:range xsd:anyURI ;
                      
-                     rdfs:range xsd:string .
+                     rdfs:domain [ rdf:type owl:Class ;
+                                   owl:unionOf ( iot-lite:Object
+                                                 iot-lite:Service
+                                               )
+                                 ] .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#type
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#endpoint
 
-iot-l:type rdf:type owl:DatatypeProperty ;
-           
-           rdfs:range xsd:string ;
-           
-           rdfs:domain [ rdf:type owl:Class ;
-                         owl:unionOf ( iotaS:Service
-                                       iot-l:Attribute
-                                       iot-l:Entity
-                                       iot-l:Metadata
-                                     )
-                       ] .
+iot-lite:endpoint rdf:type owl:DatatypeProperty ;
+                  
+                  rdfs:domain iot-lite:Service ;
+                  
+                  rdfs:range xsd:anyURI .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#value
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#id
 
-iot-l:value rdf:type owl:DatatypeProperty ;
+iot-lite:id rdf:type owl:DatatypeProperty ;
             
-            rdfs:domain iot-l:Metadata .
+            rdfs:range xsd:string ;
+            
+            rdfs:domain ssn:Device .
 
 
 
-###  http://www.w3.org/2006/time#inXDSDDateTime
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#radius
 
-time:inXDSDDateTime rdf:type owl:DatatypeProperty ;
-                    
-                    rdfs:domain time:Instant .
+iot-lite:radius rdf:type owl:DatatypeProperty ;
+                
+                rdfs:domain iot-lite:Circle .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#type
+
+iot-lite:type rdf:type owl:DatatypeProperty ;
+              
+              rdfs:range xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#value
+
+iot-lite:value rdf:type owl:DatatypeProperty .
 
 
 
@@ -273,81 +272,105 @@ time:inXDSDDateTime rdf:type owl:DatatypeProperty ;
 #################################################################
 
 
-###  http://iot.ee.surrey.ac.uk/iot-a/ontologies/ServiceModel#Service
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#ActuatingDevice
 
-iotaS:Service rdf:type owl:Class .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Attribute
-
-iot-l:Attribute rdf:type owl:Class .
+iot-lite:ActuatingDevice rdf:type owl:Class ;
+                         
+                         rdfs:subClassOf ssn:Device ;
+                         
+                         rdfs:comment "Device that can actuate over an object or QuantityKind."@en .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Availability
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Attribute
 
-iot-l:Availability rdf:type owl:Class ;
+iot-lite:Attribute rdf:type owl:Class ;
                    
-                   owl:equivalentClass time:TemporalEntity .
+                   rdfs:comment "An attribute of an IoT object that can be exposed by an IoT service (i.e. a room (IoT Object) has a temperature (Attribute), that can be exposed by a temperature sensor (IoT device)."@en .
 
 
 
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Circle
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Circle
 
-iot-l:Circle rdf:type owl:Class ;
-             
-             rdfs:subClassOf iot-l:Coverage .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Coverage
-
-iot-l:Coverage rdf:type owl:Class .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Entity
-
-iot-l:Entity rdf:type owl:Class ;
-             
-             owl:equivalentClass <http://www.purl.oclc.org/NET/ssnx/ssn#FeatureOfInterest> .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#EntityGroup
-
-iot-l:EntityGroup rdf:type owl:Class .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Metadata
-
-iot-l:Metadata rdf:type owl:Class ;
-               
-               rdfs:subClassOf iot-l:Attribute .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Polygon
-
-iot-l:Polygon rdf:type owl:Class ;
-              
-              rdfs:subClassOf iot-l:Coverage .
-
-
-
-###  http://purl.oclc.org/NET/UNIS/iot-lite/iot-lite#Rectangle
-
-iot-l:Rectangle rdf:type owl:Class ;
+iot-lite:Circle rdf:type owl:Class ;
                 
-                rdfs:subClassOf iot-l:Coverage .
+                rdfs:subClassOf iot-lite:Coverage ;
+                
+                rdfs:comment "Circle coverage it needs the location of the sensor as the centre of the circle and the radius as a DataProperty."@en .
 
 
 
-###  http://www.purl.oclc.org/NET/ssnx/ssn#FeatureOfInterest
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Coverage
 
-<http://www.purl.oclc.org/NET/ssnx/ssn#FeatureOfInterest> rdf:type owl:Class .
+iot-lite:Coverage rdf:type owl:Class ;
+                  
+                  rdfs:comment "The coverage of an IoT device (i.e. a temperature sensor inside a room has a coverage of that room)."@en .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Metadata
+
+iot-lite:Metadata rdf:type owl:Class ;
+                  
+                  rdfs:comment "Class used to describe properties that cannot be described by QuantityKind and Units. i.e. the resolution of a sensor."@en .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Object
+
+iot-lite:Object rdf:type owl:Class ;
+                
+                rdfs:comment "IoT entity"@en .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Polygon
+
+iot-lite:Polygon rdf:type owl:Class ;
+                 
+                 rdfs:subClassOf iot-lite:Coverage ;
+                 
+                 rdfs:comment "The coverage is made up by linking several points by strait lines."@en .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Rectangle
+
+iot-lite:Rectangle rdf:type owl:Class ;
+                   
+                   rdfs:subClassOf iot-lite:Coverage ;
+                   
+                   rdfs:comment "Teh coverage is made up by giving two points which are the oposite corners of a rentangle."@en .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Service
+
+iot-lite:Service rdf:type owl:Class ;
+                 
+                 rdfs:comment "Service provided by an IoT Device"@en .
+
+
+
+###  http://purl.oclc.org/NET/UNIS/fiware/iot-lite#TagDevice
+
+iot-lite:TagDevice rdf:type owl:Class ;
+                   
+                   rdfs:subClassOf ssn:Device ;
+                   
+                   rdfs:comment "Tag Device such as QR code or bar code."@en .
+
+
+
+###  http://purl.org/NET/ssnx/qu/qu#QuantityKind
+
+qu:QuantityKind rdf:type owl:Class .
+
+
+
+###  http://purl.org/NET/ssnx/qu/qu#Unit
+
+qu:Unit rdf:type owl:Class .
 
 
 
@@ -359,21 +382,46 @@ geo:Point rdf:type owl:Class ;
           
           geo:lat "" ;
           
-          geo:alt "" .
+          geo:alt "" ;
+          
+          iot-lite:altRelative "" ;
+          
+          iot-lite:RelativeLocation "" .
 
 
 
-###  http://www.w3.org/2006/time#Instant
+###  http://www.w3.org/2005/Incubator/ssn/ssnx/ssn#Deployment
 
-time:Instant rdf:type owl:Class ;
-             
-             rdfs:subClassOf iot-l:Availability .
+ssn:Deployment rdf:type owl:Class .
 
 
 
-###  http://www.w3.org/2006/time#TemporalEntity
+###  http://www.w3.org/2005/Incubator/ssn/ssnx/ssn#Device
 
-time:TemporalEntity rdf:type owl:Class .
+ssn:Device rdf:type owl:Class ;
+           
+           rdfs:subClassOf ssn:System .
+
+
+
+###  http://www.w3.org/2005/Incubator/ssn/ssnx/ssn#SensingDevice
+
+ssn:SensingDevice rdf:type owl:Class ;
+                  
+                  rdfs:subClassOf ssn:Device ,
+                                  ssn:Sensor .
+
+
+
+###  http://www.w3.org/2005/Incubator/ssn/ssnx/ssn#Sensor
+
+ssn:Sensor rdf:type owl:Class .
+
+
+
+###  http://www.w3.org/2005/Incubator/ssn/ssnx/ssn#System
+
+ssn:System rdf:type owl:Class .
 
 
 

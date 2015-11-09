@@ -49,11 +49,8 @@ public class ContextRegistrationAttribute {
     protected String name;
     protected String type;
     protected boolean isDomain;
-//    @SerializedName("metadatas")
-//    protected ContextMetadataList metadata;
      @XmlElementWrapper(name="metadata")
      @SerializedName("metadatas")
-//     @XmlElementRef
     protected List<ContextMetadata> contextMetadata;
 
     /**

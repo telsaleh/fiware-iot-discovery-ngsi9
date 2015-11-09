@@ -4,10 +4,12 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.convenience;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.servlet.ServletContext;
+import java.nio.charset.StandardCharsets;
 import javax.xml.bind.JAXBException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
@@ -18,6 +20,7 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource04_AvailabilitySubscriptionUpdate;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource05_AvailabilitySubscriptionDeletion;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.UnsubscribeContextAvailabilityRequest;
 
 /**
  * Resource which has only one representation.
@@ -27,39 +30,39 @@ public class Resource10_AvailabilitySubscription extends ServerResource {
     @Put
     public Representation subscribeToDescription(Representation entity) throws ResourceException, IOException, JAXBException {
 
-//        InputStream description = new ByteArrayInputStream(entity.getText().getBytes());
         String acceptType = "";
         int size = getClientInfo().getAcceptedMediaTypes().size();
         if (size > 0) {
             acceptType = getClientInfo().getAcceptedMediaTypes().get(0).getMetadata().getSubType();
-        }
-        
-        Resource04_AvailabilitySubscriptionUpdate ras = new Resource04_AvailabilitySubscriptionUpdate();
-        
+        }        
         String subsId = (String) getRequest().getAttributes().get("subscriptionId"); 
-        
-//        ServletContext context = (ServletContext) getContext().getServerDispatcher().getContext().getAttributes().get("org.restlet.ext.servlet.ServletContext");
-        
         System.out.println("CO 10: PUT AVAILABILITY SUBSCRIPTION: subscriptionId = '" + subsId + "'");
         
+        Resource04_AvailabilitySubscriptionUpdate ras = new Resource04_AvailabilitySubscriptionUpdate();        
         Representation result = ras.subscribeDescription(entity, acceptType);
         return result;
     }
 
     @Delete
     public Representation removeDescription() throws JAXBException, ResourceException, IOException {
+        
+        String acceptType = "";
+        int size = getClientInfo().getAcceptedMediaTypes().size();
+        if (size > 0) {
+            acceptType = getClientInfo().getAcceptedMediaTypes().get(0).getMetadata().getSubType();
+        }
+        else acceptType = MediaType.APPLICATION_JSON.getSubType();
 
         String subsId = (String) getRequest().getAttributes().get("subscriptionID");
-        Resource05_AvailabilitySubscriptionDeletion ras = new Resource05_AvailabilitySubscriptionDeletion();
-        
         System.out.println("CO 10: DELETE AVAILABILITY SUBSCRIPTION: subscriptionId = '" + subsId + "'");
+        
+        UnsubscribeContextAvailabilityRequest ucar = new UnsubscribeContextAvailabilityRequest();
+        ucar.setSubscriptionId(subsId);        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        InputStream stream = new ByteArrayInputStream(gson.toJson(ucar).getBytes(StandardCharsets.UTF_8));
 
-        ServletContext context = (ServletContext) getContext().getServerDispatcher().getContext().getAttributes().get("org.restlet.ext.servlet.ServletContext");
-
-        String respMsg = ras.unsubscribeToContext(context, subsId);
-
-        StringRepresentation result = new StringRepresentation(respMsg);
-        result.setMediaType(MediaType.APPLICATION_XML);
+        Resource05_AvailabilitySubscriptionDeletion ras = new Resource05_AvailabilitySubscriptionDeletion();
+        StringRepresentation result = ras.unsubscribeJsonHandler(stream, acceptType);
         return result;
 
     }

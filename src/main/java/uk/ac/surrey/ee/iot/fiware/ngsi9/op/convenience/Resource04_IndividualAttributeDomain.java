@@ -6,14 +6,12 @@ package uk.ac.surrey.ee.iot.fiware.ngsi9.op.convenience;
 
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponseList;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.EntityId;
 import java.util.ArrayList;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.DiscoveryMarshaller;
 import java.util.List;
-import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
 import org.restlet.data.MediaType;
@@ -29,33 +27,32 @@ import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterResultFilter;
 public class Resource04_IndividualAttributeDomain extends ServerResource {
 
     @Get
-    public Representation getIADomain() throws JAXBException {
+    public Representation getIndvAttrDomain() throws JAXBException {
+        
+        String acceptType = "";
+        int size = getClientInfo().getAcceptedMediaTypes().size();
+        if (size > 0) {
+            acceptType = getClientInfo().getAcceptedMediaTypes().get(0).getMetadata().getSubType();
+        }
 
-//        ServletContext context = (ServletContext) getContext().getServerDispatcher().getContext().getAttributes().get("org.restlet.ext.servlet.ServletContext");
-
-        EntityId eId = new EntityId();
         String eIdString = (String) getRequest().getAttributes().get("EntityID");
-        eId.setId(eIdString);
-//        ArrayList<EntityId> discEidList = new ArrayList<EntityId>();
-//        discEidList.add(eId);
-        ArrayList<String> attrList = new ArrayList<String>();
         String attrDomain = (String) getRequest().getAttributes().get("attributeDomainName");
         
         System.out.println("CO 4: GET ATTRIBUTE DOMAIN OF INDIVIDUAL CONTEXT ENTITY: eId = '" + eIdString + "'" + ", attribute domain = '" + attrDomain + "'");
+        
+        EntityId eId = new EntityId();        
+        eId.setId(eIdString);
+        ArrayList<String> attrList = new ArrayList<>();
 
-        StatusCode sc = new StatusCode(200, "OK", "result");
-
-        //RETRIEVE USING ATTRIBUTE DOMAIN
-        DiscoveryMarshaller dcam = new DiscoveryMarshaller();
+        //RETRIEVE USING ATTRIBUTE DOMAIN        
         DiscoveryContextAvailabilityResponse discContResp = new DiscoveryContextAvailabilityResponse();
+        StatusCode sc = new StatusCode(200, "OK", "result");
         try {
-            //RegisterStoreAccess regStore = new RegisterStoreAccess(context);
-            RegisterResultFilter regFilter = new RegisterResultFilter();
-            //regStore.openDb4o();
-            List<RegisterContextRequest> result = RegisterStoreAccess.getRegByEntityID(eId, attrList);
-            List<ContextRegistrationResponse> crrl = new ArrayList<>();
+            List<RegisterContextRequest> result = RegisterStoreAccess.getRegByEntityID(eId, attrList);            
+            RegisterResultFilter regFilter = new RegisterResultFilter();            
             ContextRegistrationResponse crr;
             crr = regFilter.getContRegHasEntityIdAttrDomain(result, eIdString, attrDomain);
+            List<ContextRegistrationResponse> crrl = new ArrayList<>();
             try{
             crr.getContextRegistration().getEntityId().size();
             crrl.add(crr);            
@@ -63,7 +60,6 @@ public class Resource04_IndividualAttributeDomain extends ServerResource {
                 System.out.println("no entities found");
             
             }
-//            discContResp.setContextRegistrationResponseList(crrl);
             discContResp.getContextRegistrationResponse().addAll(crrl);
             discContResp = regFilter.removeSharedAttrDomain(discContResp, attrDomain);
             try {
@@ -78,7 +74,8 @@ public class Resource04_IndividualAttributeDomain extends ServerResource {
             System.out.println("Internal Error: "+e.getMessage());
             sc = new StatusCode(500, "Internal Error", "result");
         }
-
+        
+        DiscoveryMarshaller dcam = new DiscoveryMarshaller();
         discContResp.setErrorCode(sc);
         String discRespMsg = "";
         discRespMsg = dcam.marshallResponse(discContResp);

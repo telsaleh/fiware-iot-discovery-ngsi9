@@ -113,7 +113,7 @@ public class SubscriptionStoreAccess {
         return false;
     }
 
-    public static List<SubscribeContextAvailabilityRequest> matchRegReqToSubsStore(final RegisterContextRequest regReq) {
+    public static List<SubscribeContextAvailabilityRequest> matchRegToSubs(final RegisterContextRequest regReq) {
 
         List<SubscribeContextAvailabilityRequest> results;
 

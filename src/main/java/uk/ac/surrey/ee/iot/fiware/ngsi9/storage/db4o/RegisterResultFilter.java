@@ -70,20 +70,22 @@ public class RegisterResultFilter {
 
             int contRegListSize = result.get(i).getContextRegistration().size();
             for (int j = 0; j < contRegListSize; j++) {
-
                 boolean eIdFound = false;
-                int entityIdListSize = result.get(i)
-                        .getContextRegistration()
-                        .get(j).getEntityId().size();
-                for (int k = 0; k < entityIdListSize; k++) {
-
-                    String eIdCheck = result.get(i)
-                                                        .getContextRegistration().get(j)
-                            .getEntityId().get(k).getId();
-                    if (eIdCheck.equals(eId.getId())) {
-                        eIdFound = true;
-                        break;
+                if (!eId.getId().contentEquals(".*")) {
+                    int entityIdListSize = result.get(i)
+                            .getContextRegistration()
+                            .get(j).getEntityId().size();
+                    for (int k = 0; k < entityIdListSize; k++) {
+                        String eIdCheck = result.get(i)
+                                .getContextRegistration().get(j)
+                                .getEntityId().get(k).getId();
+                        if (eIdCheck.equals(eId.getId())) {
+                            eIdFound = true;
+                            break;
+                        }
                     }
+                }else {
+                    eIdFound = true;
                 }
 
                 boolean attributeFound = false;
@@ -94,9 +96,7 @@ public class RegisterResultFilter {
                 for (int k = 0; k < attributeListSize; k++) {
 
                     String attributeCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
-                            
                             .getContextRegistrationAttribute().get(k).getName();
 
                     //if (attributeCheck.equals(attr)) {
@@ -107,7 +107,6 @@ public class RegisterResultFilter {
                 }
                 if ((eIdFound && attributeFound) || (eIdFound && attr.size() < 1)) {
                     ContextRegistration regCr = result.get(i)
-                            
                             .getContextRegistration().get(j);
 
                     crr.setContextRegistration(regCr);
@@ -139,7 +138,6 @@ public class RegisterResultFilter {
                 for (int k = 0; k < entityIdListSize; k++) {
 
                     String eIdCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
                             .getEntityId().get(k).getId();
                     if (eIdCheck.equals(eId)) {
@@ -156,14 +154,10 @@ public class RegisterResultFilter {
                 for (int k = 0; k < attributeListSize; k++) {
 
                     String attrDomainCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
-                            
                             .getContextRegistrationAttribute().get(k).getName();
                     boolean isAttrDomain = result.get(i)
-                            
                             .getContextRegistration().get(j)
-                            
                             .getContextRegistrationAttribute().get(k)
                             .isIsDomain();
                     if (attrDomainCheck.equals(attr) && isAttrDomain) {
@@ -173,7 +167,6 @@ public class RegisterResultFilter {
                 }
                 if (eIdFound && attrDomainFound) {
                     ContextRegistration regCr = result.get(i)
-                            
                             .getContextRegistration().get(j);
                     crr.setContextRegistration(regCr);
                 }
@@ -264,7 +257,6 @@ public class RegisterResultFilter {
                 for (int k = 0; k < entityIdListSize; k++) {
 
                     String eIdTypeCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
                             .getEntityId().get(k).getType();
                     if (eIdTypeCheck.equals(eIdType)) {
@@ -275,7 +267,6 @@ public class RegisterResultFilter {
 
                 if (eidTypeFound) {
                     ContextRegistration regCr = result.get(i)
-                            
                             .getContextRegistration().get(j);
                     ContextRegistrationResponse crr = new ContextRegistrationResponse();
                     crr.setContextRegistration(regCr);
@@ -305,7 +296,6 @@ public class RegisterResultFilter {
                 for (int k = 0; k < entityIdListSize; k++) {
 
                     String eIdTypeCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
                             .getEntityId().get(k).getType();
                     if (eIdTypeCheck.equals(eIdType)) {
@@ -322,9 +312,7 @@ public class RegisterResultFilter {
                 for (int k = 0; k < attributeListSize; k++) {
 
                     String attributeCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
-                            
                             .getContextRegistrationAttribute().get(k).getName();
                     if (attributeCheck.equals(attr)) {
                         attributeFound = true;
@@ -333,7 +321,6 @@ public class RegisterResultFilter {
                 }
                 if (eidTypeFound && attributeFound) {
                     ContextRegistration regCr = result.get(i)
-                            
                             .getContextRegistration().get(j);
                     ContextRegistrationResponse crr = new ContextRegistrationResponse();
                     crr.setContextRegistration(regCr);
@@ -364,7 +351,6 @@ public class RegisterResultFilter {
                 for (int k = 0; k < entityIdListSize; k++) {
 
                     String eIdTypeCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
                             .getEntityId().get(k).getType();
                     if (eIdTypeCheck.equals(eIdType)) {
@@ -382,14 +368,10 @@ public class RegisterResultFilter {
                 for (int k = 0; k < attributeListSize; k++) {
 
                     String attributeCheck = result.get(i)
-                            
                             .getContextRegistration().get(j)
-                            
                             .getContextRegistrationAttribute().get(k).getName();
                     boolean isAttrDomain = result.get(i)
-                            
                             .getContextRegistration().get(j)
-                            
                             .getContextRegistrationAttribute().get(k)
                             .isIsDomain();
                     if (attributeCheck.equals(attrDomain) && isAttrDomain) {
@@ -399,7 +381,6 @@ public class RegisterResultFilter {
                 }
                 if (eidTypeFound && attributeFound) {
                     ContextRegistration regCr = result.get(i)
-                            
                             .getContextRegistration().get(j);
                     ContextRegistrationResponse crr = new ContextRegistrationResponse();
                     crr.setContextRegistration(regCr);
@@ -495,14 +476,12 @@ public class RegisterResultFilter {
         }
 
         int contRegRespListSize = notifyContResp
-                
                 .getContextRegistrationResponse().size();
 
         //iterate through contextRegistrationResponseLists
         for (int j = 0; j < contRegRespListSize; j++) {
 
             int entityIdListSize = notifyContResp
-                    
                     .getContextRegistrationResponse().get(j)
                     .getContextRegistration().getEntityId()
                     .size();
@@ -511,7 +490,6 @@ public class RegisterResultFilter {
             for (int k = 0; k < entityIdListSize; k++) {
 
                 String eIdCheck = notifyContResp
-                        
                         .getContextRegistrationResponse().get(j)
                         .getContextRegistration()
                         .getEntityId().get(k).getId();
@@ -536,19 +514,16 @@ public class RegisterResultFilter {
         // TODO Auto-generated method stub
 
         int contRegRespListSize = discContResp
-                
                 .getContextRegistrationResponse().size();
         for (int j = 0; j < contRegRespListSize; j++) {
 
             int entityIdListSize = discContResp
-                    
                     .getContextRegistrationResponse().get(j)
                     .getContextRegistration().getEntityId()
                     .size();
             for (int k = 0; k < entityIdListSize; k++) {
 
                 String eTypeCheck = discContResp
-                        
                         .getContextRegistrationResponse().get(j)
                         .getContextRegistration()
                         .getEntityId().get(k).getType();
@@ -569,21 +544,17 @@ public class RegisterResultFilter {
             DiscoveryContextAvailabilityResponse discContResp, ArrayList<String> discAttributeList) {
 
         int contRegRespListSize = discContResp
-                
                 .getContextRegistrationResponse().size();
         for (int j = 0; j < contRegRespListSize; j++) {
 
             int attributeListSize = discContResp
-                    
                     .getContextRegistrationResponse().get(j)
                     .getContextRegistration()
-                    
                     .getContextRegistrationAttribute().size();
 
             for (int k = 0; k < attributeListSize; k++) {
 
                 String attributeCheck = discContResp
-                        
                         .getContextRegistrationResponse().get(j)
                         .getContextRegistration()
                         .getContextRegistrationAttribute()
@@ -607,26 +578,21 @@ public class RegisterResultFilter {
             DiscoveryContextAvailabilityResponse discContResp, String attribute) {
 
         int contRegRespListSize = discContResp
-                
                 .getContextRegistrationResponse().size();
         for (int j = 0; j < contRegRespListSize; j++) {
 
             int attrDomainListSize = discContResp
-                    
                     .getContextRegistrationResponse().get(j)
                     .getContextRegistration()
-                    
                     .getContextRegistrationAttribute().size();
 
             for (int k = 0; k < attrDomainListSize; k++) {
 
                 String attributeCheck = discContResp
-                        
                         .getContextRegistrationResponse().get(j)
                         .getContextRegistration().getContextRegistrationAttribute()
                         .get(k).getName();
                 boolean attrDomainCheck = discContResp
-                        
                         .getContextRegistrationResponse().get(j)
                         .getContextRegistration().getContextRegistrationAttribute()
                         .get(k).isIsDomain();

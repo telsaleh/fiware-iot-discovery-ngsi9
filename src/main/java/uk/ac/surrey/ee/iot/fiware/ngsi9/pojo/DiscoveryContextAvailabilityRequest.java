@@ -18,28 +18,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for DiscoveryContextAvailabilityRequest complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="DiscoveryContextAvailabilityRequest">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="entityIdList" type="{}EntityIdList"/>
- *         &lt;element name="attributeList" type="{}AttributeList" minOccurs="0"/>
- *         &lt;element name="restriction" type="{}Restriction" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DiscoveryContextAvailabilityRequest")
 @XmlRootElement(name = "discoverContextAvailabilityRequest")

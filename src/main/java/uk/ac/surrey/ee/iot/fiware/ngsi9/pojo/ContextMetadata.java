@@ -4,21 +4,24 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2014.04.29 at 11:32:08 AM BST 
 //
-
-
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBIntrospector;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
-
+import org.w3c.dom.Node;
 
 /**
- * <p>Java class for ContextMetadata complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for ContextMetadata complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ *
  * <pre>
  * &lt;complexType name="ContextMetadata">
  *   &lt;complexContent>
@@ -32,23 +35,53 @@ import javax.xml.bind.annotation.*;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ContextMetadata")
 @XmlRootElement(name = "contextMetadata")
 //@XmlSeeAlso (value={ContextMetadataString.class,ContextMetadataObject.class})
-public class ContextMetadata {
+public class ContextMetadata<T> {
 
     @XmlElement(name = "name", required = true)
     protected String name;
     @XmlElement(name = "type", required = true)
     @XmlSchemaType(name = "anyURI")
     protected String type;
-    @XmlElement(required = true, name="value")
-    public Value value;
+    @XmlElement(name="value", required = true)
+//    protected Value value;
+//    @XmlAnyElement//(lax = true)
+    protected T value;
+
+    public T getValue() {
+        System.out.println("hi getValue");
+//        try {
+//            System.out.println("try getValue JAXBElement");
+////            this.value = JAXBIntrospector.getValue(value);
+//            System.out.println(this.value.getClass().getName());
+//            JAXBContext context = JAXBContext.newInstance(Value.class);
+//            JAXBElement<Value> element = (JAXBElement<Value>) context.createUnmarshaller().unmarshal((org.apache.xerces.dom.ElementNSImpl) (value));
+//            this.value = JAXBIntrospector.getValue(element);
+//            return element;
+//        } catch (Exception e) {
+//            System.out.println("Exception has been caught: " + e.getMessage());
+//        }
+        return value;
+    }
+
+    public void setValue(T value) {
+//        System.out.println("hi setValue");
+//        if (value instanceof JAXBElement) {
+//            System.out.println("hi setValue JAXBElement");
+//            this.value = JAXBIntrospector.getValue(value);
+//        } else {
+//            this.value = value;
+//        }
+        
+         this.value = value;
+
+    }
 
     public String getName() {
         return name;
@@ -66,13 +99,10 @@ public class ContextMetadata {
         this.type = type;
     }
 
-    public Value getValue() {
-        return value;
-    }
-
-    public void setValue(Value value) {
-        this.value = value;
-    }
-
-   
+//    public Value getValue() {
+//        return value;
+//    }
+//    public void setValue(Value value) {
+//        this.value = value;
+//    }
 }

@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.*;
  */
 //@XmlSeeAlso(value = {Association.class})
 //@XmlTransient
+@XmlRootElement(name = "contextMetadata")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Value")
 public class Value{ 

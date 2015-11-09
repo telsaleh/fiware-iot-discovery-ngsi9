@@ -13,41 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for Restriction complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="Restriction">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="attributeExpression" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="scope" type="{}OperationScopeList" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Restriction")
 public class Restriction {
 
-    @XmlElement(required = true)
     protected String attributeExpression;
     @XmlElementWrapper(name="scope")
     @SerializedName("scopes")    
     protected List<OperationScope> operationScope;
-//    protected OperationScopeList scope;
 
     /**
      * Gets the value of the attributeExpression property.

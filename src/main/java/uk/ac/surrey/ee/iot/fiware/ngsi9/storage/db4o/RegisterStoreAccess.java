@@ -211,13 +211,14 @@ public class RegisterStoreAccess {
         List<RegisterContextRequest> results;
         
         String reqEId = reqEntityId.getId();
+        System.out.println("regId is: "+ reqEId);
+        StringBuffer wildcard = new StringBuffer(".*");
         
-        if (reqEId.contentEquals(".*")&&reqEntityId.isIsPattern())
+        if (reqEId.contentEquals(wildcard)&&reqEntityId.isIsPattern())
         {
             System.out.println("\".*\" specified");
             return getRegByEntityType(reqEntityId.getType());
-        }
-        
+        }        
         System.out.println("\".*\" NOT specified");
 
         results = db.query(new Predicate<RegisterContextRequest>() {
@@ -331,6 +332,7 @@ public class RegisterStoreAccess {
     static public List<RegisterContextRequest> getRegByEntityType(
             final String entityType) {
 
+        System.out.println("get by type: "+ entityType);
         List<RegisterContextRequest> results;
 
         results = db.query(new Predicate<RegisterContextRequest>() {
@@ -362,6 +364,7 @@ public class RegisterStoreAccess {
                 return false;
             }
         });
+        System.out.println("size of \"type\" result:" + results.size());
         return results;
     }
 

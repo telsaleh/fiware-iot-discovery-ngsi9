@@ -23,15 +23,7 @@ import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.DiscoveryMarshaller;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Association;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponse;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityResponse;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.EntityId;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.OperationScope;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Value;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.*;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterResultFilter;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
 
@@ -43,8 +35,6 @@ public class Resource02_Discovery extends ServerResource {
     @Post
     public Representation handlePost(Representation entity) throws ResourceException, IOException {
 
-        //get context path
-//        ServletContext sc = (ServletContext) getContext().getServerDispatcher().getContext().getAttributes().get("org.restlet.ext.servlet.ServletContext");
         String acceptType = "";
         int atSize = 0;
         try{
@@ -102,6 +92,7 @@ public class Resource02_Discovery extends ServerResource {
 //                StatusCode sc = new StatusCode(500, "Internal Error", "Cannot serialize response object");
             }
         } else {
+            System.out.println("HELLO");
             discRespMsg = gson.toJson(discResp);
             discRespSr = new StringRepresentation(discRespMsg, MediaType.APPLICATION_JSON);
         }
@@ -154,7 +145,7 @@ public class Resource02_Discovery extends ServerResource {
         try{
         discEntityIdListSize = discReq.getEntityId().size();
         }catch (NullPointerException npe){
-        npe.printStackTrace();
+        System.out.println(npe.getMessage());
         }        
         for (int i = 0; i < discEntityIdListSize; i++) {
             EntityId eId = discReq.getEntityId().get(i);
@@ -169,7 +160,7 @@ public class Resource02_Discovery extends ServerResource {
         try{
         discAttrListSize = discReq.getAttribute().size();
         }catch (NullPointerException npe){
-        npe.printStackTrace();
+        System.out.println(npe.getMessage());
         }
         for (int i = 0; i < discAttrListSize; i++) {
             String discAttrId = discReq.getAttribute().get(i);
@@ -184,7 +175,7 @@ public class Resource02_Discovery extends ServerResource {
         try{
         opScopeListSize = discReq.getRestriction().getOperationScope().size();
         }catch (NullPointerException npe){
-        npe.printStackTrace();
+        System.out.println(npe.getMessage());
         }
         for (int i = 0; i < opScopeListSize; i++) {
             OperationScope opScope = discReq.getRestriction().getOperationScope().get(i);
@@ -202,7 +193,7 @@ public class Resource02_Discovery extends ServerResource {
 
     public DiscoveryContextAvailabilityResponse discoverContext(ArrayList<EntityId> entityIdList, ArrayList<String> attributeList, ArrayList<OperationScope> opScopeList) {
 
-        //instatiate response message
+        //create response message
         DiscoveryContextAvailabilityResponse dcaResponse = new DiscoveryContextAvailabilityResponse();
 
         //set status code to default
@@ -213,19 +204,18 @@ public class Resource02_Discovery extends ServerResource {
 
         try {
             //create context registration response and response list            
-            ContextRegistrationResponse crr ;//= new ContextRegistrationResponse();
+            ContextRegistrationResponse crr ;
             List<ContextRegistrationResponse> crrl = new ArrayList<>();
 
             for (EntityId entityId : entityIdList) {
                 try {
                     //...discovery request is for context provider
                     //retreive using IDs
-                    List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);
+                    List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);                    
                     //retrieve using attributes
                     crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
                     crr = regFilter.removeSharedEntityID(crr, entityIdList);
                     //add retrieve response to response list
-                    //crr.getContextRegistration().getEntityIdList();
                     crrl.add(crr);
                 } catch (NullPointerException npe) {
                     System.out.println("get context entity error: " + npe.getMessage());
@@ -239,7 +229,6 @@ public class Resource02_Discovery extends ServerResource {
                     }
                 }
             }
-//            dcaResponse.setContextRegistrationResponseList(crrl);
             dcaResponse.getContextRegistrationResponse().addAll(crrl);
 
             try {
@@ -270,7 +259,7 @@ public class Resource02_Discovery extends ServerResource {
 
         //retrieve using entity ID, attribute, and association
         String scopeValue = opScope.getScopeValue();
-        List<RegisterContextRequest> assocResults;//= new ArrayList<>();
+        List<RegisterContextRequest> assocResults;
         assocResults = RegisterStoreAccess.getAssociations(discEId, scopeValue, discAttrList);
         EntityId entityAssocId = new EntityId();
         for (RegisterContextRequest assocResult : assocResults) {

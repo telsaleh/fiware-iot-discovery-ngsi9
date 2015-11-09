@@ -27,7 +27,7 @@ import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.RegisterMarshaller;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.notify.AvailabilityNotifier;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.notify.NotifierAtRegistration;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.StorageStartup;
 
@@ -221,12 +221,11 @@ public class Resource01_ContextRegistration extends ServerResource {
 
         //notify Subscribers
         try {
-            Thread notifySubs = new Thread(new AvailabilityNotifier(req));
+            Thread notifySubs = new Thread(new NotifierAtRegistration(req));
             notifySubs.start();
         } catch (NullPointerException npe) {
             System.out.println("Matched Subscriptions: " + npe.getMessage());
         } finally {
-            //subStore.closeDb4o();
         }
         return regResp;
     }

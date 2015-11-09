@@ -45,6 +45,10 @@
         <description>ServletContextListener</description>
         <listener-class>uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.PeriodicExpirationScanner</listener-class>
     </listener>
+    <!--    <listener>
+        <description>This listener will start the CoAP server</description>
+        <listener-class>uk.ac.surrey.ee.iot.fiware.ngsi9.endpoint.coap.CoapServerContextListener</listener-class>
+    </listener>-->
     <servlet>
         <servlet-name>RestletServlet</servlet-name>
         <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>

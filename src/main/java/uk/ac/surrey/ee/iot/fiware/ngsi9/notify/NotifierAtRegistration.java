@@ -24,11 +24,11 @@ import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.SubscriptionStoreAccess;
  *
  * @author te0003
  */
-public class AvailabilityNotifier implements Runnable{
+public class NotifierAtRegistration implements Runnable{
     
     public RegisterContextRequest regReq;
     
-    public AvailabilityNotifier(RegisterContextRequest regRequest){
+    public NotifierAtRegistration(RegisterContextRequest regRequest){
         
         this.regReq=regRequest;
     }
@@ -36,7 +36,7 @@ public class AvailabilityNotifier implements Runnable{
     @Override
     public void run() {
 
-        List<SubscribeContextAvailabilityRequest> subReq = SubscriptionStoreAccess.matchRegReqToSubsStore(regReq);
+        List<SubscribeContextAvailabilityRequest> subReq = SubscriptionStoreAccess.matchRegToSubs(regReq);
         
         int subReqListSize = subReq.size();
         
@@ -49,7 +49,6 @@ public class AvailabilityNotifier implements Runnable{
             List<ContextRegistrationResponse> crrl = new ArrayList<>();
 
             int crListSize = cr.size();
-
             //iterate through each context registration
             for (int j = 0; j < crListSize; j++) {
                 ContextRegistrationResponse crr = new ContextRegistrationResponse();
@@ -65,7 +64,7 @@ public class AvailabilityNotifier implements Runnable{
             try {
                 notifMsg = nm.marshallRequest(ncar);
             } catch (JAXBException ex) {
-                Logger.getLogger(AvailabilityNotifier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NotifierAtRegistration.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             //notify subscriber
@@ -75,7 +74,7 @@ public class AvailabilityNotifier implements Runnable{
             try {
                 ngsiClient.post(payload).write(System.out); //Response is not handled for now
             } catch (IOException ex) {
-                Logger.getLogger(AvailabilityNotifier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NotifierAtRegistration.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

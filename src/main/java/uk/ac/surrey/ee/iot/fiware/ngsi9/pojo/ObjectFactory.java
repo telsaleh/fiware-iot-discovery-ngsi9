@@ -411,9 +411,9 @@ public class ObjectFactory {
      * Create an instance of {@link ContextMetadataList }
      * 
      */
-    public ContextMetadataList createContextMetadataList() {
-        return new ContextMetadataList();
-    }
+//    public ContextMetadataList createContextMetadataList() {
+//        return new ContextMetadataList();
+//    }
 
     /**
      * Create an instance of {@link AttributeAssociation }
