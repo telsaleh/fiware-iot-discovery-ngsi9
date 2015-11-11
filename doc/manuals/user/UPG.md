@@ -477,10 +477,10 @@ The response, which reports the result of the registration, should be a JSON res
 
 ```json
 {
-id: "Resource_16_BA_02_temperature_sensor"
-type: "resource"
-stored: true
-indexed: true
+id: "Resource_16_BA_02_temperature_sensor",
+type: "resource",
+stored: true,
+indexed: true,
 association: ""
 }
 ```
