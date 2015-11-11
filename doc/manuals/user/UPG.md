@@ -208,7 +208,7 @@ The payload as an example can be the following:
 }
 ```
 
-Results obtained: should be a registerContextResponse similar to the following, whereby the registration number will be randomly generated.
+Result obtained should be a ***registerContextResponse*** similar to the following, whereby the registration number will be randomly generated.
 
 ``` xml
 <?xml version="1.0"?>
@@ -248,6 +248,8 @@ The next step is to discover the availability of a Context Entity. So, using a R
     ]
 }
 ```
+Result obtained should be a ***discoverContextAvailabilityResponse*** similar to the following:
+
 ``` xml
 
 <?xml version="1.0"?>
@@ -342,6 +344,7 @@ The next step is to discover the availability of a Context Entity. So, using a R
     "duration": "P1M"
 }
 ```
+Result obtained should be a ***subscribeContextAvailabilityResponse*** similar to the following:
 ```xml 
 <?xml version="1.0"?>
 <subscribeContextAvailabilityResponse>
@@ -371,7 +374,6 @@ The next step is to discover the availability of a Context Entity. So, using a R
 </updateContextAvailabilitySubscriptionRequest>
 ```
 ```json
-
 {
     "entities": [
     {
@@ -384,6 +386,7 @@ The next step is to discover the availability of a Context Entity. So, using a R
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
 ```
+Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** similar to the following:
 ```xml
 <?xml version="1.0"?>
 <updateContextAvailabilitySubscriptionResponse>
