@@ -1,4 +1,5 @@
 site_name: fiware-iot-discovery-ngsi9
+site_url: https://fiware-iot-discovery-ngsi9.readthedocs.org
 repo_url: https://github.com/UniSurreyIoT/fiware-iot-discovery-ngsi9
 site_description: FIWARE IoT Discovery Documentation
 docs_dir: doc/manuals
@@ -7,5 +8,5 @@ theme: readthedocs
 use_directory_urls: false
 pages:
 - 'Home': 'index.md'
-- "Installation & Administration": admin/IAG.md
-  - 'User & programmer guide': user/UPG.md
+- "Installation & Administration": 'admin/IAG.md'
+  - 'User & programmer guide': 'user/UPG.md'
