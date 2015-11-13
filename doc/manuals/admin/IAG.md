@@ -1,7 +1,5 @@
 
 
-## Installation and Administration Guide
-
 # Introduction
 
 Welcome to the Installation and Administration Guide for the IoT Discovery GE Implementation (GEi) - IoT Discovery. The online documents are being continuously updated and improved, and will therefore be the most appropriate place to get the most up-to-date information on installation and administration. The main components for installation the GEi are 2 Java WAR files that are deployed on Apache Tomcat as server modules, and a backend MySQL database.
