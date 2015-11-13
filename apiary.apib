@@ -1,0 +1,327 @@
+FORMAT: 1A
+HOST: https://app.apiary.io/ngsi9
+TITLE: IoT Discovery GE Open API Specification
+DATE: 01 September 2015
+
+# FIWARE NGSI-9 API Core (v1)
+
+The FIWARE version of the OMA NGSI-9 interface is a RESTful API via HTTP. Its purpose is to exchange information about the availability of context information. The three main interaction types are
+* one-time queries for discovering hosts (also called 'agents' here) where certain context information is available
+* subscriptions for context availability information updates (and the corresponding notifications)
+* registration of context information, i.e. announcements that certain context information is available (invoked by context providers)
+
+## Editors
+
+  + Tarek Elsaleh, UNIS
+  
+## Acknowledgements
+
+Fermin Galan (TID), Tobias Jacobs (NEC), Ken Gunner (TID), Salvatore Longo (NEC)
+
+## Versions
+
++ This Version: http://
++ Previous version: http://
++ Latest version: http://
+
+## Status
+
+## Conformance
+
+All the interfaces described by this specification are mandatory and must be implemented in order to be compliant with. 
+
+# Specification
+
+This section is intended to describe the main concepts, constructs, data structures etc. used by your specification.
+
+## Introduction
+
+###Standard NGSI-9 Operation Resources
+The five resources listed in the table below represent the five operations offered by systems that implement the NGSI-9 Context Management role. Each of these resources allows interaction via http POST. All attempts to interact by other verbs shall result in an HTTP error status 405; the server should then also include the ‘Allow: POST’ field in the response.
+
+| Resource | Base URI: http://{serverRoot}/ngsi9 | HTTP verbs |
+|----|----|----|
+|   |  | POST|
+|Context Registration Resource |/registerContext|Generic context registration. The expected request body is an instance of registerContextRequest; the response body is an instance of registerContextResponse.|
+|Discovery resource|/discoverContextAvailability|Generic discovery of context information providers. The expected request body is an instance of discoverContextAvailabilityRequest; the response body is an instance of discoverContextAvailabilityResponse.|
+|Availability subscription resource|/subscribeContextAvailability|Generic subscription to context availability information. The expected request body is an instance of subscribeContextAvailabilityRequest; the response body is an instance of subscribeContextAvailabilityResponse.|
+|Availability subscription update resource|/updateContextAvailabilitySubscription|Generic update of context availability subscriptions. The expected request body is an instance of updateContextAvailabilitySubscriptionRequest; the response body is an instance of updateContextAvailabilitySubscriptionResponse.|
+|Availability subscription deletion resource|/unsubscribeContextAvailability|Generic deletion of context availability subscriptions. The expected request body is an instance of unsubscribeContextAvailabilityRequest; the response body is an instance of unsubscribeContextAvailabilityResponse.|
+
+###Convenience Operation Resources
+The table below gives an overview of the resources for convenience operation and the effects of interacting with them via the standard HTTP verbs GET, PUT, POST, and DELETE.
+
+|Resource|Base URI: http://{serverRoot}/ngsi9|HTTP verbs||||
+|----|----|----|----|----|----|----|
+|   |  | GET|PUT|POST|DELETE|
+|Individual context entity |/contextEntities/{EntityID}|Retrieve information on providers of any information about the context entity|-|Register a provider of information about the entity|-|
+|Attribute container of individual context entity|/contextEntities/{EntityID}/attributes|Retrieve information on providers of any information about the context entity|-|Register a provider of information about the entity|-|
+|Attribute of individual context entity|/contextEntities/{EntityID}/attributes/{attributeName}|Retrieve information on providers of the attribute value|-|Register a provider of information about the attribute|-|
+|Attribute domain of individual context entity|/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}|Retrieve information on providers of information about attribute values from the domain|-|Register a provider of information about attributes from the domain|-|
+|Context entity type|/contextEntityTypes/{typeName}|Retrieve information on providers of any information about context entities of the type|-|Register a provider of information about context entitie of the type|-|
+|Attribute container of entity type|/contextEntityTypes/{typeName}/attributes|Retrieve information on providers of any information about context entities of the type|-|Register a provider of information about context entitie of the type|-|
+|Attribute of entity type|/contextEntityTypes/{typeName}/attributes/{attributeName}|Retrieve information on providers of values of this attribute of context entities of the type|-|Register a provider of information about this attribute of context entities of the type|-|
+|Attribute domain of entity type|/contextEntityTypes/{typeName}/attributeDomains/{attributeDomainName}|Retrieve information on providers of attribute values belonging to the specific domain, where the entity is of the specific type|-|Register a provider of information about attributes belonging to the specific domain, where the entity is of the specific type|-|
+|Availability subscription container|/contextAvailabilitySubscriptions|-|-|Create a new availability subscription|-|
+|Availability subscription|/contextAvailabilitySubscriptions/{subscriptionID}|-|Update subscription|-|Cancel subscription
+
+###API operation on Context Consumer Component
+This section describes the resource that has to be provided by the context consumer in order to receive availability notifications. All attempts to interact with it by other verbs than POST shall result in an HTTP error status 405; the server should then also include the ‘Allow: POST’ field in the response.
+
+|Resource|Base URI: http://{serverRoot}/ngsi9|HTTP verbs|
+|----|----|----|
+|   |  | POST|
+|Notify context resource|//{notificationURI}|Generic availability notification.The expected request body is an instance of notifyContextAvailabilityRequest; the response body is an instance of notifyContextAvailabilityResponse.|
+
+## Terminology
+
+## Concepts
+
+###Basic NGSI Context Management Information Model
+
+####Entities
+The central aspect of the NGSI-9/10 information model is the concept of entities. Entities are the virtual representation of all kinds of physical objects in the real world. Examples for physical entities are tables, rooms, or persons. Virtual entities have an identifier and a type. For example, a virtual entity representing a person named “John” could have the identifier “John” and the type “person”.
+
+####Attributes
+Any available information about physical entities is expressed in the form of attributes of virtual entities. Attributes have a name and a type as well. For example, the body temperature of John would be represented as an attribute having the name “body_temperature” and the type “temperature”. Values of such attributes are contained by value containers. This kind of container does not only consist of the actual attribute value, but also contains a set of metadata. Metadata is data about data; in in our body temperature example this metadata could represent the time of measurement, the measurement unit, and other information about the attribute value.
+
+####Attribute Domains
+There also is a concept of attribute domains in OMA NGSI 9/10. An attribute domain logically groups together a set of attributes. For example, the attribute domain "health_status" could comprise of the attributes "body_temperature" and "blood_pressure".
+
+####Context Elements
+The data structure used for exchanging information about entities is context element. A context element contains information about multiple attributes of one entity. The domain of these attributes can also be specified inside the context element; in this case all provided attribute values have to belong to that domain.
+Formally, a context element contains the following information
+an entity id and type
+a list of triplets <attribute name, attribute type, attribute value> holding information about attributes of the entity
+(optionally) the name of an attribute domain
+(optionally) a list of triplets <metadata name, metadata type, metadata value> that apply to all attribute values of the given domain
+NGSI Context Management Interfaces
+
+OMA NGSI defines two interfaces for exchanging information based on the information model. The interface OMA NGSI-10 is used for exchanging information about entities and their attribute, i.e., attribute values and metadata. The interface OMA NGSI-9 is used for availability information about entities and their attributes. Here, instead of exchanging attribute values, information about which provider can provide certain attribute values is exchanged.
+
+## Data Structures
+
+<!--### Choice (object)-->
+<!--    + choice (string) - Text-->
+<!--    + url (string) - Choice URL-->
+<!--    + votes (number) - Number of votes-->
+
+<!--### Question (object)-->
+<!--      + question (string) - Text of the question-->
+<!--      + published_at (string) - An ISO8601 date when the question was published.-->
+<!--      + url (string, required) - URL -->
+<!--      + choices (array[Choice]) - An array of Choice objects.-->
+
+# REST API
+
+# Group Root
+
+## NGSI-9 API [/]
+
+### Register Context operation [POST /registerContext]
+
+You may create your own request using this action. It takes a JSON
+object containing a RegisterContextRequest message.
+
++ Request (application/json)
+
+        {
+        "contextRegistrations": [
+            {
+            "entities": [
+                {
+                    "type": "Room",
+                    "isPattern": "false",
+                    "id": "Room1"
+                },
+            {
+                "type": "Room",
+                "isPattern": "false",
+                "id": "Room2"
+            }
+                        ],
+            "attributes": [
+                {
+                    "name": "temperature",
+                    "type": "float",
+                    "isDomain": "false"
+          },
+            {
+            "name": "pressure",
+            "type": "integer",
+            "isDomain": "false"
+            }
+                            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            ],
+            "duration": "P1M"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "duration" : "P1M",
+            "registrationId" : "52a744b011f5816465943d58"
+            }
+
+### Discover Context availability operation [POST /discoverContextAvailability]
+
+You may create your own request using this action. It takes a JSON
+object containing a discoverContextAvailabilityRequest message.
+
++ Request (application/json)
+
+        {
+  "entities": [
+      {
+      "type": "Room",
+      "isPattern": "false",
+      "id": "Room1"
+      }
+  ],
+  "attributes": [
+      "temperature"
+  ]
+  }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+  "contextRegistrationResponses": [
+      {
+      "contextRegistration": {
+          "attributes": [
+          {
+              "isDomain": "false",
+              "name": "temperature",
+              "type": "float"
+          }
+          ],
+          "entities": [
+          {
+              "id": "Room1",
+              "isPattern": "false",
+              "type": "Room"
+          }
+          ],
+          "providingApplication": "http://mysensors.com/Rooms"
+        }
+      }
+  ]
+  }
+
+### Subscribe to Context availability operation [POST /subscribeContextAvailability]
+
+You may create your own request using this action. It takes a JSON
+object containing a subscribeContextAvailability message.
+
++ Request (application/json)
+
+        {
+"entities": [
+    {
+         "type": "Room",
+         "isPattern": "true",
+         "id": ".*"
+    }
+    ],
+    "attributes": [
+     "temperature"
+    ],
+    "reference": "http://localhost:8080/accumulate",
+    "duration": "P1M"
+ }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+  "duration": "P1M",
+    "subscriptionId": "52a745e011f5816465943d59"
+  }
+  
+### Update Subscription to Context availability operation [POST /updateContextAvailabilitySubscription]
+
+You may create your own request using this action. It takes a JSON
+object containing a updateContextAvailabilitySubscriptionRequest message.
+
++ Request (application/json)
+
+        {
+"entities": [
+    {
+         "type": "Room",
+         "isPattern": "true",
+         "id": ".*"
+    }
+    ],
+    "attributes": [
+     "temperature"
+    ],
+    "reference": "http://localhost:8080/accumulate",
+    "duration": "P1M"
+ }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+  "duration": "P1M",
+    "subscriptionId": "52a745e011f5816465943d59"
+  }
+
+### Unsubscribe to Context availability operation [POST /unsubscribeContextAvailability]
+
+You may create your own request using this action. It takes a JSON
+object containing a unsubscribeContextAvailabilityRequest message.
+
++ Request (application/json)
+
+        {
+        "subscriptionId": "52a745e011f5816465943d59"
+  }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+"statusCode": {
+  "code": "200",
+  "reasonPhrase": "OK"
+},
+    "subscriptionId": "52a745e011f5816465943d59"
+  }  
+  
+  
+  
+
+
+
