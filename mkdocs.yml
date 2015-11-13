@@ -9,4 +9,4 @@ use_directory_urls: false
 pages:
 - Home: 'index.md'
 - Installation & Administration: 'admin/IAG.md'
-- User & programmer guide: 'user/UPG.md'
+- User & programmers guide: 'user/UPG.md'
