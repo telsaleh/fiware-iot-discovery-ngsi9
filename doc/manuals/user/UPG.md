@@ -1,4 +1,3 @@
-## User and Programmers Guide
 # Introduction
 This guide will explain how to interact with the IoT Discovery GEi and also the APIs that are exposed by it. The GEi itself contains two modules; the NGSI-9 Server module, and the Sense2Web Platform. Both modules serve as a service discovery mechanism (SDM) for IoT Descriptions. An SDM is analogous to a registry or directory, and can be seen as a "yellow pages" for IoT entities, whereby you can discover information about the IoT entity, such as what attributes you can query about, and metadata about those attributes which provide more detailed information about it. It also provide information on how to reach it. It allows users to discover or check what is available and know where actual context sources are, and avoid unnecessary network overload of IoT context providers, especially if the context provider have constrained resources, such as gateways, or any wireless device.
 
