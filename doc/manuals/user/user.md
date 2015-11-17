@@ -1,4 +1,4 @@
-# User Guide
+# Introduction
 
 ## NGSI-9 Server
 The NGSI-9 Server is a server with a repository that allows the registration and discovery of NGSI-9 Context Entities. Interaction with the server can be done via a REST web service client, or a web browser using the a REST Client Plugin, e.g. Google Chrome with [Advanced REST Client][Advanced-REST-Client].

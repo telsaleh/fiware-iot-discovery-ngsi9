@@ -1,8 +1,8 @@
-# Programmers Guide
+# Introduction
 
 The GEi is meant to be used as a web service, and therefore users and applications can interact with the GEi via two sets of RESTful interfaces.
 
-## API overview
+# API overview
 
 The subsections below gives an overview of the RESTful API for the NGSI-9 Server and the Sense2Web Platform.
 
@@ -33,7 +33,7 @@ The Convenience Operations  currently supported are:
 | GET  | //{hostname}/ngsi9/contextEntityTypes/{typeName}      |   N/A|
 
 
-#### Registration
+### Registration
 
 The first step is to Register some Context Entities. So, using a REST client, we will send an NGSI-9 registerContextRequest message like the one shown below using the following URL:
 
@@ -125,7 +125,7 @@ Result obtained should be a ***registerContextResponse*** similar to the followi
   "registrationId" : "UniS_0AGGEEdSNK"
 }
 ```
-#### Discovery
+### Discovery
 The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a discoverContextAvailabilityRequest message like the one shown below:
 <pre>POST http://{hostname}/ngsi9/discoverContextAvailability</pre>
 ``` xml
@@ -212,7 +212,7 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
     ]
 }
 ```
-#### Subscription
+### Subscription
 
 ``` xml 
 
@@ -260,7 +260,7 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
 ```
-#### Update
+### Update
 
 ``` xml
 <?xml version="1.0"?>

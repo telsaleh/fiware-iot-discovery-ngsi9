@@ -1,11 +1,11 @@
-# System Administration
+# Introduction
 
-## Monitoring
+# Monitoring
 
 The GEi can be monitored by opening another terminal and entering the command in the directory: 
 <pre>$ tail -f /CATALINA_HOME/logs/catalina.out</pre>
 
-## Logging
+# Logging
 
 For accessing logs, they can be found in:
 <pre>
@@ -15,11 +15,11 @@ For accessing logs, they can be found in:
 
 These can be used to check if deployment was successful, and also any issues with Servlets processing requests. The ''date'' value reflects the date of the log, which is created on a daily basis.
 
-## Sanity Check Procedures
+# Sanity Check Procedures
 The Sanity Check Procedure is the first step that a System Administrator will do to verify that the GEi is well installed and ready to be tested. This is therefore a preliminary set of tests to ensure that obvious or basic malfunctioning is fixed before proceeding to unit tests, integration tests and user validation.
 The first step is to check the databases, and then the end-to-end testing.
 
-## End to End testing
+# End to End testing
 
 Using a web browser or REST client, contact the GEi via HTTP on: 
 <pre> http://{serverRoot}/s2w/repository/getVersion/ </pre>
@@ -37,14 +37,14 @@ The response should be:
 ```
 This means that the Sanity Check is passed and the GEi is correctly deployed. If you get a **JAVA INTERNAL ERROR** or **405 METHOD NOT SUPPORTED** it means that the GEi is not correctly deployed.
 
-### NGSI-9 Server
-#### Test 1
+## NGSI-9 Server
+### Test 1
 Verify that http://{serverRoot}/ngsi9 can be reached and returns the following web page:
 ![ngsi9-index](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/a/ab/S2W-ngsi9-index.png)
 
 This page contains information about the version of the GEi and which operations are supported on the current release.
 
-#### Test 2
+### Test 2
 After that it is possible to test one of the supported NGSI-9 resources. For example let us try to send an **HTTP GET** to the ''contextEntity/EntityId'' resource. 
 <pre>http://{serverRoot}/ngsi9/contextEntities/Kitchen</pre>
 
@@ -57,33 +57,33 @@ The response should be a **discoverContextAvailabilityResponse** response in XML
      </errorCode>
    </discoverContextAvailabilityResponse>
 ```
-### Sense2Web
+## Sense2Web
 
-#### Test 1
+### Test 1
 Verify that `http://{serverRoot}/s2w/` can be reached and returns the following page:
 ![s2w-homepage](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/6/6e/S2W-homepage.png)
 
-#### Test 2
+### Test 2
 The RESTful interface for the Sense2Web platform can be tested by sending a HTTP GET request using the following URL: <pre>http://{serverRoot}/s2w/repository/lookup/iot-a/resource/ALL</pre>
 The result should be an RDF document with all the descriptions in the **Resource** repository.
 If you get this error this means that the Entity that you are requesting is not available.
 
 
-## List of Running Processes
+# List of Running Processes
 
 * java
 * mysqld
 
-## Network interfaces Up & Open
+# Network interfaces Up & Open
 
  - TCP: 8080 (default) 
  - TCP: 3306
 
-## Databases
+# Databases
 + [db4o][db4o] for the NGSI-9 Server.
 + [MySQL][MySQL] for the Sense2Web Platform.
 
-### Check db4o
+## Check db4o
 The database will be created upon the first NGSI-9 registration. Please refer to the [User And Programmers guide][UPG] on how to register a description via NGSI-9.
 
 To check the database, you will need to use the Eclipse IDE. Download the [db4o][db4o-install] package, unzip it, and go to **/ome** folder and follow the instructions in **readme.html** to install the Object Manager Enterprise plugin for Eclipse.
@@ -100,10 +100,10 @@ Once this is done, go to the OME perspective in the IDE and you should have this
 
 * On the right-hand side in the Query Results tab, you can see the available registrations. If you choose one, the object structure of the registration will show below.
 
-### Check MySQL
+## Check MySQL
 To test that the script that was run during setup has been successful, enter the following commands in the mysql command line client.
 
-#### Test 1a
+### Test 1a
 
 <pre>mysql>desc resourcedb.Triples;</pre>
 <pre>mysql>desc entitydb.Triples;</pre>
@@ -121,7 +121,7 @@ Each result should present a table with the following columns which shows the st
 3 rows in set (0.01 sec)
 
 </pre>
-#### Test 1b
+### Test 1b
 <pre>mysql>desc resourcedb.Nodes;</pre>
 
 <pre>mysql>desc entitydb.Nodes;</pre>
@@ -142,7 +142,7 @@ Each result should present a table with the following columns which shows the st
 6 rows in set (0.00 sec)
 </pre>
 
-#### Test 1c
+### Test 1c
 <pre>mysql>desc resourcedb.Prefixes;</pre>
 <pre>mysql>desc entitydb.Prefixes;</pre>
 <pre>mysql>desc servicedb.Prefixes;</pre>
@@ -158,7 +158,7 @@ Each result should present a table with the following columns which shows the st
 2 rows in set (0.00 sec)
 </pre>
 
-#### Test 1d
+### Test 1d
 <pre>mysql>desc resourcedb.Quads;</pre>
 <pre>mysql>desc entitydb.Quads;</pre>
 <pre>mysql>desc servicedb.Quads;</pre>
@@ -176,7 +176,7 @@ Each result should present a table with the following columns which shows the st
 4 rows in set (0.00 sec)
 </pre>
 
-#### Test 2a
+### Test 2a
 
 If you already have registered a description you can check if it has been stored in the database using the following tests:
 <pre>mysql> \G SELECT * FROM resourcedb.Triples LIMIT 10;</pre>
@@ -204,7 +204,7 @@ The result should present a table with the following columns. The tables will be
 10 rows in set (0.00 sec)
 </pre>
 
-#### Test 2b
+### Test 2b
 <pre>mysql> \G SELECT * FROM resourcedb.Nodes LIMIT 10;</pre>
 <pre>mysql> \G SELECT * FROM entitydb.Nodes LIMIT 10;</pre>
 <pre>mysql> \G SELECT * FROM servicedb.Nodes LIMIT 10;</pre>
@@ -227,7 +227,7 @@ The result should present a table with the following columns. The tables will be
 +-----+----------------------+----------------------------------------------------------------+------+----------+------+
 </pre>
 
-#### Test 2c
+### Test 2c
 <pre>mysql> \G SELECT * FROM resourcedb.Prefixes LIMIT 10;</pre>
 <pre>mysql> \G SELECT * FROM entitydb.Prefixes LIMIT 10;</pre>
 <pre>mysql> \G SELECT * FROM servicedb.Prefixes LIMIT 10;</pre>
@@ -250,7 +250,7 @@ The result should present a table with the following columns. The tables will be
 10 rows in set (0.01 sec)
 </pre>
 
-#### Test 2d
+### Test 2d
 <pre>mysql> \G SELECT * FROM resourcedb.Quads LIMIT 10;</pre>
 
 <pre>mysql> \G SELECT * FROM entitydb.Quads LIMIT 10;</pre>
@@ -277,10 +277,10 @@ The result should present a table with the following columns. The tables will be
 10 rows in set (0.00 sec)
 </pre>
 
-## Diagnosis Procedures
+# Diagnosis Procedures
 The Diagnosis Procedures are the first steps that a System Administrator will take to locate the source of an error in a GE. Once the nature of the error is identified with these tests, the system admin will very often have to resort to more concrete and specific testing to pinpoint the exact point of error and a possible solution. Such specific testing is out of the scope of this section.
 
-## Resource availability
+# Resource availability
 * RAM
  * recommended: 4GB
 * HARD DISK
@@ -289,14 +289,14 @@ The Diagnosis Procedures are the first steps that a System Administrator will ta
 * CPU:
  * recommended: 2x2.8GHz
 
-##Remote Service Access
+#Remote Service Access
 
 * TCP connection exposed for invocation from IoT GEs to NGSI-9 server on port 8080 (default).
 * TCP connection exposed for invocation from Semantic GEs and Applications to Sense2Web platform on port 8080 (default).
 
-## Resource consumption
+# Resource consumption
 
-### **Tomcat Server**
+## **Tomcat Server**
 
 - Process
  - java.exe - org.apache.catalina.startup.Bootstrap start
@@ -311,7 +311,7 @@ The Diagnosis Procedures are the first steps that a System Administrator will ta
 - CPU:
  - idle: 0%
  - active: ~5% (max)
-### **MySQL**
+## **MySQL**
 
 * Process 
  * mysqld
@@ -324,7 +324,7 @@ The Diagnosis Procedures are the first steps that a System Administrator will ta
  - idle: 0%
  - active: ~2% (max)
 
-## I/O flows
+# I/O flows
 The only expected I/O flow is of type HTTP, on the port set for the Tomcat Server (default is 8080).
 
 [Oracle Java]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
@@ -335,4 +335,5 @@ The only expected I/O flow is of type HTTP, on the port set for the Tomcat Serve
 [MySQL]: http://mysql.com/
 [UPG]: http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Configuration_Manager_-_IoT_Discovery_-_User_and_Programmers_Guide#NGSI-9_API
 [db4o-install]: http://db4o-object-manager.software.informer.com/download/?ca4611a
+
 > Written with [StackEdit](https://stackedit.io/).

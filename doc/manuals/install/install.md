@@ -1,3 +1,5 @@
+# Introduction
+
 The main components for installation the GEi are 2 Java WAR files that are deployed on Apache Tomcat as server modules, and a backend MySQL database.
 
 # System Requirements
