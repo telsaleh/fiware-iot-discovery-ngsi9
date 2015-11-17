@@ -45,3 +45,14 @@ In the case where a user does not know the description or the exact naming for i
 A simple map application is provided to show the location of a '''Resource''' or '''Entity'''. Clicking on a particular Object will display its main properties and a link to its description.
 
 ![Sense2Web Locate](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/2/2c/S2W-locate.png)
+
+[IoT-A]: http://www.iot-a.eu/public
+[IoT-A models]: http://www.iot-a.eu/public/public-documents/documents-1/1/1/copy2_of_d4.2/at_download/file
+[s2w-wiki-info]: https://forge.fi-ware.eu/plugins/mediawiki/wiki/fiware/index.php/Linked_Data_Platform_and_Gateway
+[iot-chap-wiki]: http://forge.fi-ware.org/plugins/mediawiki/wiki/fiware/index.php/Internet_of_Things_(IoT)_Services_Enablement_Architecture
+[iotd-arch-wiki]: http://forge.fi-ware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.ArchitectureDescription.IoT.Backend.IoTDiscovery
+[Advanced-REST-Client]: https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo
+[iota-ontologies]: http://iot.ee.surrey.ac.uk/s2w/share/ontologies/iot-a/original/
+[iota-paper]: http://epubs.surrey.ac.uk/531903/
+[ngsi9-spec]: https://forge.fi-ware.eu/plugins/mediawiki/wiki/fiware/index.php/FI-WARE_NGSI-9_Open_RESTful_API_Specification
+[ngsi-associations-concept]: http://forge.fi-ware.eu/plugins/mediawiki/wiki/fiware/index.php/NGSI_association

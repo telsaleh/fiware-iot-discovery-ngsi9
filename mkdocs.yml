@@ -8,5 +8,7 @@ theme: readthedocs
 use_directory_urls: false
 pages:
 - Home: 'index.md'
-- Installation & Administration: 'admin/IAG.md'
-- User & programmers guide: 'user/UPG.md'
+- Installation guide: 'install/guide.md'
+- Administration guide: 'admin/guide.md'
+- User guide: 'user/guide.md'
+- Programmers guide: 'programmer/UPG.md'

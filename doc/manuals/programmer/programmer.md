@@ -1,4 +1,3 @@
-
 # Programmers Guide
 
 The GEi is meant to be used as a web service, and therefore users and applications can interact with the GEi via two sets of RESTful interfaces.
