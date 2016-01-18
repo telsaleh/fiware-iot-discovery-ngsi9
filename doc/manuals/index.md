@@ -1,4 +1,4 @@
-### Welcome to IoT Discovery  
+## Welcome to IoT Discovery  
 
 IoT Discovery is the reference implementation of the IoT Discovery GE in Java.  
 
