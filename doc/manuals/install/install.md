@@ -160,4 +160,3 @@ The last step is to run the Tomcat server. In a console terminal enter the follo
 [MySQL]: http://mysql.com/
 [UPG]: http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Configuration_Manager_-_IoT_Discovery_-_User_and_Programmers_Guide#NGSI-9_API
 [db4o-install]: http://db4o-object-manager.software.informer.com/download/?ca4611a
-> Written with [StackEdit](https://stackedit.io/).
