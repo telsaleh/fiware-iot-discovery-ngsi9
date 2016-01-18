@@ -37,10 +37,10 @@ The Convenience Operations  currently supported are:
 
 The first step is to Register some Context Entities. So, using a REST client, we will send an NGSI-9 registerContextRequest message like the one shown below using the following URL:
 
-<pre>POST http://{hostname}/ngsi9/registerContext</pre>
+``` POST http://{hostname}/ngsi9/registerContext ```  
 
 The payload as an example can be the following:
-```xml
+``` xml  
 
     <?xml version="1.0"?>
     <registerContextRequest>
@@ -73,8 +73,8 @@ The payload as an example can be the following:
       </contextRegistrationList>
       <duration>P1M</duration>
     </registerContextRequest>
-```
-``` json
+```  
+```json  
 {
     "contextRegistrations": [
         {
@@ -106,29 +106,28 @@ The payload as an example can be the following:
         }
     ],
     "duration": "P1M"
-}
-```
+} 
+```  
 
 Result obtained should be a ***registerContextResponse*** similar to the following, whereby the registration number will be randomly generated.
 
-``` xml
+``` xml  
 <?xml version="1.0"?>
 <registerContextResponse>
   <duration>P1M</duration>
   <registrationId>UniS_0AGGEEdSNK</registrationId>
-</registerContextResponse>
-</pre>
-```
-```json
+</registerContextResponse>  
+```  
+```json  
 {
   "duration" : "P1M",
   "registrationId" : "UniS_0AGGEEdSNK"
-}
-```
+}  
+```  
 ### Discovery
 The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a discoverContextAvailabilityRequest message like the one shown below:
 <pre>POST http://{hostname}/ngsi9/discoverContextAvailability</pre>
-``` xml
+``` xml  
 <?xml version="1.0"?>
 <discoverContextAvailabilityRequest>
   <entityIdList>
@@ -137,9 +136,9 @@ The next step is to discover the availability of a Context Entity. So, using a R
     </entityId>
   </entityIdList>
   <attributeList/>
-</discoverContextAvailabilityRequest>
-```
-``` json
+</discoverContextAvailabilityRequest>  
+```  
+``` json  
 {
     "entities": [
         {
@@ -148,8 +147,8 @@ The next step is to discover the availability of a Context Entity. So, using a R
             "id": "Room1"
         }
     ]
-}
-```
+}  
+```  
 Result obtained should be a ***discoverContextAvailabilityResponse*** similar to the following:
 
 ``` xml
@@ -210,8 +209,8 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
             }
         }
     ]
-}
-```
+}  
+```  
 ### Subscription
 
 ``` xml 
@@ -229,8 +228,8 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
   <reference>http://localhost:1028/accumulate</reference>
   <duration>P1M</duration>
 </subscribeContextAvailabilityRequest>
-```
-``` json
+```  
+``` json  
 {
     "entities": [
     {
@@ -244,25 +243,25 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
     ],
     "reference": "http://localhost:1028/accumulate",
     "duration": "P1M"
-}
-```
+}  
+```  
 Result obtained should be a ***subscribeContextAvailabilityResponse*** similar to the following:
-```xml 
+``` xml  
 <?xml version="1.0"?>
 <subscribeContextAvailabilityResponse>
   <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
   <duration>P1M</duration>
 </subscribeContextAvailabilityResponse>
-```
-```json
+```  
+``` json  
 {
     "duration": "P1M",
     "subscriptionId": "UniS_0AGGEEdSNK"
-}
-```
+}  
+```  
 ### Update
 
-``` xml
+``` xml  
 <?xml version="1.0"?>
 <updateContextAvailabilitySubscriptionRequest>
   <entityIdList>
@@ -273,8 +272,8 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
   <attributeList/>
   <duration>P1M</duration>
   <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
-</updateContextAvailabilitySubscriptionRequest>
-```
+</updateContextAvailabilitySubscriptionRequest>  
+```  
 ```json
 {
     "entities": [
