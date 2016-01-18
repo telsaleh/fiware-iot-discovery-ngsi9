@@ -376,13 +376,13 @@ The POST method will contain in its payload a description that conforms to the I
 
 The response, which reports the result of the registration, should be a JSON response with the following format:
 
-```json
+``` json
 {
-id: "Resource_16_BA_02_temperature_sensor",
-type: "resource",
-stored: true,
-indexed: true,
-association: ""
+	"id": "Resource_16_BA_02_temperature_sensor",
+	"type": "resource",
+	"stored": true,
+	"indexed": true,
+	"association": ""
 }
 ```
 
@@ -400,6 +400,3 @@ Please refer to the Unit Test Plan wiki page for this GEi to get examples on how
 [iota-paper]: http://epubs.surrey.ac.uk/531903/
 [ngsi9-spec]: https://forge.fi-ware.eu/plugins/mediawiki/wiki/fiware/index.php/FI-WARE_NGSI-9_Open_RESTful_API_Specification
 [ngsi-associations-concept]: http://forge.fi-ware.eu/plugins/mediawiki/wiki/fiware/index.php/NGSI_association
-
-
-> Written with [StackEdit](https://stackedit.io/).
