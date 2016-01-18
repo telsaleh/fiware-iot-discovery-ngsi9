@@ -336,5 +336,3 @@ The only expected I/O flow is of type HTTP, on the port set for the Tomcat Serve
 [MySQL]: http://mysql.com/
 [UPG]: http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Configuration_Manager_-_IoT_Discovery_-_User_and_Programmers_Guide#NGSI-9_API
 [db4o-install]: http://db4o-object-manager.software.informer.com/download/?ca4611a
-
-> Written with [StackEdit](https://stackedit.io/).
