@@ -16,10 +16,10 @@ In order to deploy IoT Discovery the following software must be previously insta
 		 - For Windows 7, download and run the *.msi file.
 		 - For Ubuntu, refer to the guide available [here](https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-7-on-ubuntu-14-04-via-apt-get).
  - [MySQL Community Server 5.5](http://dev.mysql.com/downloads/mysql/)
-	 - MySQL can be installed on Ubuntu by running the following command:\s\s 
+	 - MySQL can be installed on Ubuntu by running the following command: \s\s 
 	 ``` $ sudo apt-get install mysql-server ```
  - [MySQL Community Workbench 5.2](http://www.mysql.com/downloads/workbench/) (Optional)
-	 - MySQL Workbench can be installed on Ubuntu by running the following command:\s\s
+	 - MySQL Workbench can be installed on Ubuntu by running the following command: \s\s
 	 ``` $ sudo apt-get install mysql-workbench ```
 
 # System Installation
