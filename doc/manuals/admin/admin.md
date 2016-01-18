@@ -149,7 +149,7 @@ Each result should present a table with the following columns which shows the st
 ``` mysql>desc servicedb.Prefixes; ```
 
 Each result should present a table with the following columns which shows the structure of the table.
-<pre>
+``` 
 +--------+--------------+------+-----+---------+-------+
 | Field  | Type         | Null | Key | Default | Extra |
 +--------+--------------+------+-----+---------+-------+
@@ -157,15 +157,15 @@ Each result should present a table with the following columns which shows the st
 | uri    | varchar(500) | NO   |     | NULL    |       |
 +--------+--------------+------+-----+---------+-------+
 2 rows in set (0.00 sec)
-</pre>
+``` 
 
 ### Test 1d
-<pre>mysql>desc resourcedb.Quads;</pre>
-<pre>mysql>desc entitydb.Quads;</pre>
-<pre>mysql>desc servicedb.Quads;</pre>
+``` mysql>desc resourcedb.Quads; ```  
+``` mysql>desc entitydb.Quads; ```  
+``` mysql>desc servicedb.Quads; ```  
 
 Each result should present a table with the following columns which shows the structure of the table.
-<pre>
+```  
 +-------+---------+------+-----+---------+-------+
 | Field | Type    | Null | Key | Default | Extra |
 +-------+---------+------+-----+---------+-------+
@@ -175,19 +175,19 @@ Each result should present a table with the following columns which shows the st
 | o     | int(11) | NO   | PRI | NULL    |       |
 +-------+---------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
-</pre>
+```  
 
 ### Test 2a
 
 If you already have registered a description you can check if it has been stored in the database using the following tests:
-<pre>mysql> \G SELECT * FROM resourcedb.Triples LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM resourcedb.Triples LIMIT 10; ```  
 
-<pre>mysql> \G SELECT * FROM entitydb.Triples LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM entitydb.Triples LIMIT 10; ```  
 
-<pre>mysql> \G SELECT * FROM servicedb.Triples LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM servicedb.Triples LIMIT 10; ```  
 
 The result should present a table with the following columns. The tables will be empty when newly created, but will be populated as new description are registered. The table defines the mappings between RDF '''triples''' in the semantic repository. 
-<pre>
+```  
 +-----+-----+------+
 | s   | p   | o    |
 +-----+-----+------+
@@ -203,15 +203,15 @@ The result should present a table with the following columns. The tables will be
 | 157 |  51 |   60 |
 +-----+-----+------+
 10 rows in set (0.00 sec)
-</pre>
+```  
 
 ### Test 2b
-<pre>mysql> \G SELECT * FROM resourcedb.Nodes LIMIT 10;</pre>
-<pre>mysql> \G SELECT * FROM entitydb.Nodes LIMIT 10;</pre>
-<pre>mysql> \G SELECT * FROM servicedb.Nodes LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM resourcedb.Nodes LIMIT 10; ```  
+``` mysql> \G SELECT * FROM entitydb.Nodes LIMIT 10; ```  
+``` mysql> \G SELECT * FROM servicedb.Nodes LIMIT 10; ```   
 
 The result should present a table with the following columns. The tables will be empty when newly created, but will be populated as new description are registered. The table defines the mappings between RDF '''nodes''' in the semantic repository.
-<pre>
+```  
 +-----+----------------------+----------------------------------------------------------------+------+----------+------+
 | id  | hash                 | lex              					      | lang | datatype | type |
 +-----+----------------------+----------------------------------------------------------------+------+----------+------+
@@ -226,14 +226,14 @@ The result should present a table with the following columns. The tables will be
 | 117 | -8874962510547211933 | http://www.surrey.ac.uk/ccsr/IoT-A/EntityModel.owl#hasURITag   |      |          |    2 |
 | 118 | -8028859106695045829 | http://www.surrey.ac.uk/ccsr/IoT-A/EntityModel.owl#hasTimeZone |      |          |    2 |
 +-----+----------------------+----------------------------------------------------------------+------+----------+------+
-</pre>
+```  
 
 ### Test 2c
-<pre>mysql> \G SELECT * FROM resourcedb.Prefixes LIMIT 10;</pre>
-<pre>mysql> \G SELECT * FROM entitydb.Prefixes LIMIT 10;</pre>
-<pre>mysql> \G SELECT * FROM servicedb.Prefixes LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM resourcedb.Prefixes LIMIT 10; ```  
+``` mysql> \G SELECT * FROM entitydb.Prefixes LIMIT 10; ```  
+``` mysql> \G SELECT * FROM servicedb.Prefixes LIMIT 10; ```
 The result should present a table with the following columns. The tables will be empty when newly created, but will be populated as new description are registered. The table defines the mappings between RDF '''prefixes''' in the semantic repository.
-<pre>
+```  
 +----------------+--------------------------------------------------------------------+
 | prefix         | uri      |
 +----------------+--------------------------------------------------------------------+
@@ -249,18 +249,18 @@ The result should present a table with the following columns. The tables will be
 | swrlb:         | http://www.w3.org/2003/11/swrlb#                                   |
 +----------------+--------------------------------------------------------------------+
 10 rows in set (0.01 sec)
-</pre>
+```  
 
 ### Test 2d
-<pre>mysql> \G SELECT * FROM resourcedb.Quads LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM resourcedb.Quads LIMIT 10; ```  
 
-<pre>mysql> \G SELECT * FROM entitydb.Quads LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM entitydb.Quads LIMIT 10; ```  
 
-<pre>mysql> \G SELECT * FROM servicedb.Quads LIMIT 10;</pre>
+``` mysql> \G SELECT * FROM servicedb.Quads LIMIT 10; ```  
 
 The result should present a table with the following columns. The tables will be empty when newly created, but will be populated as new description are registered. The table defines the mappings between RDF '''quads''' in the semantic repository. 
 
-<pre>
+```  
 +-----+-----+-----+------+
    g  | s   |  p  | o    |
 +-----+-----+-----+------+
@@ -276,7 +276,7 @@ The result should present a table with the following columns. The tables will be
 | 18  | 157 |  51 |   60 |
 +-----+-----+-----+------+
 10 rows in set (0.00 sec)
-</pre>
+```  
 
 # Diagnosis Procedures
 The Diagnosis Procedures are the first steps that a System Administrator will take to locate the source of an error in a GE. Once the nature of the error is identified with these tests, the system admin will very often have to resort to more concrete and specific testing to pinpoint the exact point of error and a possible solution. Such specific testing is out of the scope of this section.
