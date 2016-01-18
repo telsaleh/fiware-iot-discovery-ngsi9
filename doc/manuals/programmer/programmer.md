@@ -33,13 +33,13 @@ The Convenience Operations  currently supported are:
 | GET  | //{hostname}/ngsi9/contextEntityTypes/{typeName}      |   N/A|
 
 
-### Registration
+### Registration  
 
-The first step is to Register some Context Entities. So, using a REST client, we will send an NGSI-9 registerContextRequest message like the one shown below using the following URL:
+The first step is to Register some Context Entities. So, using a REST client, we will send an NGSI-9 registerContextRequest message like the one shown below using the following URL:  
 
 ``` POST http://{hostname}/ngsi9/registerContext ```  
 
-The payload as an example can be the following:
+The payload as an example can be the following:  
 ``` xml  
 
     <?xml version="1.0"?>
@@ -72,9 +72,9 @@ The payload as an example can be the following:
       </contextRegistration>
       </contextRegistrationList>
       <duration>P1M</duration>
-    </registerContextRequest>
+    </registerContextRequest>  
 ```  
-```json  
+``` json  
 {
     "contextRegistrations": [
         {
@@ -106,10 +106,10 @@ The payload as an example can be the following:
         }
     ],
     "duration": "P1M"
-} 
+}  
 ```  
 
-Result obtained should be a ***registerContextResponse*** similar to the following, whereby the registration number will be randomly generated.
+Result obtained should be a ***registerContextResponse*** similar to the following, whereby the registration number will be randomly generated.  
 
 ``` xml  
 <?xml version="1.0"?>
@@ -125,8 +125,8 @@ Result obtained should be a ***registerContextResponse*** similar to the followi
 }  
 ```  
 ### Discovery
-The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a discoverContextAvailabilityRequest message like the one shown below:
-<pre>POST http://{hostname}/ngsi9/discoverContextAvailability</pre>
+The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a discoverContextAvailabilityRequest message like the one shown below:  
+``` POST http://{hostname}/ngsi9/discoverContextAvailability ```  
 ``` xml  
 <?xml version="1.0"?>
 <discoverContextAvailabilityRequest>
@@ -149,7 +149,7 @@ The next step is to discover the availability of a Context Entity. So, using a R
     ]
 }  
 ```  
-Result obtained should be a ***discoverContextAvailabilityResponse*** similar to the following:
+Result obtained should be a ***discoverContextAvailabilityResponse*** similar to the following:  
 
 ``` xml
 
@@ -211,7 +211,7 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
     ]
 }  
 ```  
-### Subscription
+### Subscription  
 
 ``` xml 
 
@@ -245,7 +245,7 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
     "duration": "P1M"
 }  
 ```  
-Result obtained should be a ***subscribeContextAvailabilityResponse*** similar to the following:
+Result obtained should be a ***subscribeContextAvailabilityResponse*** similar to the following:  
 ``` xml  
 <?xml version="1.0"?>
 <subscribeContextAvailabilityResponse>
@@ -259,7 +259,7 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
     "subscriptionId": "UniS_0AGGEEdSNK"
 }  
 ```  
-### Update
+### Update  
 
 ``` xml  
 <?xml version="1.0"?>
@@ -287,20 +287,20 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
 ```
-Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** similar to the following:
+Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** similar to the following:  
 ```xml
 <?xml version="1.0"?>
 <updateContextAvailabilitySubscriptionResponse>
   <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
   <duration>P1M</duration>
 </updateContextAvailabilitySubscriptionResponse>
-```
-```json
+```  
+```json  
 {
     "duration": "P1M",
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
-```
+```  
 ## Sense2Web API
 The diagram below illustrates the structure of RESTful API:
 
@@ -336,8 +336,8 @@ We will then retrieve the same description using the HTTP method and URL below:
 <pre>
 GET -  http://{hostname}/s2w/repository/lookup/iot-a/resource/Resource_16_BA_02_temperature_sensor
 </pre>
-The POST method will contain in its payload a description that conforms to the IoT-A ontology, such as the one below:
-```xml
+The POST method will contain in its payload a description that conforms to the IoT-A ontology, such as the one below:  
+``` xml  
 
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -372,11 +372,11 @@ The POST method will contain in its payload a description that conforms to the I
     <hasTimeOffset rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</hasTimeOffset>
   </OnDeviceResource>
 </rdf:RDF>
-```
+```  
 
-The response, which reports the result of the registration, should be a JSON response with the following format:
+The response, which reports the result of the registration, should be a JSON response with the following format:  
 
-``` json
+``` json  
 {
 	"id": "Resource_16_BA_02_temperature_sensor",
 	"type": "resource",
@@ -384,7 +384,7 @@ The response, which reports the result of the registration, should be a JSON res
 	"indexed": true,
 	"association": ""
 }
-```
+```  
 
 * the GET request should return the same description as the one registered with the POST example.
 
