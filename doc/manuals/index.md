@@ -19,7 +19,7 @@ NGSI-9 clients include other FIWARE GEs, such as the Data Handling GE and the De
 #### Sense2Web  
 A platform which provides a semantic repository for IoT providers to register and manage semantic descriptions (in RDF/OWL) about their "Things", whether they be Sensor/Actuator Devices, virtual computational elements (e.g. data aggregators) or virtual representations of any Physical Entity.  
 In turn, it provides IoT Users to discover these registered IoT elements using:  
-- retrieve descriptions in RDF
-- A probabilistic search mechanism that provides recommended and ranked search results for queries that don’t provide exact matching property values.
-- Semantic querying via SPARQL
-- An association mechanism that associates Things and sensors based on their shared attribute (e.g. temperature) and spatial proximity, which can then be queried via SPARQL.
+- retrieve descriptions in RDF  
+- A probabilistic search mechanism that provides recommended and ranked search results for queries that don’t provide exact matching property values.  
+- Semantic querying via SPARQL  
+- An association mechanism that associates Things and sensors based on their shared attribute (e.g. temperature) and spatial proximity, which can then be queried via SPARQL.  
