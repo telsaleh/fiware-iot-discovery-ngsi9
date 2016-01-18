@@ -17,9 +17,9 @@ In order to deploy IoT Discovery the following software must be previously insta
 		 - For Ubuntu, refer to the guide available [here](https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-7-on-ubuntu-14-04-via-apt-get).
  - [MySQL Community Server 5.5](http://dev.mysql.com/downloads/mysql/)
 	 - MySQL can be installed on Ubuntu by running the following command: 
-	 - <pre>$ sudo apt-get install mysql-server</pre>
+	 - ``` $ sudo apt-get install mysql-server ```
  - [MySQL Community Workbench 5.2](http://www.mysql.com/downloads/workbench/) (Optional)
-	 - MySQL Workbench can be installed on Ubuntu by running the following command: ``` $ sudo apt-get install ``` mysql-workbench</pre>
+	 - MySQL Workbench can be installed on Ubuntu by running the following command: ``` $ sudo apt-get install mysql-workbench ```
 
 # System Installation
 
@@ -48,12 +48,12 @@ The first task to perform is to create the databases and their respective tables
  - servicedb
 
 #### Option 1: Command-line Client
-Alternatively, to do this step directly from the command-line, connect to MySQL using: <pre>$ mysql -u {username} -p</pre>
-Enter the password, then run the script included in the GEi package using the command: <pre>$ mysql < \ . {scriptname} </pre>
+Alternatively, to do this step directly from the command-line, connect to MySQL using: ``` $ mysql -u {username} -p ```
+Enter the password, then run the script included in the GEi package using the command: ``` $ mysql < \ . {scriptname} ```
 
 #### Option 2: MySQL workbench
 To do this, run the MySQL workbench by entering the following command: 
-<pre>$ mysql-workbench</pre>
+``` $ mysql-workbench ```
 ![MySQL workbench - admin](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/9/9a/Mysql-wb-1.png)
 
 Access the running MySQL server instance under **Server Administration**. Check that the server is running. Under **Data Import/Restore**, import and run the SQL script **triple-store.sql** file that is included in the GEi package.
@@ -75,7 +75,7 @@ Please note that for every undeployment the databases will be removed. Therefore
 If the tomcat service is running then the WAR file should be uncompressed automatically. In the case where this does not happen, you can try restarting the tomcat server. If this fails, extract the contents of ***.war** file to the "/**webapps**" folder. 
 
  - This can be done using a file archiver tool such as [7-Zip](http://www.7-zip.org/). 
- - In Ubuntu, the command line below can be used: <pre>jar -xvf  ngsi9.war</pre>
+ - In Ubuntu, the command line below can be used: ``` jar -xvf  ngsi9.war ```
  - In the extracted folder i.e. **/s2w**, go to **/WEB-INF** and open the **web.xml** using your preferred text editor.
 
 ```xml
@@ -143,10 +143,10 @@ The last step is to run the Tomcat server. In a console terminal enter the follo
 
  - Ubuntu: 
 
-<pre>$ sudo service tomcat7 start</pre>
+``` $ sudo service tomcat7 start ```
 
  - Windows: 
-<pre> /CATALINA_HOME/bin/startup.bat</pre>
+``` /CATALINA_HOME/bin/startup.bat ```
 
 **PLEASE NOTE**: if MySQL is not setup correctly, the Sense2Web Platform will not run. This means making sure the MySQL server is running, the tables are created, and the username and passwords in the web.xml are valid for access to your MySQL server.
 
