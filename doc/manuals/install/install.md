@@ -19,7 +19,7 @@ In order to deploy IoT Discovery the following software must be previously insta
 	 - MySQL can be installed on Ubuntu by running the following command: 
 	 - <pre>$ sudo apt-get install mysql-server</pre>
  - [MySQL Community Workbench 5.2](http://www.mysql.com/downloads/workbench/) (Optional)
-	 - MySQL Workbench can be installed on Ubuntu by running the following command: <pre>$ sudo apt-get install mysql-workbench</pre>
+	 - MySQL Workbench can be installed on Ubuntu by running the following command: ``` $ sudo apt-get install ``` mysql-workbench</pre>
 
 # System Installation
 
