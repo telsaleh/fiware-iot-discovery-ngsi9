@@ -39,7 +39,7 @@ This means that the Sanity Check is passed and the GEi is correctly deployed. If
 
 ## NGSI-9 Server
 ### Test 1
-Verify that http://{serverRoot}/ngsi9 can be reached and returns the following web page:
+Verify that ``` http://{serverRoot}/ngsi9 ``` can be reached and returns the following web page:
 ![ngsi9-index](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/a/ab/S2W-ngsi9-index.png)
 
 This page contains information about the version of the GEi and which operations are supported on the current release.
