@@ -2,16 +2,16 @@
 
 # Monitoring
 
-The GEi can be monitored by opening another terminal and entering the command in the directory: 
-<pre>$ tail -f /CATALINA_HOME/logs/catalina.out</pre>
+The GEi can be monitored by opening another terminal and entering the command in the directory:  
+``` $ tail -f /CATALINA_HOME/logs/catalina.out ```
 
 # Logging
 
-For accessing logs, they can be found in:
-<pre>
+For accessing logs, they can be found in:  
+```
 /CATALINA_HOME/logs/catalina.{date}.log
 /CATALINA_HOME/logs/localhost.{date}.log
-</pre>
+```
 
 These can be used to check if deployment was successful, and also any issues with Servlets processing requests. The ''date'' value reflects the date of the log, which is created on a daily basis.
 
@@ -22,8 +22,8 @@ The first step is to check the databases, and then the end-to-end testing.
 # End to End testing
 
 Using a web browser or REST client, contact the GEi via HTTP on: 
-<pre> http://{serverRoot}/s2w/repository/getVersion/ </pre>
-<pre>http://{serverRoot}/ngsi9/sanityCheck/ </pre>
+``` http://{serverRoot}/s2w/repository/getVersion/ ```
+``` http://{serverRoot}/ngsi9/sanityCheck/ ```
 
 The response should be:
 
@@ -46,7 +46,7 @@ This page contains information about the version of the GEi and which operations
 
 ### Test 2
 After that it is possible to test one of the supported NGSI-9 resources. For example let us try to send an **HTTP GET** to the ''contextEntity/EntityId'' resource. 
-<pre>http://{serverRoot}/ngsi9/contextEntities/Kitchen</pre>
+``` http://{serverRoot}/ngsi9/contextEntities/Kitchen ```
 
 The response should be a **discoverContextAvailabilityResponse** response in XML, with the ERROR CODE:
 ```xml
@@ -64,7 +64,8 @@ Verify that `http://{serverRoot}/s2w/` can be reached and returns the following 
 ![s2w-homepage](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/6/6e/S2W-homepage.png)
 
 ### Test 2
-The RESTful interface for the Sense2Web platform can be tested by sending a HTTP GET request using the following URL: <pre>http://{serverRoot}/s2w/repository/lookup/iot-a/resource/ALL</pre>
+The RESTful interface for the Sense2Web platform can be tested by sending a HTTP GET request using the following URL:  
+``` http://{serverRoot}/s2w/repository/lookup/iot-a/resource/ALL ```
 The result should be an RDF document with all the descriptions in the **Resource** repository.
 If you get this error this means that the Entity that you are requesting is not available.
 
@@ -105,12 +106,12 @@ To test that the script that was run during setup has been successful, enter the
 
 ### Test 1a
 
-<pre>mysql>desc resourcedb.Triples;</pre>
-<pre>mysql>desc entitydb.Triples;</pre>
-<pre>mysql>desc servicedb.Triples;</pre>
+``` mysql>desc resourcedb.Triples; ```  
+``` mysql>desc entitydb.Triples; ```  
+``` mysql>desc servicedb.Triples; ```  
 Each result should present a table with the following columns which shows the structure of the table.
 
-<pre>
+```
 +-------+---------+------+-----+---------+-------+
 | Field | Type    | Null | Key | Default | Extra |
 +-------+---------+------+-----+---------+-------+
@@ -120,15 +121,15 @@ Each result should present a table with the following columns which shows the st
 +-------+---------+------+-----+---------+-------+
 3 rows in set (0.01 sec)
 
-</pre>
+```  
 ### Test 1b
-<pre>mysql>desc resourcedb.Nodes;</pre>
+``` mysql>desc resourcedb.Nodes; ```  
 
-<pre>mysql>desc entitydb.Nodes;</pre>
+``` mysql>desc entitydb.Nodes; ```  
 
-<pre>mysql>desc servicedb.Nodes;</pre>
+``` mysql>desc servicedb.Nodes; ```  
 Each result should present a table with the following columns which shows the structure of the table.
-<pre>
+``` 
 +----------+------------------+------+-----+---------+----------------+
 | Field    | Type             | Null | Key | Default | Extra          |
 +----------+------------------+------+-----+---------+----------------+
@@ -140,12 +141,12 @@ Each result should present a table with the following columns which shows the st
 | type     | int(10) unsigned | NO   |     | 0       |                |
 +----------+------------------+------+-----+---------+----------------+
 6 rows in set (0.00 sec)
-</pre>
+```  
 
 ### Test 1c
-<pre>mysql>desc resourcedb.Prefixes;</pre>
-<pre>mysql>desc entitydb.Prefixes;</pre>
-<pre>mysql>desc servicedb.Prefixes;</pre>
+``` mysql>desc resourcedb.Prefixes; ```
+``` mysql>desc entitydb.Prefixes; ```
+``` mysql>desc servicedb.Prefixes; ```
 
 Each result should present a table with the following columns which shows the structure of the table.
 <pre>
