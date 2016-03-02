@@ -6,19 +6,20 @@
 Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
 
 ### Index
-* [Overview](#overview)
-#### Source
-* [Dependencies](#dependencies)
-* [Build](#build)
+* [Overview](#overview)  
 
-#### Setup
+#### Source  
+* [Dependencies](#dependencies)  
+* [Build](#build)  
+
+#### Setup  
 * [License](#licence)
 - [Installation](doc/manuals/install/install.md)  
 - [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
 - [End-to-end Testing (Sanity check)](doc/manuals/admin/admin.md#sanity-check-procedures)  
 - [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)  
 
-#### Usage
+#### Usage  
 * [User](doc/manuals/user/user.md)  
 * [Programmer](doc/manuals/programmer/programmer.md)  
 * [ API Reference Documentation](http://docs.ngsi9.apiary.io/#) 
