@@ -4,19 +4,17 @@
 
 Check out the FIWARE catalogue [page](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
 
-## Index
-
+#### Setup
 * [Overview](#overview)
 * [License](#licence)
-* Installation and Administration
-    - [Install](doc/manuals/install/install.md)  
-    - [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
-    - [Sanity checking](doc/manuals/admin/admin.md#sanity-check-procedures)  
-    - [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)   
-       
-* User & Programmers Guide    
- * [User](doc/manuals/user/user.md)  
- * [Programmer](doc/manuals/programmer/programmer.md)  
+- [Install](doc/manuals/install/install.md)  
+- [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
+- [Sanity checking](doc/manuals/admin/admin.md#sanity-check-procedures)  
+- [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)
+#### Usage
+* [User](doc/manuals/user/user.md)  
+* [Programmer](doc/manuals/programmer/programmer.md)  
+* [ API Reference Documentation]()
 
 ## Overview  
 The reference implementation for IoT Discovery GE. Its role is to act as a meeting point for IoT Context Producers to register the availability of their Things and Sensor devices, and IoT Context Consumers to discover them, using either the OMA NGSI-9 messaging protocol – a simple but powerful API for contextual information exchange, or the Sense2Web API that supports Linked Open Data. 
