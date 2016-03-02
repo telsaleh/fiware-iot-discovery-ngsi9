@@ -62,6 +62,7 @@ FIWARE IoT Discovery is licensed under the GNU Affero General Public License Ver
 
 ## Dependencies
 * Oracle Java 8 JRE/JDK
+* Maven 2
 * Apache Tomcat 7/8
 * MySQL server
 
