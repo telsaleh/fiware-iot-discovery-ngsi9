@@ -7,7 +7,7 @@ Check out the FIWARE catalogue [page](http://catalogue.fiware.org/enablers/iot-d
 ## Index
 
 * [Overview](#overview)
-
+* [License](#licence)
 * Installation and Administration
     - [Install](doc/manuals/install/install.md)  
     - [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
@@ -32,14 +32,12 @@ The API exposes two main modules:
 * NGSI-9 Server  
 * Sense2Web Linked-data platform  
 
-### NGSI-9 Server  
-The server provides a repository for the storage of NGSI entities and allows NGSI-9 clients to: 
+The NGSI-9 server provides a repository for the storage of NGSI entities and allows NGSI-9 clients to: 
 Register context information about Sensors and Things.
 Discover context information using ID, attribute, attribute domain, and entity type.
 NGSI-9 clients include other FIWARE GEs, such as the Data Handling GE and the Device Management GE for registration, and the IoT Broker for discovery. 
 
-### Sense2Web  
-A platform which provides a semantic repository for IoT providers to register and manage semantic descriptions (in RDF/OWL) about their "Things", whether they be Sensor/Actuator Devices, virtual computational elements (e.g. data aggregators) or virtual representations of any Physical Entity. 
+The Sense2Web platform which provides a semantic repository for IoT providers to register and manage semantic descriptions (in RDF/OWL) about their "Things", whether they be Sensor/Actuator Devices, virtual computational elements (e.g. data aggregators) or virtual representations of any Physical Entity. 
 In turn, it provides IoT Users to discover these registered IoT elements using: 
 
 - Retrieval of IoT Descriptions in RDF 
@@ -50,3 +48,7 @@ In turn, it provides IoT Users to discover these registered IoT elements using:
 
 The platform currently supports IoT Descriptions based on the IoT-A Project (http://iot-a.eu), but can be extended to support other types. 
 A Web User interface is provided for users to create, read, update and delete (CRUD) semantically-annotated IoT Descriptions, and also link them to other Linked Open Data (LOD) resources on the Web. 
+
+## License  
+
+FIWARE IoT Discovery is licensed under the GNU Affero General Public License Version 3 ([AGPLv3](http://www.gnu.org/licenses/agpl-3.0.en.html)).
