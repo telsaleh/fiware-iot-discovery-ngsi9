@@ -10,7 +10,8 @@ Check out the FIWARE catalogue [page](http://catalogue.fiware.org/enablers/iot-d
 - [Install](doc/manuals/install/install.md)  
 - [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
 - [Sanity checking](doc/manuals/admin/admin.md#sanity-check-procedures)  
-- [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)
+- [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)  
+
 #### Usage
 * [User](doc/manuals/user/user.md)  
 * [Programmer](doc/manuals/programmer/programmer.md)  
