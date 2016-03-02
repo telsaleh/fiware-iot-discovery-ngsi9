@@ -1,29 +1,27 @@
 # IoT Discovery 
 ### Registration and Discovery of IoT entities  
 
+[![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
+
 **This project is part of  [FIWARE](http://fiware.org)**.  
 
 Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
 
-### Index
 * [Overview](#overview)  
-
-#### Source  
-* [Dependencies](#dependencies)  
-* [Build](#build)  
-
-#### Setup  
-* [License](#licence)
-- [Installation](doc/manuals/install/install.md)  
-- [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
-- [End-to-end Testing (Sanity check)](doc/manuals/admin/admin.md#sanity-check-procedures)  
-- [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)  
-
-#### Usage  
-* [User](doc/manuals/user/user.md)  
-* [Programmer](doc/manuals/programmer/programmer.md)  
-* [ API Reference Documentation](http://docs.ngsi9.apiary.io/#) 
-* [IoT Discovery GE Open Specification](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.OpenSpecification.IoT.Backend.IoTDiscovery)
+* Source  
+ * [Dependencies](#dependencies)  
+ * [Build](#build)  
+* Setup  
+ * [License](#licence)
+ * [Installation](doc/manuals/install/install.md)  
+ * [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
+ * [End-to-end Testing (Sanity check)](doc/manuals/admin/admin.md#sanity-check-procedures)  
+ * [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)  
+* Usage  
+ * [User](doc/manuals/user/user.md)  
+ * [Programmer](doc/manuals/programmer/programmer.md)  
+ * [ API Reference Documentation](http://docs.ngsi9.apiary.io/#) 
+ * [IoT Discovery GE Open Specification](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.OpenSpecification.IoT.Backend.IoTDiscovery)
 
 ## Overview  
 The reference implementation for IoT Discovery GE. Its role is to act as a meeting point for IoT Context Producers to register the availability of their Things and Sensor devices, and IoT Context Consumers to discover them, using either the OMA NGSI-9 messaging protocol – a simple but powerful API for contextual information exchange, or the Sense2Web API that supports Linked Open Data. 
