@@ -3,10 +3,7 @@
 
 [![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 
-**This project is part of  [FIWARE](http://fiware.org)**.  
-
-Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
-
+* Introduction
 * [Overview](#overview)  
 * Source  
  * [Dependencies](#dependencies)  
@@ -23,14 +20,18 @@ Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/
  * [ API Reference Documentation](http://docs.ngsi9.apiary.io/#) 
  * [IoT Discovery GE Open Specification](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.OpenSpecification.IoT.Backend.IoTDiscovery)
 
+##Introduction
+
+**This project is part of  [FIWARE](http://fiware.org)**.  
+
+Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
+
 ## Overview  
 The reference implementation for IoT Discovery GE. Its role is to act as a meeting point for IoT Context Producers to register the availability of their Things and Sensor devices, and IoT Context Consumers to discover them, using either the OMA NGSI-9 messaging protocol – a simple but powerful API for contextual information exchange, or the Sense2Web API that supports Linked Open Data. 
 
 The primary purpose is to allow context producers to register their IoT Objects in linked-data format, and in turn allow context consumers to discover them using a set of search techniques.
 
 This is a reference implementation for the IoT Discovery GE open specification. The implementation provide two modules, the NGSI-9 Server and the Sense2Web Platform, in which both provide support for the registration and discovery of IoT entities. Please refer to the Users and programmers guide for more information.
-
-
 
 The API exposes two main modules:   
 
@@ -43,7 +44,7 @@ Discover context information using ID, attribute, attribute domain, and entity t
 NGSI-9 clients include other FIWARE GEs, such as the Data Handling GE and the Device Management GE for registration, and the IoT Broker for discovery. 
 
 The Sense2Web platform which provides a semantic repository for IoT providers to register and manage semantic descriptions (in RDF/OWL) about their "Things", whether they be Sensor/Actuator Devices, virtual computational elements (e.g. data aggregators) or virtual representations of any Physical Entity. 
-In turn, it provides IoT Users to discover these registered IoT elements using: 
+In turn, it provides IoT Users to discover these registered IoT elements by: 
 
 - Retrieval of IoT Descriptions in RDF 
 - Semantic querying via a SPARQL Endpoint
