@@ -17,7 +17,7 @@ Check out the FIWARE catalogue [page](http://catalogue.fiware.org/enablers/iot-d
 * User & Programmers Guide  
   This manual describes how to use IoT Discovery.  
     - User Manual  
-        * [Commands in IoT Agent](doc/commands.md)
-        * [Southbound APIs](doc/modules.md)
+        * [User](doc/manuals/user/user.md)  
+        * [Programmers](doc/manuals/programmer/programmer.md)  
 
 ## Overview
