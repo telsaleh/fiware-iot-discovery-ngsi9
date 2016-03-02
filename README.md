@@ -1,4 +1,4 @@
-### IoT Discovery: Registration and Discovery of IoT entities  
+# IoT Discovery: Registration and Discovery of IoT entities  
 
 **This project is part of  [FIWARE](http://fiware.org)**.  
 
