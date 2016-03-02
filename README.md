@@ -3,12 +3,17 @@
 
 **This project is part of  [FIWARE](http://fiware.org)**.  
 
-Check out the FIWARE catalogue [page](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
+Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
+
+### Index
+* [Overview](#overview)
+#### Source
+* [Dependencies](#dependencies)
+* [Build](#build)
 
 #### Setup
-* [Overview](#overview)
 * [License](#licence)
-- [Install](doc/manuals/install/install.md)  
+- [Installation](doc/manuals/install/install.md)  
 - [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
 - [End-to-end Testing (Sanity check)](doc/manuals/admin/admin.md#sanity-check-procedures)  
 - [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)  
@@ -17,6 +22,7 @@ Check out the FIWARE catalogue [page](http://catalogue.fiware.org/enablers/iot-d
 * [User](doc/manuals/user/user.md)  
 * [Programmer](doc/manuals/programmer/programmer.md)  
 * [ API Reference Documentation](http://docs.ngsi9.apiary.io/#) 
+* [IoT Discovery GE Open Specification](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.OpenSpecification.IoT.Backend.IoTDiscovery)
 
 ## Overview  
 The reference implementation for IoT Discovery GE. Its role is to act as a meeting point for IoT Context Producers to register the availability of their Things and Sensor devices, and IoT Context Consumers to discover them, using either the OMA NGSI-9 messaging protocol – a simple but powerful API for contextual information exchange, or the Sense2Web API that supports Linked Open Data. 
@@ -25,7 +31,7 @@ The primary purpose is to allow context producers to register their IoT Objects 
 
 This is a reference implementation for the IoT Discovery GE open specification. The implementation provide two modules, the NGSI-9 Server and the Sense2Web Platform, in which both provide support for the registration and discovery of IoT entities. Please refer to the Users and programmers guide for more information.
 
-[IoT Discovery GE Open Specification](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.OpenSpecification.IoT.Backend.IoTDiscovery)
+
 
 The API exposes two main modules:   
 
@@ -52,3 +58,16 @@ A Web User interface is provided for users to create, read, update and delete (C
 ## License  
 
 FIWARE IoT Discovery is licensed under the GNU Affero General Public License Version 3 ([AGPLv3](http://www.gnu.org/licenses/agpl-3.0.en.html)).
+
+## Dependencies
+* Oracle Java 8 JRE/JDK
+* Apache Tomcat 7/8
+* MySQL server
+
+## Build
+
+Project is built via Maven
+```
+git clone https://github.com/UniSurreyIoT/fiware-iot-discovery-ngsi9.git
+mvn clean install
+```
