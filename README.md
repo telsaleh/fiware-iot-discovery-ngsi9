@@ -4,16 +4,16 @@
 [![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 
 * [Introduction](#introduction)
-* [License](#licence)
 * Source  
  * [Dependencies](#dependencies)  
  * [Build](#build)  
 * [Docker](#docker)
+* [License](#licence)
 * Setup   
  * [Installation](doc/manuals/install/install.md)  
  * [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
  * [End-to-end Testing (Sanity check)](doc/manuals/admin/admin.md#sanity-check-procedures)  
- * [Diagnosing](doc/manuals/admin/admin.md#diagnosis-procedures)  
+ * [Diagnostics](doc/manuals/admin/admin.md#diagnosis-procedures)  
 * Usage  
  * [User](doc/manuals/user/user.md)  
  * [Programmer](doc/manuals/programmer/programmer.md)  
@@ -34,8 +34,8 @@ This is a reference implementation for the IoT Discovery GE open specification. 
 
 The API exposes two main modules:   
 
-* NGSI-9 Server  
-* Sense2Web Linked-data platform  
+* NGSI-9 server  
+* Sense2Web linked-data platform  
 
 ![iot-discovery-gei-arch]( http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/f/fa/Gei-overview-latest.png)
 
@@ -56,28 +56,28 @@ In turn, it provides IoT Users to discover these registered IoT elements by:
 The platform currently supports IoT Descriptions based on the IoT-A Project (http://iot-a.eu), but can be extended to support other types. 
 A Web User interface is provided for users to create, read, update and delete (CRUD) semantically-annotated IoT Descriptions, and also link them to other Linked Open Data (LOD) resources on the Web. 
 
-## License  
+## Dependencies  
+* Oracle Java 8 JRE/JDK  
+* Maven 2  
+* Apache Tomcat 7/8  
+* MySQL server  
 
-FIWARE IoT Discovery is licensed under the GNU Affero General Public License Version 3 ([AGPLv3](http://www.gnu.org/licenses/agpl-3.0.en.html)).
+## Build  
 
-## Dependencies
-* Oracle Java 8 JRE/JDK
-* Maven 2
-* Apache Tomcat 7/8
-* MySQL server
-
-## Build
-
-Project is built via Maven
+Project is built via Maven  
 ```
-git clone https://github.com/UniSurreyIoT/fiware-iot-discovery-ngsi9.git
-mvn clean install
+git clone https://github.com/UniSurreyIoT/fiware-iot-discovery-ngsi9.git  
+mvn clean install  
 ```
 
 ## Docker  
 
-If you have a Docker container installed, then you can deploy the GEi using the command
+If you have a Docker container installed, then you can deploy the GEi using the command:  
 ```
-docker pull telsaleh/fiware-iot-discovery-ngsi9
+docker pull telsaleh/fiware-iot-discovery-ngsi9  
 
 ```
+
+## License  
+
+FIWARE IoT Discovery is licensed under the GNU Affero General Public License Version 3 ([AGPLv3](http://www.gnu.org/licenses/agpl-3.0.en.html)).
