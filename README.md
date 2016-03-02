@@ -37,7 +37,7 @@ The API exposes two main modules:
 * NGSI-9 Server  
 * Sense2Web Linked-data platform  
 
-![iot-discovery-gei-arch](https://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/f/fa/Gei-overview-latest.png)
+![iot-discovery-gei-arch]( http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/f/fa/Gei-overview-latest.png)
 
 The NGSI-9 server provides a repository for the storage of NGSI entities and allows NGSI-9 clients to: 
 Register context information about Sensors and Things.
