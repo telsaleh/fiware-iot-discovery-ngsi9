@@ -1,5 +1,5 @@
 # IoT Discovery 
-### Registration and Discovery of IoT entities  
+### ***Registration and Discovery of IoT entities  ***
 
 [![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 
