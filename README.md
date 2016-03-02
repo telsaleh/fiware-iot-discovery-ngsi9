@@ -3,13 +3,13 @@
 
 [![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 
-* Introduction
-* [Overview](#overview)  
+* [Introduction](#introduction)
+* [License](#licence)
 * Source  
  * [Dependencies](#dependencies)  
  * [Build](#build)  
-* Setup  
- * [License](#licence)
+* [Docker](#docker)
+* Setup   
  * [Installation](doc/manuals/install/install.md)  
  * [Deploy](doc/manuals/install/install.md#configuration-and-deployment)  
  * [End-to-end Testing (Sanity check)](doc/manuals/admin/admin.md#sanity-check-procedures)  
@@ -26,7 +26,6 @@
 
 Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
 
-## Overview  
 The reference implementation for IoT Discovery GE. Its role is to act as a meeting point for IoT Context Producers to register the availability of their Things and Sensor devices, and IoT Context Consumers to discover them, using either the OMA NGSI-9 messaging protocol – a simple but powerful API for contextual information exchange, or the Sense2Web API that supports Linked Open Data. 
 
 The primary purpose is to allow context producers to register their IoT Objects in linked-data format, and in turn allow context consumers to discover them using a set of search techniques.
@@ -71,4 +70,12 @@ Project is built via Maven
 ```
 git clone https://github.com/UniSurreyIoT/fiware-iot-discovery-ngsi9.git
 mvn clean install
+```
+
+## Docker  
+
+If you have a Docker container installed, then you can deploy the GEi using the command
+```
+docker pull telsaleh/fiware-iot-discovery-ngsi9
+
 ```
