@@ -62,11 +62,13 @@ Access the running MySQL server instance under **Server Administration**. Check 
 ![MySQL workbench - admin](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/d/d8/Mysql-wb-2.png)
 
 
-### Setup WARs for Tomcat
+### Configuration and Deployment  
+
+#### Setup WARs for Tomcat  
 
 Copy the Web Application Archive files **s2w.war** and **ngsi9.war** to `/$CATALINA_HOME/webapps/`  whereby **CATALINA_HOME** is the root folder for Tomcat.
 
-#### **ngsi9.war**
+##### **ngsi9.war**
 The default path for the embedded databases for the NGSI-9 server is `/$CATALINA_HOME/webapps/ngsi9/WEB-INF/repository`
  
 Please note that for every undeployment the databases will be removed. Therefore if you still require any registered data, you must specify another path outside the webapp folder (e.g. your home directory).
@@ -93,7 +95,7 @@ If the tomcat service is running then the WAR file should be uncompressed automa
 </web-app>
 ```
 
-#### **s2w.war**
+##### **s2w.war**
 
 If you have already deployed the web app, then it is likely that it will not not run. This is because you need to make sure that you have set the web app to know what the username and password of the MySQL server is. This can be done bu editing the context parameters ('''context-param''') in the '''web.xml'''. 
 
@@ -138,7 +140,7 @@ There are several parameters in the web.xml file that can be configured. These a
 
 For terminologies relating to the parameters ''*training_set_min*'' and ''*retrain_threshold*'' such as "concept", please refer to the subsection on IoT Search Engine in the [Open Specification](http://forge.fi-ware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.OpenSpecification.IoT.Backend.IoTDiscovery#IoT_Search_Engine_.28Probabilistic.29) of the IoT Discovery GE.
 
-### Run Tomcat
+#### Run Tomcat
 
 The last step is to run the Tomcat server. In a console terminal enter the following command:
 
