@@ -30,7 +30,7 @@ This is the reference implementation for IoT Discovery GE. Its role is to act as
 
 The primary purpose is to allow context producers to register their IoT Objects in linked-data format, and in turn allow context consumers to discover them using a set of search techniques.
 
-This is a reference implementation for the IoT Discovery GE open specification. The implementation provide two modules, the NGSI-9 Server and the Sense2Web Platform, in which both provide support for the registration and discovery of IoT entities. Please refer to the Users and programmers guide for more information.
+This is a reference implementation for the IoT Discovery GE open specification. The implementation provide two modules, the NGSI-9 Server and the Sense2Web Platform. Both modules serve as a service discovery mechanism (SDM) for IoT Descriptions. An SDM is analogous to a registry or directory, and can be seen as a "yellow pages" for IoT entities, whereby you can discover information about the IoT entity, such as what attributes you can query about, and metadata about those attributes which provide more detailed information about it. It also provide information on how to reach it. It allows users to discover or check what is available and know where actual context sources are, and avoid unnecessary network overload of IoT context providers, especially if the context provider have constrained resources, such as gateways, or any wireless device.
 
 The API exposes two main modules:   
 
@@ -39,10 +39,14 @@ The API exposes two main modules:
 
 ![iot-discovery-gei-arch]( http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/f/fa/Gei-overview-latest.png)
 
-The NGSI-9 server provides a repository for the storage of NGSI entities and allows NGSI-9 clients to: 
-Register context information about Sensors and Things.
-Discover context information using ID, attribute, attribute domain, and entity type.
-NGSI-9 clients include other FIWARE GEs, such as the Data Handling GE and the Device Management GE for registration, and the IoT Broker for discovery. 
+The NGSI-9 server provides a repository for the storage of NGSI entities and allows NGSI-9 clients to:   
+
+* Register context information about Sensors and Things.  
+* Discover context information using ID, attribute, attribute domain, and entity type.
+
+NGSI-9 clients include other FIWARE GEs, such as the Data Handling GE and the Device Management GE for registration, and the IoT Broker for discovery. The NGSI-9 server handles IoT Description defined using the NGSI Context Entity model and is compliant with the FIWARE IoT architecture. 
+
+![FIWARE IoT Architecture](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/images/0/08/FIWARE_IoT_R4_arch_v3.png)
 
 The Sense2Web platform which provides a semantic repository for IoT providers to register and manage semantic descriptions (in RDF/OWL) about their "Things", whether they be Sensor/Actuator Devices, virtual computational elements (e.g. data aggregators) or virtual representations of any Physical Entity. 
 In turn, it provides IoT Users to discover these registered IoT elements by: 
