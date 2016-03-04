@@ -6,6 +6,7 @@
 Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/enablers/iot-discovery) for more info and resources.  
 
 [![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
+[![Documentation Status](https://readthedocs.org/projects/fiware-iot-discovery-ngsi9/badge/?version=latest)](http://fiware-iot-discovery-ngsi9.readthedocs.org/en/latest/?badge=latest)
 
 * [Introduction](#introduction)
 * Source  
