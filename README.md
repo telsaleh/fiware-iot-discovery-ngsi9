@@ -8,7 +8,7 @@ Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/
 [![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![Documentation Status](https://readthedocs.org/projects/fiware-iot-discovery-ngsi9/badge/?version=latest)](http://fiware-iot-discovery-ngsi9.readthedocs.org/en/latest/?badge=latest)
 [![Docker badge](https://img.shields.io/docker/pulls/telsaleh/fiware-iot-discovery-ngsi9.svg)](https://hub.docker.com/r/fiware/fiware-iot-discovery-ngsi9/)
-[![Support badge]( https://img.shields.io/badge/support-sof-yellowgreen.svg)](https://ask.fiware.org/questions/)
+[![Support badge]( https://img.shields.io/badge/support-fiware-yellowgreen.svg)](https://ask.fiware.org/questions/)
 
 
 * [Introduction](#introduction)
