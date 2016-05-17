@@ -313,8 +313,8 @@ object containing a unsubscribeContextAvailabilityRequest message.
   
 ### Notify Context availability operation [POST /{callbackURL}]
 
-This operation is initiated by the You may create your own request using this action. It takes a JSON
-object containing a unsubscribeContextAvailabilityRequest message.
+This operation is initiated by the NGSI-9 server, when a registration match a subscription. It sends a JSON
+object containing a NotifyContextAvailabilityRequest message, and receives from the subscriber a NotifyContextAvailabilityResponse message
 
 + Request (application/json)
 
