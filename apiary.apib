@@ -47,6 +47,7 @@ The five resources listed in the table below represent the five operations offer
 |Availability subscription resource|/subscribeContextAvailability|Generic subscription to context availability information. The expected request body is an instance of subscribeContextAvailabilityRequest; the response body is an instance of subscribeContextAvailabilityResponse.|
 |Availability subscription update resource|/updateContextAvailabilitySubscription|Generic update of context availability subscriptions. The expected request body is an instance of updateContextAvailabilitySubscriptionRequest; the response body is an instance of updateContextAvailabilitySubscriptionResponse.|
 |Availability subscription deletion resource|/unsubscribeContextAvailability|Generic deletion of context availability subscriptions. The expected request body is an instance of unsubscribeContextAvailabilityRequest; the response body is an instance of unsubscribeContextAvailabilityResponse.|
+|Notify context resource|/{notificationURI}|Generic availability notification.The expected request body is an instance of notifyContextAvailabilityRequest; the response body is an instance of notifyContextAvailabilityResponse.|
 
 ###Convenience Operation Resources
 The table below gives an overview of the resources for convenience operation and the effects of interacting with them via the standard HTTP verbs GET, PUT, POST, and DELETE.
@@ -71,7 +72,7 @@ This section describes the resource that has to be provided by the context consu
 |Resource|Base URI: http://{serverRoot}/ngsi9|HTTP verbs|
 |----|----|----|
 |   |  | POST|
-|Notify context resource|//{notificationURI}|Generic availability notification.The expected request body is an instance of notifyContextAvailabilityRequest; the response body is an instance of notifyContextAvailabilityResponse.|
+|Notify context resource|//{callbackURL}|Generic availability notification.The expected request body is an instance of notifyContextAvailabilityRequest; the response body is an instance of notifyContextAvailabilityResponse.|
 
 ## Terminology
 
@@ -101,16 +102,6 @@ OMA NGSI defines two interfaces for exchanging information based on the informat
 
 ## Data Structures
 
-<!--### Choice (object)-->
-<!--    + choice (string) - Text-->
-<!--    + url (string) - Choice URL-->
-<!--    + votes (number) - Number of votes-->
-
-<!--### Question (object)-->
-<!--      + question (string) - Text of the question-->
-<!--      + published_at (string) - An ISO8601 date when the question was published.-->
-<!--      + url (string, required) - URL -->
-<!--      + choices (array[Choice]) - An array of Choice objects.-->
 
 # REST API
 
@@ -179,17 +170,17 @@ object containing a discoverContextAvailabilityRequest message.
 + Request (application/json)
 
         {
-  "entities": [
-      {
-      "type": "Room",
-      "isPattern": "false",
-      "id": "Room1"
-      }
-  ],
-  "attributes": [
-      "temperature"
-  ]
-  }
+        "entities": [
+            {
+            "type": "Room",
+            "isPattern": "false",
+            "id": "Room1"
+            }
+        ],
+        "attributes": [
+            "temperature"
+        ]
+        }
 
 + Response 201 (application/json)
 
@@ -200,28 +191,28 @@ object containing a discoverContextAvailabilityRequest message.
     + Body
 
             {
-  "contextRegistrationResponses": [
-      {
-      "contextRegistration": {
-          "attributes": [
-          {
+            "contextRegistrationResponses": [
+            {
+            "contextRegistration": {
+            "attributes": [
+            {
               "isDomain": "false",
               "name": "temperature",
               "type": "float"
-          }
-          ],
-          "entities": [
-          {
+            }
+            ],
+            "entities": [
+            {
               "id": "Room1",
               "isPattern": "false",
               "type": "Room"
-          }
-          ],
-          "providingApplication": "http://mysensors.com/Rooms"
-        }
-      }
-  ]
-  }
+            }
+            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            }
+            ]
+            }
 
 ### Subscribe to Context availability operation [POST /subscribeContextAvailability]
 
@@ -231,19 +222,19 @@ object containing a subscribeContextAvailability message.
 + Request (application/json)
 
         {
-"entities": [
-    {
+        "entities": [
+        {
          "type": "Room",
          "isPattern": "true",
          "id": ".*"
-    }
-    ],
-    "attributes": [
-     "temperature"
-    ],
-    "reference": "http://localhost:8080/accumulate",
-    "duration": "P1M"
- }
+        }
+        ],
+        "attributes": [
+        "temperature"
+        ],
+        "reference": "http://localhost:8080/accumulate",
+        "duration": "P1M"
+        }
 
 + Response 201 (application/json)
 
@@ -254,9 +245,9 @@ object containing a subscribeContextAvailability message.
     + Body
 
             {
-  "duration": "P1M",
-    "subscriptionId": "52a745e011f5816465943d59"
-  }
+            "duration": "P1M",
+            "subscriptionId": "52a745e011f5816465943d59"
+            }
   
 ### Update Subscription to Context availability operation [POST /updateContextAvailabilitySubscription]
 
@@ -266,19 +257,19 @@ object containing a updateContextAvailabilitySubscriptionRequest message.
 + Request (application/json)
 
         {
-"entities": [
-    {
+        "entities": [
+        {
          "type": "Room",
          "isPattern": "true",
          "id": ".*"
-    }
-    ],
-    "attributes": [
-     "temperature"
-    ],
-    "reference": "http://localhost:8080/accumulate",
-    "duration": "P1M"
- }
+        }
+        ],
+        "attributes": [
+        "temperature"
+        ],
+        "reference": "http://localhost:8080/accumulate",
+        "duration": "P1M"
+        }
 
 + Response 201 (application/json)
 
@@ -289,9 +280,9 @@ object containing a updateContextAvailabilitySubscriptionRequest message.
     + Body
 
             {
-  "duration": "P1M",
-    "subscriptionId": "52a745e011f5816465943d59"
-  }
+            "duration": "P1M",
+            "subscriptionId": "52a745e011f5816465943d59"
+            }
 
 ### Unsubscribe to Context availability operation [POST /unsubscribeContextAvailability]
 
@@ -302,7 +293,7 @@ object containing a unsubscribeContextAvailabilityRequest message.
 
         {
         "subscriptionId": "52a745e011f5816465943d59"
-  }
+        }
 
 + Response 201 (application/json)
 
@@ -313,15 +304,68 @@ object containing a unsubscribeContextAvailabilityRequest message.
     + Body
 
             {
-"statusCode": {
-  "code": "200",
-  "reasonPhrase": "OK"
-},
-    "subscriptionId": "52a745e011f5816465943d59"
-  }  
+            "statusCode": {
+            "code": "200",
+            "reasonPhrase": "OK"
+            },
+            "subscriptionId": "52a745e011f5816465943d59"
+            }  
   
-  
-  
+### Notify Context availability operation [POST /{callbackURL}]
 
+This operation is initiated by the You may create your own request using this action. It takes a JSON
+object containing a unsubscribeContextAvailabilityRequest message.
 
++ Request (application/json)
 
+        {
+        "subscriptionId": "52a745e011f5816465943d59",
+        "contextRegistrationResponses": [
+        {
+            "contextRegistration": {
+                "entities": [
+                    {
+                        "type": "Room",
+                        "isPattern": "false",
+                        "id": "Room1"
+                    },
+                    {
+                        "type": "Room",
+                        "isPattern": "false",
+                        "id": "Room2"
+                    }
+                ],
+                "attributes": [
+                    {
+                        "name": "temperature",
+                        "type": "float",
+                        "isDomain": "false",
+                        "metadatas": [
+                            {
+                                "name": "accuracy",
+                                "type": "float",
+                                "value": "0.8"
+                            }
+                        ]
+                    }
+                ],
+                "providingApplication": "http://mysensors.com/Rooms"
+            }
+        }
+        ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "statusCode": {
+            "code": "200",
+            "reasonPhrase": "OK"
+            }
+            }
