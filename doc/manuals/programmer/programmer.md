@@ -329,7 +329,110 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
 ```  
 The response:
 ```  
-
+<discoverContextAvailabilityResponse>
+  <contextRegistrationResponseList>
+    <contextRegistrationResponse>
+      <contextRegistration>
+        <entityIdList>
+          <entityId type="Room" isPattern="false">
+            <id>Room1</id>
+          </entityId>
+        </entityIdList>
+        <contextRegistrationAttributeList>
+          <contextRegistrationAttribute>
+            <name>temperature</name>
+            <type>float</type>
+            <isDomain>false</isDomain>
+          </contextRegistrationAttribute>
+        </contextRegistrationAttributeList>
+        <providingApplication>http://mysensors.com/Rooms</providingApplication>
+      </contextRegistration>
+    </contextRegistrationResponse>
+    <contextRegistrationResponse>
+      <contextRegistration>
+        <registrationMetadata>
+          <contextMetadata>
+            <name>right_neighbour</name>
+            <type>Association</type>
+            <value>
+              <entityAssociation>
+                <sourceEntityId type="Room" isPattern="false">
+                  <id>Room1</id>
+                </sourceEntityId>
+                <targetEntityId type="Room" isPattern="false">
+                  <id>Room2</id>
+                </targetEntityId>
+              </entityAssociation>
+              <attributeAssociationList>
+                <attributeAssociation>
+                  <sourceAttribute>temperature</sourceAttribute>
+                  <targetAttribute>temperature</targetAttribute>
+                </attributeAssociation>
+              </attributeAssociationList>
+            </value>
+          </contextMetadata>
+        </registrationMetadata>
+        <providingApplication>http://www.fi-ware.eu/NGSI/association</providingApplication>
+      </contextRegistration>
+    </contextRegistrationResponse>
+  </contextRegistrationResponseList>
+</discoverContextAvailabilityResponse>
+```  
+```  
+{
+  "contextRegistrationResponses": [
+    {
+      "contextRegistration": {
+        "attributes": [
+          {
+            "isDomain": "false",
+            "name": "temperature",
+            "type": "float"
+          }
+        ],
+        "entities": [
+          {
+            "id": "Room1",
+            "isPattern": "false",
+            "type": "Room"
+          }
+        ],
+        "providingApplication": "http://mysensors.com/Rooms"
+      }
+    },
+    {
+      "contextRegistration": {
+        "metadatas": [
+          {
+            "name": "right_neighbour",
+            "type": "Association",
+            "value": {
+              "attributeAssociations": [
+                {
+                  "source": "measurement",
+                  "target": "temperature"
+                }
+              ],
+              "entities": {
+                "source": {
+                  "id": "Room1",
+                  "isPattern": "false",
+                  "type": "Room"
+                },
+                "target": {
+                  "id": "Room2",
+                  "isPattern": "false",
+                  "type": "Room"
+                }
+                }
+            }
+          }
+        ],
+        "providingApplication": "http://www.fi-ware.eu/NGSI/association"
+      }
+    }
+  ]
+}
 ```  
 
 #### Subscription  
