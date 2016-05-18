@@ -35,7 +35,7 @@ The Convenience Operations  currently supported are:
 | GET  | //{hostname}/ngsi9/contextEntityTypes/{typeName}      |   N/A|  
 
 ### Standard Operations  
-#### Registration  
+#### Registration of Context Entities  
 
 The first step is to register some Context Entities. So, using a RESTful client, we can send an NGSI-9 ***registerContextRequest*** message like the one shown below using the following URL:  
 
@@ -125,7 +125,78 @@ Result obtained should be a ***registerContextResponse*** similar to the followi
   "registrationId" : "UniS_0AGGEEdSNK"
 }  
 ```  
-#### Discovery
+#### Registration of Associations
+
+```  
+<?xml version="1.0"?>
+  <registerContextRequest>
+    <contextRegistrationList>
+      <contextRegistration>
+        <registrationMetadata>
+          <contextMetadata>
+            <name>right_neighbour</name>
+            <type>Association</type>
+              <value>
+                <entityAssociation>
+                  <sourceEntityId type="Room" isPattern="false">
+                    <id>Room1</id>
+                  </sourceEntityId>
+                  <targetEntityId type="Room" isPattern="false">
+                    <id>Room2</id>
+                  </targetEntityId>
+                </entityAssociation>
+                <attributeAssociationList>
+                  <attributeAssociation>
+                    <sourceAttribute>temperature</sourceAttribute>
+                    <targetAttribute>temperature</targetAttribute>
+                  </attributeAssociation>
+              </attributeAssociationList>
+            </value>
+          </contextMetadata>
+        </registrationMetadata>
+        <providingApplication>http://www.fi-ware.eu/NGSI/association</providingApplication>
+      </contextRegistration>
+    </contextRegistrationList>
+    <duration>P1M</duration>
+</registerContextRequest>
+```  
+```  
+{
+  "contextRegistrations": [
+    {
+      "metadatas": [
+        {
+          "name": "right_neighbour",
+          "type": "Association",
+          "value": {
+            "source": {
+              "id": "Room1",
+              "type": "Room",
+              "isPattern": "false"
+            },
+            "target": {
+              "id": "Room2",
+              "type": "Room",
+              "isPattern": "false"
+            },
+            "attributeAssociations": [
+              {
+                "source": "temperature",
+                "target": "temperature"
+              }
+            ]
+          }
+        }
+      ],
+      "providingApplication": "http://www.fi-ware.eu/NGSI/association"
+    }
+  ],
+  "duration": "P1M",
+  "registrationId": ""
+}
+```  
+
+#### Discovery of Context Entities
 The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a ***discoverContextAvailabilityRequest *** message like the one shown below:  
 ``` POST http://{hostname}/ngsi9/discoverContextAvailability ```  
 ```   
@@ -211,6 +282,56 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
     ]
 }  
 ```  
+
+#### Discovery of Associations  
+```  
+<?xml version="1.0"?>
+<discoverContextAvailabilityRequest>
+  <entityIdList>
+    <entityId type="Room" isPattern="false">
+      <id>Room2</id>
+    </entityId>
+  </entityIdList>
+  <attributeList>
+    <attribute>temperature</attribute>
+  </attributeList>
+  <restriction>
+    <scope>
+      <operationScope>
+        <scopeType>IncludeAssociations</scopeType>
+        <scopeValue>SOURCES</scopeValue>
+      </operationScope>
+    </scope>
+  </restriction>
+</discoverContextAvailabilityRequest>
+```  
+```  
+{
+  "entities": [
+    {
+      "type": "Room",
+      "isPattern": "false",
+      "id": "Room2"
+    }
+  ],
+  "attributes": [
+    "temperature"
+  ],
+  "restriction": {
+    "scopes": [
+      {
+        "type" : "IncludeAssociations",
+        "value" : "SOURCES"
+      }
+    ]
+  }
+}
+```  
+The response:
+```  
+
+```  
+
 #### Subscription  
 
 ``` 
