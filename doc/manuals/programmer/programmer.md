@@ -1,36 +1,38 @@
+
 # Introduction
 
 The GEi is meant to be used as a web service, and therefore users and applications can interact with the GEi via two sets of RESTful interfaces.
 
 # API overview
 
-The subsections below gives an overview of the RESTful API for the NGSI-9 Server and the Sense2Web Platform.
+The subsections below gives an overview of the RESTful API for the NGSI-9 Server and the Sense2Web Platform.  
 
-## NGSI-9 API
+## NGSI-9 API  
 
-Please refer to the FI-WARE NGSI-9 Open RESTful API [specification][ngsi9-spec] on the details on the API, and also the [NGSI Associations concept][ngsi-associations-concept] for details on how to register and discover associations.
+Please refer to the FI-WARE NGSI-9 Open RESTful API [specification][ngsi9-spec] on the details on the API, and also the [NGSI Associations concept][ngsi-associations-concept] for details on how to register and discover associations.  
 
-The Standard Operations currently supported are:
+The Standard Operations currently supported are:  
 
-| Verb  | URI           | Payload  |
-| ------|:-------------| :-------|
-| POST  | //{hostname}/ngsi9/registerContext | registerContextRequest |
-| POST  | //{hostname}/ngsi9/discoverContextAvailability |   discoverContextAvailabilityRequest |
-| POST  | //{serverRoot}/ngsi9/subscribeContextAvailability |    subscribeContextAvailabilityRequest |
-| POST  | //{hostname}/ngsi9/updateContextAvailabilitySubscription | updateContextAvailabilitySubscriptionRequest|
-| POST  | //{hostname}/ngsi9/unsubscribeContextAvailability      |   unsubscribeContextAvailabilityRequest|
+| Verb  | URI           | Payload  |  
+| ------|:-------------| :-------|  
+| POST  | //{hostname}/ngsi9/registerContext | registerContextRequest |  
+| POST  | //{hostname}/ngsi9/discoverContextAvailability |   discoverContextAvailabilityRequest |  
+| POST  | //{serverRoot}/ngsi9/subscribeContextAvailability |    subscribeContextAvailabilityRequest |  
+| POST  | //{hostname}/ngsi9/updateContextAvailabilitySubscription | updateContextAvailabilitySubscriptionRequest|  
+| POST  | //{hostname}/ngsi9/unsubscribeContextAvailability      |   unsubscribeContextAvailabilityRequest|  
+| POST  | //{callbackUri} | notifyContextAvailabilityRequest |  
 
  
-The Convenience Operations  currently supported are:
+The Convenience Operations  currently supported are:  
 
-| Verb  | URI           | Payload  |
-| ------|:-------------| :-------|
-| POST  | //{hostname}/ngsi9/contextEntities/{EntityID} | registerContextRequest |
-| GET  | //{hostname}/ngsi9/contextEntities/{EntityID} |   N/A |
-| GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributes |    N/A|
-| GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributes/{attributeName} | N/A|
-| GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}      |   N/A|
-| GET  | //{hostname}/ngsi9/contextEntityTypes/{typeName}      |   N/A|
+| Verb  | URI           | Payload  |  
+| ------|:-------------| :-------|  
+| POST  | //{hostname}/ngsi9/contextEntities/{EntityID} | registerContextRequest |  
+| GET  | //{hostname}/ngsi9/contextEntities/{EntityID} |   N/A |  
+| GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributes |    N/A|  
+| GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributes/{attributeName} | N/A|  
+| GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}      |   N/A|  
+| GET  | //{hostname}/ngsi9/contextEntityTypes/{typeName}      |   N/A|  
 
 
 ### Registration  
@@ -301,6 +303,107 @@ Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** 
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
 ```  
+
+### Notify  
+
+```  
+<?xml version="1.0" encoding="UTF-8"?>
+<notifyContextAvailabilityRequest>
+	<subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
+	<contextRegistrationResponseList>
+		<contextRegistrationResponse>
+			<contextRegistration>
+				<entityIdList>
+					<entityId type="Room" isPattern="false">
+						<id>ConferenceRoom</id>						
+					</entityId>
+					<entityId type="Room" isPattern="false">
+						<id>OfficeRoom</id>						
+					</entityId>
+				</entityIdList>
+				<contextRegistrationAttributeList>
+					<contextRegistrationAttribute>
+						<name>temperature</name>
+						<type>float</type>
+						<isDomain>false</isDomain>
+						<metadata>
+							<contextMetadata>
+								<name>accuracy</name>
+								<type>float</type>
+								<value>0.8</value>
+							</contextMetadata>							
+						</metadata>
+					</contextRegistrationAttribute>
+				</contextRegistrationAttributeList>
+				<registrationMetadata>									
+				</registrationMetadata>
+				<providingApplication>http://mysensors.com/Rooms
+				</providingApplication>
+			</contextRegistration>
+		</contextRegistrationResponse>
+	</contextRegistrationResponseList>
+</notifyContextAvailabilityRequest>
+  
+```  
+```  
+{
+    "subscriptionId": "UniS_0AGGEEdSNK",
+    "contextRegistrationResponses": [
+        {
+            "contextRegistration": {
+                "entities": [
+                    {
+                        "type": "Room",
+                        "isPattern": "false",
+                        "id": "Room1"
+                    },
+                    {
+                        "type": "Room",
+                        "isPattern": "false",
+                        "id": "Room2"
+                    }
+                ],
+                "attributes": [
+                    {
+                        "name": "temperature",
+                        "type": "float",
+                        "isDomain": "false",
+                        "metadatas": [
+                            {
+                                "name": "accuracy",
+                                "type": "float",
+                                "value": "0.8"
+                            }
+                        ]
+                    }
+                ],
+                "providingApplication": "http://mysensors.com/Rooms"
+            }
+        }
+    ]
+}  
+```  
+Result obtained should be a **notifyContextAvailabilityResponse** similar to the following:  
+
+```  
+<?xml version="1.0" encoding="UTF-8"?>
+<notifyContextAvailabilityResponse>
+	<responseCode>
+		<code>200</code>
+		<reasonPhrase>Ok</reasonPhrase>
+		<details>a</details>
+	</responseCode>
+</notifyContextAvailabilityResponse>
+```  
+```  
+{    
+    "statusCode": {
+        "code": "200",
+        "reasonPhrase": "OK"
+    }
+}
+```  
+
 ## Sense2Web API
 The diagram below illustrates the structure of RESTful API:
 
