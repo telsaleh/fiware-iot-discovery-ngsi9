@@ -1,9 +1,9 @@
 
-# Introduction
+# Introduction  
 
-The GEi is meant to be used as a web service, and therefore users and applications can interact with the GEi via two sets of RESTful interfaces.
+The GEi is meant to be used as a web service, and therefore users and applications can interact with the GEi via two sets of RESTful interfaces.  
 
-# API overview
+# API overview  
 
 The subsections below gives an overview of the RESTful API for the NGSI-9 Server and the Sense2Web Platform.  
 
@@ -13,7 +13,7 @@ Please refer to the FI-WARE NGSI-9 Open RESTful API [specification][ngsi9-spec] 
 
 The Standard Operations currently supported are:  
 
-| Verb  | URI           | Payload  |  
+| Verb  | URI          | Payload |  
 | ------|:-------------| :-------|  
 | POST  | //{hostname}/ngsi9/registerContext | registerContextRequest |  
 | POST  | //{hostname}/ngsi9/discoverContextAvailability |   discoverContextAvailabilityRequest |  
@@ -34,16 +34,15 @@ The Convenience Operations  currently supported are:
 | GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}      |   N/A|  
 | GET  | //{hostname}/ngsi9/contextEntityTypes/{typeName}      |   N/A|  
 
+### Standard Operations  
+#### Registration  
 
-### Registration  
-
-The first step is to Register some Context Entities. So, using a REST client, we will send an NGSI-9 registerContextRequest message like the one shown below using the following URL:  
+The first step is to register some Context Entities. So, using a RESTful client, we can send an NGSI-9 ***registerContextRequest*** message like the one shown below using the following URL:  
 
 ``` POST http://{hostname}/ngsi9/registerContext ```  
 
 The payload as an example can be the following:  
-``` xml  
-
+```  
     <?xml version="1.0"?>
     <registerContextRequest>
       <contextRegistrationList>
@@ -76,7 +75,7 @@ The payload as an example can be the following:
       <duration>P1M</duration>
     </registerContextRequest>  
 ```  
-``` json  
+```   
 {
     "contextRegistrations": [
         {
@@ -126,10 +125,10 @@ Result obtained should be a ***registerContextResponse*** similar to the followi
   "registrationId" : "UniS_0AGGEEdSNK"
 }  
 ```  
-### Discovery
-The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a discoverContextAvailabilityRequest message like the one shown below:  
+#### Discovery
+The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a ***discoverContextAvailabilityRequest *** message like the one shown below:  
 ``` POST http://{hostname}/ngsi9/discoverContextAvailability ```  
-``` xml  
+```   
 <?xml version="1.0"?>
 <discoverContextAvailabilityRequest>
   <entityIdList>
@@ -140,7 +139,7 @@ The next step is to discover the availability of a Context Entity. So, using a R
   <attributeList/>
 </discoverContextAvailabilityRequest>  
 ```  
-``` json  
+```   
 {
     "entities": [
         {
@@ -153,8 +152,7 @@ The next step is to discover the availability of a Context Entity. So, using a R
 ```  
 Result obtained should be a ***discoverContextAvailabilityResponse*** similar to the following:  
 
-``` xml
-
+``` 
 <?xml version="1.0"?>
 <discoverContextAvailabilityResponse>
   <contextRegistrationResponseList>
@@ -182,8 +180,8 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
     </contextRegistrationResponse>
   </contextRegistrationResponseList>
 </discoverContextAvailabilityResponse>
-```
-``` json
+```  
+``` 
 {
     "contextRegistrationResponses": [
         {
@@ -213,10 +211,9 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
     ]
 }  
 ```  
-### Subscription  
+#### Subscription  
 
-``` xml 
-
+``` 
 <?xml version="1.0"?>
 <subscribeContextAvailabilityRequest>
   <entityIdList>
@@ -261,9 +258,9 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
     "subscriptionId": "UniS_0AGGEEdSNK"
 }  
 ```  
-### Update  
+#### Update  
 
-``` xml  
+```  
 <?xml version="1.0"?>
 <updateContextAvailabilitySubscriptionRequest>
   <entityIdList>
@@ -276,35 +273,35 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
   <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
 </updateContextAvailabilitySubscriptionRequest>  
 ```  
-```json
+```  
 {
     "entities": [
-    {
-        "type": "Car",
-        "isPattern": "true",
-        "id": ".*"
-    }
+	    {
+	        "type": "Car",
+	        "isPattern": "true",
+	        "id": ".*"
+	    }
     ],
     "duration": "P1M",
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
-```
+```  
 Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** similar to the following:  
-```xml
+```  
 <?xml version="1.0"?>
 <updateContextAvailabilitySubscriptionResponse>
   <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
   <duration>P1M</duration>
 </updateContextAvailabilitySubscriptionResponse>
 ```  
-```json  
+```  
 {
     "duration": "P1M",
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
 ```  
 
-### Notify  
+#### Notify  
 
 ```  
 <?xml version="1.0" encoding="UTF-8"?>
@@ -403,9 +400,44 @@ Result obtained should be a **notifyContextAvailabilityResponse** similar to the
     }
 }
 ```  
+### Convenience Operations  
+#### Registration
+To register Context Entities, this can be done using the URL structure:
 
-## Sense2Web API
-The diagram below illustrates the structure of RESTful API:
+```  
+POST http://{hostname}/ngsi9/contextEntities/{EntityID} 
+```  
+The payload in the body must be a ***registerContextRequest***, as in the register procedure using the standard operation for registration.
+
+#### Discovery  
+Discovery of context entities can be done using different criteria. 
+
+##### ID of Entity  
+This can be done using the URL structure below, where {EntityID} is replaced by the ID of the Context Entity in question.
+```  
+GET http://{hostname}/ngsi9/contextEntities/{EntityID} 
+```  
+The response, as in the standard operation for discovery , will be a ***discoverContextAvailabilityResponse***.
+
+##### Attribute of Entity  
+This can be done using the URL structure below, where {attributeName} is replaced by the attribute of the Context Entity in question.
+```  
+GET http://{hostname}/ngsi9/contextEntities/{EntityID}/attributes/{attributeName}
+```  
+##### Attribute Domain of Entity  
+This can be done using the URL structure below, where {EntityID} is replaced by the attribute domain name of the Context Entity in question.
+```  
+GET http://{hostname}/ngsi9/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}
+``` 
+##### Type of Entity  
+This can be done using the URL structure below, where {typeName} is replaced by the type of the Context Entity in question.
+```  
+GET http://{hostname}/ngsi9/contextEntityTypes/{typeName}
+``` 
+
+
+## Sense2Web API  
+The diagram below illustrates the structure of RESTful API:  
 
 
 ----------
@@ -417,9 +449,9 @@ The diagram below illustrates the structure of RESTful API:
 ----------
 
 
-| Verb  | URI           | Description|
-| ------|:-------------| :-------|
-| GET | //{hostname}/s2w/repository/getVersion | ***getVersion***: returns the current version of the GEi|
+| Verb  | URI           | Description|  
+| ------|:-------------| :-------|  
+| GET | //{hostname}/s2w/repository/getVersion | ***getVersion***: returns the current version of the GEi|  
 | POST  | //{hostname}/s2w/repository/register/iot-a/{descriptionType} |   ***registerMultipleDescriptions***: registers a set of descriptions with the Sense2Web platform. {descriptionType} can be "resource","entity" or "service". The descriptions that are submitted is must conform with the IoT-A ontologies. NOTE for Release 2: This will trigger the training process to be executed, but associations will not be created. |
 | POST  | //{hostname}/s2w/repository/register/iot-a/{descriptionType}/{objectID} | ***registerDescription***: registers a description with the Sense2Web paltform. {descriptionType} can be "resource","entity" or "service". The description that is submitted is must conform with the IoT-A ontologies.
 | GET | //{hostname}/s2w/repository/lookup/iot-a/{descriptionType}/{objectID}?resultFormat={resultFormat} | ***lookupDescription***: looks up a description with a specific ID and retrieves it in a specific format; "RDF/XML", "RDF/JSON", "N3", "N-TRIPLE", "TURTLE".|
@@ -429,19 +461,19 @@ The diagram below illustrates the structure of RESTful API:
 | POST | //{hostname}/s2w/repository/query/sparql/iot-a/{descriptionType}?resultFormat={resultFormat} |   ***queryDescription***: query the repository using SPARQL. The SPARQL query is inserted in the POST payload. "resultFormat" can be "XML", "JSON", "CSV", "TSV"|
 | POST | //{hostname}/s2w/repository/discover/iot-a/{descriptionType} | ***discoverDescription***: discover a description by submitting a template of a particular description type, which contain values as keywords for the search.
 
-### Registration
+### Registration  
 
-In this example, we will register an IoT-A description at the Sense2Web repository using the HTTP method and URL below:
-<pre>
+In this example, we will register an IoT-A description at the Sense2Web repository using the HTTP method and URL below:  
+
+``` 
 POST  -  http://{hostname}/s2w/repository/register/iot-a/resource/Resource_16_BA_02_temperature_sensor
-</pre>
+```  
 We will then retrieve the same description using the HTTP method and URL below:
-<pre>
+```  
 GET -  http://{hostname}/s2w/repository/lookup/iot-a/resource/Resource_16_BA_02_temperature_sensor
-</pre>
+```  
 The POST method will contain in its payload a description that conforms to the IoT-A ontology, such as the one below:  
-``` xml  
-
+```  
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns="http://www.surrey.ac.uk/ccsr/ontologies/ResourceModel.owl#"
@@ -479,7 +511,7 @@ The POST method will contain in its payload a description that conforms to the I
 
 The response, which reports the result of the registration, should be a JSON response with the following format:  
 
-``` json  
+```  
 {
 	"id": "Resource_16_BA_02_temperature_sensor",
 	"type": "resource",
