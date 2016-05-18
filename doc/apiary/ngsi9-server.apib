@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: https://app.apiary.io/ngsi9
 TITLE: IoT Discovery GE Open API Specification
-DATE: 17/05/2016
+DATE: 01 September 2015
 
 # FIWARE NGSI-9 API Core (v1)
 
@@ -313,8 +313,8 @@ object containing a unsubscribeContextAvailabilityRequest message.
   
 ### Notify Context availability operation [POST /{callbackURL}]
 
-This operation is initiated by the You may create your own request using this action. It takes a JSON
-object containing a unsubscribeContextAvailabilityRequest message.
+This operation is initiated by the NGSI-9 server, when a registration match a subscription. It sends a JSON
+object containing a NotifyContextAvailabilityRequest message, and receives from the subscriber a NotifyContextAvailabilityResponse message
 
 + Request (application/json)
 
