@@ -17,7 +17,7 @@ The Standard Operations currently supported are:
 | ------|:-------------| :-------|  
 | POST  | //{hostname}/ngsi9/registerContext | registerContextRequest |  
 | POST  | //{hostname}/ngsi9/discoverContextAvailability |   discoverContextAvailabilityRequest |  
-| POST  | //{serverRoot}/ngsi9/subscribeContextAvailability |    subscribeContextAvailabilityRequest |  
+| POST  | //{hostname}/ngsi9/subscribeContextAvailability |    subscribeContextAvailabilityRequest |  
 | POST  | //{hostname}/ngsi9/updateContextAvailabilitySubscription | updateContextAvailabilitySubscriptionRequest|  
 | POST  | //{hostname}/ngsi9/unsubscribeContextAvailability      |   unsubscribeContextAvailabilityRequest|  
 | POST  | //{callbackUri} | notifyContextAvailabilityRequest |  
