@@ -11,15 +11,6 @@ The subsections below gives an overview of the RESTful API for the NGSI-9 Server
 
 Please refer to the FI-WARE NGSI-9 Open RESTful API [specification][ngsi9-spec] on the details on the API, and also the [NGSI Associations concept][ngsi-associations-concept] for details on how to register and discover associations.  
 
-###Note on Registering Entities and their Attributes:
-
- - The "**isPattern**" field is not used for registrations but rather for discovery requests for Context Entities. 
- - **Attributes** can be specified as **Attribute Domains** by setting the "**isDomain**" field as "**true**".
-
-#### Definitions
-A context **attribute** represents atomic Context Information. An attribute is defined as a set of information, namely a *name*, a *type*, a *value* and a set of associated metadata (e.g. timestamp, expires, source). The attribute *value* is expressed as any content, including strings or opaque objects represented using standard formats.
-An **attribute domain** represents the grouping of multiple attributes. Attribute domains allow requestors to specify a set of attributes of interest using a single string as attribute domain name. Examples of attribute domain are: device info (battery level, screen size, …), location info (position, civil address, …).
-
 The Standard Operations currently supported are:  
 
 | Verb  | URI          | Payload |  
@@ -667,6 +658,14 @@ This can be done using the URL structure below, where {typeName} is replaced by 
 GET http://{hostname}/ngsi9/contextEntityTypes/{typeName}
 ``` 
 
+###Note on Registering Entities and their Attributes:
+
+ - The "**isPattern**" field is not used for registrations but rather for discovery requests for Context Entities. 
+ - **Attributes** can be specified as **Attribute Domains** by setting the "**isDomain**" field as "**true**".
+
+#### Definitions
+A context **attribute** represents atomic Context Information. An attribute is defined as a set of information, namely a *name*, a *type*, a *value* and a set of associated metadata (e.g. timestamp, expires, source). The attribute *value* is expressed as any content, including strings or opaque objects represented using standard formats.  
+An **attribute domain** represents the grouping of multiple attributes. Attribute domains allow requestors to specify a set of attributes of interest using a single string as attribute domain name. Examples of attribute domain are: device info (battery level, screen size, …), location info (position, civil address, …).
 
 ## Sense2Web API  
 The diagram below illustrates the structure of RESTful API:  
