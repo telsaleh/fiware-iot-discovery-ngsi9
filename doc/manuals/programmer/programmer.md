@@ -31,7 +31,6 @@ The Convenience Operations  currently supported are:
 | GET  | //{hostname}/ngsi9/contextEntities/{EntityID} |   N/A |  
 | GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributes |    N/A|  
 | GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributes/{attributeName} | N/A|  
-| GET  | //{hostname}/ngsi9/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}      |   N/A|  
 | GET  | //{hostname}/ngsi9/contextEntityTypes/{typeName}      |   N/A|  
 
 ### Standard Operations  
@@ -647,11 +646,6 @@ This can be done using the URL structure below, where {attributeName} is replace
 ```  
 GET http://{hostname}/ngsi9/contextEntities/{EntityID}/attributes/{attributeName}
 ```  
-##### Attribute Domain of Entity  
-This can be done using the URL structure below, where {EntityID} is replaced by the attribute domain name of the Context Entity in question.
-```  
-GET http://{hostname}/ngsi9/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}
-``` 
 ##### Type of Entity  
 This can be done using the URL structure below, where {typeName} is replaced by the type of the Context Entity in question.
 ```  
@@ -665,7 +659,6 @@ GET http://{hostname}/ngsi9/contextEntityTypes/{typeName}
 
 #### Definitions
 An **attribute** is defined as a set of information, namely a *name*, a *type*, a *value* and a set of associated metadata (e.g. timestamp, expires, source). The attribute *value* is expressed as any content, including strings or opaque objects represented using standard formats.  
-An **attribute domain** represents the grouping of multiple attributes. Attribute domains allow requestors to specify a set of attributes of interest using a single string as attribute domain name. Examples of attribute domain are: device info (battery level, screen size, …), location info (position, civil address, …).
 
 ## Sense2Web API  
 The diagram below illustrates the structure of RESTful API:  
