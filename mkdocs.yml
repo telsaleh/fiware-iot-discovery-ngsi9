@@ -10,6 +10,7 @@ markdown_extensions: [toc,fenced_code]
 theme: readthedocs
 use_directory_urls: false
 extra_css: ["https://fiware.org/style/fiware_readthedocs.css"]
+google_analytics: ['UA-83236805-1', 'fiware-orion.readthedocs.io']
 pages:
 - Home: 'index.md'
 - Installation guide: 'install/install.md'
