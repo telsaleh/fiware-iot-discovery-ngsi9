@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: https://app.apiary.io/ngsi9
 TITLE: IoT Discovery GE Open API Specification
-DATE: 17/05/2016
+DATE: 17/09/2016
 
 # FIWARE NGSI-9 API Core (v1)
 
@@ -12,17 +12,17 @@ The FIWARE version of the OMA NGSI-9 interface is a RESTful API via HTTP. Its pu
 
 ## Editors
 
-  + Tarek Elsaleh, UNIS
+  + Tarek Elsaleh (UNIS)
   
 ## Acknowledgements
 
-Fermin Galan (TID), Tobias Jacobs (NEC), Ken Gunner (TID), Salvatore Longo (NEC)
+Contributers to the NGSI-9 Binding Specification: 
+
+Fermin Galan Marquez(TID), Tobias Jacobs (NEC), Ken Gunner (TID), Salvatore Longo (NEC), Martin Bauer (NEC), Juanjo Hierro (TID), Boris Moltchanov (TI), Laurent Artusio (FT)
 
 ## Versions
 
-+ This Version: http://
-+ Previous version: http://
-+ Latest version: http://
++ This Version: http://docs.ngsi9.apiary.io/
 
 ## Status
 
@@ -58,11 +58,9 @@ The table below gives an overview of the resources for convenience operation and
 |Individual context entity |/contextEntities/{EntityID}|Retrieve information on providers of any information about the context entity|-|Register a provider of information about the entity|-|
 |Attribute container of individual context entity|/contextEntities/{EntityID}/attributes|Retrieve information on providers of any information about the context entity|-|Register a provider of information about the entity|-|
 |Attribute of individual context entity|/contextEntities/{EntityID}/attributes/{attributeName}|Retrieve information on providers of the attribute value|-|Register a provider of information about the attribute|-|
-|Attribute domain of individual context entity|/contextEntities/{EntityID}/attributeDomains/{attributeDomainName}|Retrieve information on providers of information about attribute values from the domain|-|Register a provider of information about attributes from the domain|-|
 |Context entity type|/contextEntityTypes/{typeName}|Retrieve information on providers of any information about context entities of the type|-|Register a provider of information about context entitie of the type|-|
 |Attribute container of entity type|/contextEntityTypes/{typeName}/attributes|Retrieve information on providers of any information about context entities of the type|-|Register a provider of information about context entitie of the type|-|
 |Attribute of entity type|/contextEntityTypes/{typeName}/attributes/{attributeName}|Retrieve information on providers of values of this attribute of context entities of the type|-|Register a provider of information about this attribute of context entities of the type|-|
-|Attribute domain of entity type|/contextEntityTypes/{typeName}/attributeDomains/{attributeDomainName}|Retrieve information on providers of attribute values belonging to the specific domain, where the entity is of the specific type|-|Register a provider of information about attributes belonging to the specific domain, where the entity is of the specific type|-|
 |Availability subscription container|/contextAvailabilitySubscriptions|-|-|Create a new availability subscription|-|
 |Availability subscription|/contextAvailabilitySubscriptions/{subscriptionID}|-|Update subscription|-|Cancel subscription
 
@@ -107,9 +105,7 @@ OMA NGSI defines two interfaces for exchanging information based on the informat
 
 # Group Root
 
-## NGSI-9 API [/]
-
-### Register Context operation [POST /registerContext]
+### Context Registration Resource [POST /registerContext]
 
 You may create your own request using this action. It takes a JSON
 object containing a RegisterContextRequest message.
@@ -182,7 +178,7 @@ object containing a discoverContextAvailabilityRequest message.
         ]
         }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Headers
 
@@ -368,4 +364,397 @@ object containing a NotifyContextAvailabilityRequest message, and receives from 
             "code": "200",
             "reasonPhrase": "OK"
             }
+            }
+            
+# Convenience operations [/]
+
+## Convenience operation - Individual Context Entity    [/contextEntities/{EntityID}]
+
+### Register Context  [POST]
+
+You may create your own request using this action. It takes a JSON
+object containing a RegisterContextRequest message.
+
++ Request (application/json)
+
+        {
+        "contextRegistrations": [
+            {
+            "entities": [
+                {
+                    "type": "Room",
+                    "isPattern": "false",
+                    "id": "Room1"
+                },
+            {
+                "type": "Room",
+                "isPattern": "false",
+                "id": "Room2"
+            }
+                        ],
+            "attributes": [
+                {
+                    "name": "temperature",
+                    "type": "float",
+                    "isDomain": "false"
+          },
+            {
+            "name": "pressure",
+            "type": "integer",
+            "isDomain": "false"
+            }
+                            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            ],
+            "duration": "P1M"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "duration" : "P1M",
+            "registrationId" : "52a744b011f5816465943d58"
+            }
+
+
+### Discover Context [GET]
+
+TODO
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "contextRegistrationResponses": [
+            {
+            "contextRegistration": {
+            "attributes": [
+            {
+              "isDomain": "false",
+              "name": "temperature",
+              "type": "float"
+            }
+            ],
+            "entities": [
+            {
+              "id": "Room1",
+              "isPattern": "false",
+              "type": "Room"
+            }
+            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            }
+            ]
+            }
+            
+## Convenience operation - Attribute Container of Individual Context Entity    [/contextEntities/{EntityID}/attributes]
+
+### Discover Context [GET]
+
+TODO
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "contextRegistrationResponses": [
+            {
+            "contextRegistration": {
+            "attributes": [
+            {
+              "isDomain": "false",
+              "name": "temperature",
+              "type": "float"
+            }
+            ],
+            "entities": [
+            {
+              "id": "Room1",
+              "isPattern": "false",
+              "type": "Room"
+            }
+            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            }
+            ]
+            }
+            
+## Convenience operation - Attribute of Individual Context Entity    [/contextEntities/{EntityID}/attributes/{attributeName}]
+
+### Discover Context [GET]
+
+TODO
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "contextRegistrationResponses": [
+            {
+            "contextRegistration": {
+            "attributes": [
+            {
+              "isDomain": "false",
+              "name": "temperature",
+              "type": "float"
+            }
+            ],
+            "entities": [
+            {
+              "id": "Room1",
+              "isPattern": "false",
+              "type": "Room"
+            }
+            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            }
+            ]
+            }
+            
+## Convenience operation - Context Entity Type    [/contextEntities/ContextEntityType/{typeName}]
+
+### Discover Context [GET]
+
+TODO
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "contextRegistrationResponses": [
+            {
+            "contextRegistration": {
+            "attributes": [
+            {
+              "isDomain": "false",
+              "name": "temperature",
+              "type": "float"
+            }
+            ],
+            "entities": [
+            {
+              "id": "Room1",
+              "isPattern": "false",
+              "type": "Room"
+            }
+            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            }
+            ]
+            }
+
+## Convenience operation - Attribute container of Context Entity Type    [/contextEntityTypes/{typeName}/attributes]
+
+### Discover Context [GET]
+
+TODO
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "contextRegistrationResponses": [
+            {
+            "contextRegistration": {
+            "attributes": [
+            {
+              "isDomain": "false",
+              "name": "temperature",
+              "type": "float"
+            }
+            ],
+            "entities": [
+            {
+              "id": "Room1",
+              "isPattern": "false",
+              "type": "Room"
+            }
+            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            }
+            ]
+            }
+            
+## Convenience operation - Attribute of Context Entity Type    [/contextEntityTypes/{typeName}/attributes/{attributeName}]
+
+### Discover Context [GET]
+
+TODO
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "contextRegistrationResponses": [
+            {
+            "contextRegistration": {
+            "attributes": [
+            {
+              "isDomain": "false",
+              "name": "temperature",
+              "type": "float"
+            }
+            ],
+            "entities": [
+            {
+              "id": "Room1",
+              "isPattern": "false",
+              "type": "Room"
+            }
+            ],
+            "providingApplication": "http://mysensors.com/Rooms"
+            }
+            }
+            ]
+            }
+
+## Convenience operation - Availability Subscription [/contextAvailabilitySubscriptions]
+
+### Create a new availability subscription [POST]
+
+You may create your own request using this action. It takes a JSON
+object containing a subscribeContextAvailability message.
+
++ Request (application/json)
+
+        {
+        "entities": [
+        {
+         "type": "Room",
+         "isPattern": "true",
+         "id": ".*"
+        }
+        ],
+        "attributes": [
+        "temperature"
+        ],
+        "reference": "http://localhost:8080/accumulate",
+        "duration": "P1M"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "duration": "P1M",
+            "subscriptionId": "52a745e011f5816465943d59"
+            }
+
+## Convenience operation - Availability Subscription Container [/contextAvailabilitySubscriptions/{subscriptionID}]
+
+### Update Subscription [PUT]
+
+You may create your own request using this action. It takes a JSON
+object containing a updateContextAvailabilitySubscriptionRequest message.
+
++ Request (application/json)
+
+        {
+        "entities": [
+        {
+         "type": "Room",
+         "isPattern": "true",
+         "id": ".*"
+        }
+        ],
+        "attributes": [
+        "temperature"
+        ],
+        "reference": "http://localhost:8080/accumulate",
+        "duration": "P1M"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "duration": "P1M",
+            "subscriptionId": "52a745e011f5816465943d59"
+            }
+
+### Cancel Subscription [DELETE]
+
+You may create your own request using this action. It takes a JSON
+object containing a updateContextAvailabilitySubscriptionRequest message.
+
++ Request (application/json)
+
+        {
+        "entities": [
+        {
+         "type": "Room",
+         "isPattern": "true",
+         "id": ".*"
+        }
+        ],
+        "attributes": [
+        "temperature"
+        ],
+        "reference": "http://localhost:8080/accumulate",
+        "duration": "P1M"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /ngsi9
+
+    + Body
+
+            {
+            "duration": "P1M",
+            "subscriptionId": "52a745e011f5816465943d59"
             }
