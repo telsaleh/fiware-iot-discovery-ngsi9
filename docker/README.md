@@ -4,7 +4,7 @@ FIWARE - IoT Discovery
 How to use this Dockerfile
 --------------------------
 
-You can build a docker image based on this .
+You can build a docker image based on this.
 
 This image contains both the NGSI-9 server and Sense2Web modules exposed port 8080.
 
