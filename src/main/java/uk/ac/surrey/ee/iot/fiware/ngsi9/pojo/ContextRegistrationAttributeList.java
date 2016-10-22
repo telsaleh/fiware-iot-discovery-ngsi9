@@ -8,65 +8,19 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for ContextRegistrationAttributeList complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="ContextRegistrationAttributeList">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="contextRegistrationAttribute" type="{}ContextRegistrationAttribute" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ContextRegistrationAttributeList")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(name = "ContextRegistrationAttributeList")
 public class ContextRegistrationAttributeList {
 
     //@SerializedName("attributes")
     protected List<ContextRegistrationAttribute> contextRegistrationAttribute;
 
-    /**
-     * Gets the value of the contextRegistrationAttribute property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the contextRegistrationAttribute property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getContextRegistrationAttribute().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ContextRegistrationAttribute }
-     * 
-     * 
-     */
     public List<ContextRegistrationAttribute> getContextRegistrationAttribute() {
         if (contextRegistrationAttribute == null) {
-            contextRegistrationAttribute = new ArrayList<ContextRegistrationAttribute>();
+            contextRegistrationAttribute = new ArrayList<>();
         }
         return this.contextRegistrationAttribute;
     }

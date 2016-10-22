@@ -32,12 +32,9 @@
                     "isDomain": "false",
                     "metadatas": [
                         {
-                            "name": "location",
-                            "type": "point",
-                            "value": {                                
-                                "lat": "51.2",
-                                "lon": "-0.5"
-                            }
+                            "name": "position",
+                            "type": "coords",
+                            "value": "40.418889, -3.691944"
                         }
                     ]
                 }

@@ -83,11 +83,7 @@ public class CoapR03_AvailabilitySubscription extends CoapResource {
 //                 sr = rc.registerXmlHandler(isMsg, acceptType);
 //                 byte[] exiMessage = codeSchemaLess(message);
 //                 response.setPayload(exiMessage);
-                   break;
-                case MediaTypeRegistry.APPLICATION_XML:                    
-                    sr = rc.subscribeXmlHandler(isMsg, acceptType);
-                    response.setPayload(sr.getText());
-                    break;
+                   break;                
                 case MediaTypeRegistry.APPLICATION_JSON:
                     sr = rc.subscribeJsonHandler(isMsg, acceptType);
                     response.setPayload(sr.getText());
@@ -96,7 +92,7 @@ public class CoapR03_AvailabilitySubscription extends CoapResource {
                     response.setPayload("accept types supported: application/exi; application/xml; application/json");
             }            
            
-        } catch (ResourceException | IOException | JAXBException ex) {
+        } catch (ResourceException ex) {
             Logger.getLogger(CoapR03_AvailabilitySubscription.class.getName()).log(Level.SEVERE, null, ex);
         }
             

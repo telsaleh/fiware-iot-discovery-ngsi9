@@ -8,39 +8,14 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for EntityIdList complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="EntityIdList">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="entityId" type="{}EntityId" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EntityIdList")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(name = "EntityIdList")
 public class EntityIdList {
 
-    @XmlElement(required = true)
+//    @XmlElement(required = true)
     protected List<EntityId> entityId;
 
     /**
@@ -64,10 +39,11 @@ public class EntityIdList {
      * {@link EntityId }
      * 
      * 
+     * @return 
      */
     public List<EntityId> getEntityId() {
         if (entityId == null) {
-            entityId = new ArrayList<EntityId>();
+            entityId = new ArrayList<>();
         }
         return this.entityId;
     }

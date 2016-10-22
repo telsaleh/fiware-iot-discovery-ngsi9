@@ -8,6 +8,7 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -15,30 +16,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType; 
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for EntityId complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="EntityId">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *       &lt;attribute name="type" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *       &lt;attribute name="isPattern" type="{http://www.w3.org/2001/XMLSchema}boolean" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EntityId")
+@JsonRootName ("EntityId")
 public class EntityId{
 
     @XmlElement(required = true)

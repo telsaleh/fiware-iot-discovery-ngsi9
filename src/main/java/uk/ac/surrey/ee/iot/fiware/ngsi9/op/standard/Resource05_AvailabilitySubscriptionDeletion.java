@@ -4,8 +4,9 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.UnsubscribeContextAvailabilityResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.UnsubscribeContextAvailabilityRequest;
@@ -16,23 +17,17 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.UnsubscribeMarshaller;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.UpdateContextAvailabilitySubscriptionRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.UpdateContextAvailabilitySubscriptionResponse;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.StorageStartup;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.SubscriptionStoreAccess;
 
 public class Resource05_AvailabilitySubscriptionDeletion extends ServerResource {
-    
+
     @Post //("json:xml")
     public Representation handlePost(Representation entity) throws ResourceException, IOException, JAXBException {
 
@@ -44,7 +39,7 @@ public class Resource05_AvailabilitySubscriptionDeletion extends ServerResource 
         Representation rt = unsubscribeToDescription(entity, acceptType);
         return rt;
     }
-    
+
     public Representation unsubscribeToDescription(Representation entity, String acceptType) throws ResourceException, IOException, JAXBException {
 
         //read NGSI description
@@ -55,109 +50,120 @@ public class Resource05_AvailabilitySubscriptionDeletion extends ServerResource 
 
         //update subscription
         StringRepresentation updSubRespMsg = null;
-        if (contentType.equalsIgnoreCase(MediaType.APPLICATION_JSON.getSubType())) {
+//        if (contentType.equalsIgnoreCase(MediaType.APPLICATION_JSON.getSubType())) {
             //if request payload is JSON
             updSubRespMsg = unsubscribeJsonHandler(description, acceptType);
-        } else {
-            //request payload is XML
-            updSubRespMsg = unsubscribeXmlHandler(description, acceptType);
-        }
+//        } else {
+//            //request payload is XML
+//            updSubRespMsg = unsubscribeXmlHandler(description, acceptType);
+//        }
 
 //        System.out.println("Respose To Send: \n" + regRespMsg.getText() + "\n");
         return updSubRespMsg;
     }
-    
+
     public StringRepresentation unsubscribeJsonHandler(InputStream description, String acceptType) {
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        UnsubscribeContextAvailabilityRequest unsubReq;
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        UnsubscribeContextAvailabilityRequest unsubReq = null;
         UnsubscribeContextAvailabilityResponse unsubResp;
         String subRespMsg = "";
         StringRepresentation regRespSr = new StringRepresentation("");
 
-        Reader jsonReader = new InputStreamReader(description);
-        unsubReq = gson.fromJson(jsonReader, UnsubscribeContextAvailabilityRequest.class);
+        try {
+            //        Reader jsonReader = new InputStreamReader(description);
+            unsubReq = objectMapper.readValue(description, UnsubscribeContextAvailabilityRequest.class);
+        } catch (IOException ex) {
+            Logger.getLogger(Resource05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //        System.out.println("Duration is: "+regReq.getDuration());
 //        System.out.println("getContextRegistrationList is: "+regReq.getContextRegistration());
         unsubResp = unsubscribeContextPojo(unsubReq);
 
-        if (acceptType.equalsIgnoreCase(MediaType.APPLICATION_XML.getSubType())) {
-            UnsubscribeMarshaller subMar = new UnsubscribeMarshaller();
+//        if (acceptType.equalsIgnoreCase(MediaType.APPLICATION_XML.getSubType())) {
+//            UnsubscribeMarshaller subMar = new UnsubscribeMarshaller();
+//            try {
+//                subRespMsg = subMar.marshallResponse(unsubResp);
+//                regRespSr = new StringRepresentation(subRespMsg, MediaType.APPLICATION_XML);
+//            } catch (JAXBException ex) {
+//                Logger.getLogger(Resource05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } else {
             try {
-                subRespMsg = subMar.marshallResponse(unsubResp);
-                regRespSr = new StringRepresentation(subRespMsg, MediaType.APPLICATION_XML);
-            } catch (JAXBException ex) {
+                subRespMsg = objectMapper.writeValueAsString(unsubResp);
+            } catch (JsonProcessingException ex) {
                 Logger.getLogger(Resource05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            subRespMsg = gson.toJson(unsubResp);
             regRespSr = new StringRepresentation(subRespMsg, MediaType.APPLICATION_JSON);
-        }
+//        }
 
         return regRespSr;
     }
-    
-    public StringRepresentation unsubscribeXmlHandler(InputStream description, String acceptType) throws ResourceException, IOException, JAXBException {
 
-        //instantiate registration marshaller/unmarshaller, request, and response
-        UnsubscribeMarshaller subMar = new UnsubscribeMarshaller();
-        UnsubscribeContextAvailabilityRequest subReq;
-        UnsubscribeContextAvailabilityResponse subResp = new UnsubscribeContextAvailabilityResponse();
+//    public StringRepresentation unsubscribeXmlHandler(InputStream description, String acceptType) throws ResourceException, IOException, JAXBException {
+//
+//        //instantiate registration marshaller/unmarshaller, request, and response
+//        UnsubscribeMarshaller subMar = new UnsubscribeMarshaller();
+//        UnsubscribeContextAvailabilityRequest subReq;
+//        UnsubscribeContextAvailabilityResponse subResp = new UnsubscribeContextAvailabilityResponse();
+//
+//        //set status code to default
+//        StatusCode sc = new StatusCode(200, "OK", "Stored");
+//        subResp.setStatusCode(sc);
+//        String subRespString = "";
+//        StringRepresentation subRespMsg = new StringRepresentation("");
+//
+//        //unmarshall XML request
+//        try {
+//            subReq = subMar.unmarshallRequest(description);
+//            System.out.println("Marshalled XML Request: \n" + subMar.marshallRequest(subReq));
+//        } catch (JAXBException | java.lang.ClassCastException je) {
+//            //je.printStackTrace();
+//            System.out.println(je.getLocalizedMessage());
+//            //Error with XML structure, return message
+//            Logger.getLogger(Resource04_AvailabilitySubscriptionUpdate.class.getName()).log(Level.SEVERE, null, je);
+//            sc = new StatusCode(400, "Bad Request", "Error in XML structure");
+//            subResp.setStatusCode(sc);
+//
+//            try {
+//                if (acceptType.equals(MediaType.APPLICATION_JSON.getSubType())) {
+//                    ObjectMapper objectMapper = new ObjectMapper();
+//                    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+//                    subRespString = objectMapper.writeValueAsString(subResp);
+//                    subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_JSON);
+//
+//                } else {
+//                    subRespString = subMar.marshallResponse(subResp);
+//                    subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_XML);
+//                }
+//            } catch (JAXBException ex2) {
+//                Logger.getLogger(Resource05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex2);
+//            }
+//
+//            return subRespMsg;
+//
+//        }
+//
+//        subResp = unsubscribeContextPojo(subReq);
+//
+//        //marshal response message
+//        try {
+//            if (acceptType.equals(MediaType.APPLICATION_JSON.getSubType())) {
+//                ObjectMapper objectMapper = new ObjectMapper();
+//                objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+//                subRespString = objectMapper.writeValueAsString(subResp);
+//                subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_JSON);
+//            } else {
+//                subRespString = subMar.marshallResponse(subResp);
+//                subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_XML);
+//            }
+//        } catch (JAXBException ex2) {
+//            Logger.getLogger(Resource05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex2);
+//        }
+//        return subRespMsg;
+//    }
 
-        //set status code to default
-        StatusCode sc = new StatusCode(200, "OK", "Stored");
-        subResp.setStatusCode(sc);
-        String subRespString = "";
-        StringRepresentation subRespMsg = new StringRepresentation("");
-
-        //unmarshall XML request
-        try {
-            subReq = subMar.unmarshallRequest(description);
-            System.out.println("Marshalled XML Request: \n" + subMar.marshallRequest(subReq));
-        } catch (JAXBException | java.lang.ClassCastException je) {
-            //je.printStackTrace();
-            System.out.println(je.getLocalizedMessage());
-            //Error with XML structure, return message
-            Logger.getLogger(Resource04_AvailabilitySubscriptionUpdate.class.getName()).log(Level.SEVERE, null, je);
-            sc = new StatusCode(400, "Bad Request", "Error in XML structure");
-            subResp.setStatusCode(sc);
-
-            try {
-                if (acceptType.equals(MediaType.APPLICATION_JSON.getSubType())) {
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    subRespString = gson.toJson(subResp);
-                    subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_JSON);
-
-                } else {
-                    subRespString = subMar.marshallResponse(subResp);
-                    subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_XML);
-                }
-            } catch (JAXBException ex2) {
-                Logger.getLogger(Resource05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex2);
-            }
-
-            return subRespMsg;
-
-        }
-
-        subResp = unsubscribeContextPojo(subReq);
-
-        //marshal response message
-        try {
-            if (acceptType.equals(MediaType.APPLICATION_JSON.getSubType())) {
-                Gson gson = new Gson();
-                subRespString = gson.toJson(subResp);
-                subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_JSON);
-            } else {
-                subRespString = subMar.marshallResponse(subResp);
-                subRespMsg = new StringRepresentation(subRespString, MediaType.APPLICATION_XML);
-            }
-        } catch (JAXBException ex2) {
-            Logger.getLogger(Resource05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex2);
-        }
-        return subRespMsg;
-    }
-    
     public UnsubscribeContextAvailabilityResponse unsubscribeContextPojo(UnsubscribeContextAvailabilityRequest req) {
 
         //set status code to default
@@ -173,7 +179,7 @@ public class Resource05_AvailabilitySubscriptionDeletion extends ServerResource 
             if (subId.startsWith("UniS_")) {
                 //attempt to delete stored registration with this ID.
                 boolean deleted = SubscriptionStoreAccess.deleteSubscription(subId);
-                if (!deleted) {                    
+                if (!deleted) {
                     // no registration with this ID found
                     sc = new StatusCode(404, "Resource not Found", "No Context Subscription with ID: " + subId);
                     subResp.setStatusCode(sc);
@@ -185,9 +191,9 @@ public class Resource05_AvailabilitySubscriptionDeletion extends ServerResource 
             sc = new StatusCode(400, "Bad Request", "No Subscription ID provided");
             subResp.setStatusCode(sc);
         }
-        
+
         //set Subscription ID
-        subResp.setSubscriptionId(req.getSubscriptionId());        
+        subResp.setSubscriptionId(req.getSubscriptionId());
         return subResp;
     }
 

@@ -4,20 +4,18 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextResponse;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.restlet.data.MediaType;
@@ -26,10 +24,8 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.RegisterMarshaller;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.notify.NotifierAtRegistration;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.StorageStartup;
 
 /**
  * Resource which has only one representation.
@@ -52,6 +48,9 @@ public class Resource01_ContextRegistration extends ServerResource {
 
     public Representation registerDescription(Representation entity, String acceptType) throws ResourceException, IOException, JAXBException {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
         //read NGSI description
         InputStream description = new ByteArrayInputStream(entity.getText().getBytes());
         String contentType = entity.getMediaType().getSubType();
@@ -64,103 +63,51 @@ public class Resource01_ContextRegistration extends ServerResource {
             //if request payload is JSON
             regRespMsg = registerJsonHandler(description, acceptType);
         } else {
-            //request payload is XML
-            regRespMsg = registerXmlHandler(description, acceptType);
-        }
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+            RegisterContextResponse regResp = new RegisterContextResponse();
+            regResp.setErrorCode(new StatusCode(404, "Bad Request", "JSON Content-Type not specified in header"));
+            regRespMsg = new StringRepresentation(objectMapper.writeValueAsString(regResp), MediaType.APPLICATION_JSON);
+        }
 //        System.out.println("Respose To Send: \n" + regRespMsg.getText() + "\n");
         return regRespMsg;
     }
 
     public StringRepresentation registerJsonHandler(InputStream description, String acceptType) {
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        RegisterContextRequest regReq;
-        RegisterContextResponse regResp;
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        RegisterContextRequest regReq = new RegisterContextRequest();
+        RegisterContextResponse regResp = new RegisterContextResponse();
         String regRespMsg = "";
-        StringRepresentation regRespSr = new StringRepresentation("");
+        StringRepresentation regRespSr ;//= new StringRepresentation("");
 
-        Reader jsonReader = new InputStreamReader(description);
-        regReq = gson.fromJson(jsonReader, RegisterContextRequest.class);
-//        System.out.println("Duration is: "+regReq.getDuration());
-//        System.out.println("getContextRegistrationList is: "+regReq.getContextRegistration());
+//        Reader jsonReader = new InputStreamReader(description);
+        try {
+            regReq = objectMapper.readValue(description, RegisterContextRequest.class);
+        } catch (Exception e) {
+            System.out.println("Bad Request: " + e.getLocalizedMessage());
+            regResp.setErrorCode(new StatusCode(404, "Bad Request, Error in body", e.getLocalizedMessage()));
+             try {
+                 regRespMsg = objectMapper.writeValueAsString(regResp);
+             } catch (JsonProcessingException ex) {
+                 Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex);
+             }
+            return new StringRepresentation(regRespMsg, MediaType.APPLICATION_JSON);
+        }
+
         regResp = registerContextPojo(regReq);
 
-        if (acceptType.equalsIgnoreCase(MediaType.APPLICATION_XML.getSubType())) {
-            RegisterMarshaller regMar = new RegisterMarshaller();
-            try {
-                regRespMsg = regMar.marshallResponse(regResp);
-                regRespSr = new StringRepresentation(regRespMsg, MediaType.APPLICATION_XML);
-            } catch (JAXBException ex) {
-                Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            regRespMsg = gson.toJson(regResp);
-            regRespSr = new StringRepresentation(regRespMsg, MediaType.APPLICATION_JSON);
-        }
+        
+             try {
+                 regRespMsg = objectMapper.writeValueAsString(regResp);
+             } catch (JsonProcessingException ex) {
+                 Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex);
+             }
+            regRespSr = new StringRepresentation(regRespMsg, MediaType.APPLICATION_JSON);       
 
         return regRespSr;
-    }
-
-    public StringRepresentation registerXmlHandler(InputStream description, String acceptType) throws ResourceException, IOException, JAXBException {
-
-        //instantiate registration marshaller/unmarshaller, request, and response
-        RegisterMarshaller regMar = new RegisterMarshaller();
-        RegisterContextRequest regReq;
-        RegisterContextResponse regResp = new RegisterContextResponse();
-
-        //set status code to default
-        StatusCode sc = new StatusCode(200, "OK", "Stored");
-        regResp.setErrorCode(sc);
-        String regRespString = "";
-        StringRepresentation regRespMsg = new StringRepresentation("");
-
-        //unmarshall XML request
-        try {
-            regReq = regMar.unmarshallRequest(description);
-            System.out.println("Marshalled XML Request: \n" + regMar.marshallRequest(regReq));
-        } catch (JAXBException | java.lang.ClassCastException je) {
-            //je.printStackTrace();
-            System.out.println(je.getLocalizedMessage());
-            //Error with XML structure, return message
-            Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, je);
-            sc = new StatusCode(400, "Bad Request", "Error in XML structure");
-            regResp.setErrorCode(sc);
-
-            try {
-                if (acceptType.equals(MediaType.APPLICATION_JSON.getSubType())) {
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    regRespString = gson.toJson(regResp);
-                    regRespMsg = new StringRepresentation(regRespString, MediaType.APPLICATION_JSON);
-
-                } else {
-                    regRespString = regMar.marshallResponse(regResp);
-                    regRespMsg = new StringRepresentation(regRespString, MediaType.APPLICATION_XML);
-                }
-            } catch (JAXBException ex2) {
-                Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex2);
-            }
-
-            return regRespMsg;
-
-        }
-
-        regResp = registerContextPojo(regReq);
-
-        //marshal response message
-        try {
-            if (acceptType.equals(MediaType.APPLICATION_JSON.getSubType())) {
-                Gson gson = new Gson();
-                regRespString = gson.toJson(regResp);
-                regRespMsg = new StringRepresentation(regRespString, MediaType.APPLICATION_JSON);
-            } else {
-                regRespString = regMar.marshallResponse(regResp);
-                regRespMsg = new StringRepresentation(regRespString, MediaType.APPLICATION_XML);
-            }
-        } catch (JAXBException ex2) {
-            Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex2);
-        }
-        return regRespMsg;
     }
 
     public RegisterContextResponse registerContextPojo(RegisterContextRequest req) {

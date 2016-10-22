@@ -8,56 +8,54 @@ package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import javax.xml.bind.annotation.*;
 
-@JsonRootName("contextMetadata")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = ContextMetadataAssociation.class, name = "ContextMetadataAssociation"),
-    @JsonSubTypes.Type(value = ContextMetadataString.class, name = "ContextMetadataString")}
-)
 
-public class ContextMetadata {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ContextMetadata")
+@XmlRootElement(name = "contextMetadata")
+@JsonRootName ("contextMetadata")
+//@XmlSeeAlso (value={ContextMetadataString.class,ContextMetadataObject.class})
+public class ContextMetadataString extends ContextMetadata {
 
+    @XmlElement(name = "name", required = true)
     protected String name;
+    @XmlElement(name = "type", required = true)
+    @XmlSchemaType(name = "anyURI")
     protected String type;
-    protected Object value;
+    @XmlElement(name="value", required = true)
+    protected String value;
 
-    public Object getValue() {
+    @Override
+    public String getValue() {
         System.out.println("hi getValue");
+        
         return value;
     }
 
-    public void setValue(Object value) {
-        this.value = value;
-
+    public void setValue(String value) {
+        
+         this.value = value;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public void setType(String type) {
         this.type = type;
     }
-
-//    @Override public String toString() {
-//        return "ContextMetadata{" +
-//                "name='" + name + '\'' +
-//                ", type='" + type + '\'' +
-//                ", value=" + value +
-//                '}';
-//    }
-//    public Value getValue() {
-//        return value;
-//    }
-//    public void setValue(Value value) {
-//        this.value = value;
-//    }
+    
 }

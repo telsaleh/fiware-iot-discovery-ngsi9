@@ -5,14 +5,15 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.query.Predicate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Association;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationAttribute;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.EntityId;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Value;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.Association;
 
 public class RegisterStoreAccess {
 
@@ -129,6 +130,8 @@ public class RegisterStoreAccess {
 
         results = db.query(new Predicate<RegisterContextRequest>() {
             public boolean match(RegisterContextRequest req) {
+                
+                ObjectMapper objectMapper = new ObjectMapper();                
 
                 final int contRegListSize = req.getContextRegistration().size();
                 //System.out.println("contRegListSize: " + contRegListSize);
@@ -145,8 +148,12 @@ public class RegisterStoreAccess {
 
                         String scopeValueEId = "";
                         ArrayList<String> scopeValueAttr = new ArrayList<>();
-                        Value association = (Value) req.getContextRegistration().get(i)
+                        
+                        LinkedHashMap assocLHMap= (LinkedHashMap) req.getContextRegistration().get(i)
                                 .getContextMetadata().get(j).getValue();
+                        Association association =  (Association) objectMapper.convertValue(assocLHMap, Association.class);
+//                        Association association = (Association) req.getContextRegistration().get(i)
+//                                .getContextMetadata().get(j).getValue();
                         int attrListSize = association.getAttributeAssociation().size();
 
                         //check if operation scope is "Association"
@@ -157,7 +164,7 @@ public class RegisterStoreAccess {
 
                             if (scopeValueType.equalsIgnoreCase("SOURCES")) {
 
-                                scopeValueEId = association./*getEntityAssociation().*/getTargetEntityId().getId();
+                                scopeValueEId = association.getTargetEntityId().getId();
 //                                System.out.println("target eid is: " + scopeValueEId);
                                 for (int k = 0; k < attrListSize; k++) {
                                     String scopeValueAttrString = association.getAttributeAssociation().get(k).getTargetAttribute();
@@ -166,7 +173,7 @@ public class RegisterStoreAccess {
 
                             } else if (scopeValueType.equalsIgnoreCase("TARGETS")) {
 
-                                scopeValueEId = association./*getEntityAssociation().*/getSourceEntityId().getId();
+                                scopeValueEId = association.getSourceEntityId().getId();
 //                                System.out.println("source eid is: " + scopeValueEId);
                                 for (int k = 0; k < attrListSize; k++) {
                                     String scopeValueAttrString = association.getAttributeAssociation().get(k).getSourceAttribute();

@@ -315,14 +315,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EntityAssociation }
-     * 
-     */
-    public EntityAssociation createEntityAssociation() {
-        return new EntityAssociation();
-    }
-
-    /**
      * Create an instance of {@link AttributeAssociationList }
      * 
      */
@@ -403,8 +395,8 @@ public class ObjectFactory {
         return new Association();
     } 
     
-    public Value createValue() {
-        return new Value();
+    public Association createValue() {
+        return new Association();
     } 
 
     /**
@@ -682,8 +674,8 @@ public class ObjectFactory {
 //    }
     
     @XmlElementDecl(namespace = "", name = "value")
-    public JAXBElement<Value> createValue(Value value) {
-        return new JAXBElement<>(_Value_QNAME, Value.class, null, value);
+    public JAXBElement<Association> createValue(Association value) {
+        return new JAXBElement<>(_Value_QNAME, Association.class, null, value);
     }
 
 }

@@ -8,42 +8,14 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import com.google.gson.annotations.SerializedName;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType; 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-/**
- * <p>Java class for AttributeAssociation complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="AttributeAssociation">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="sourceAttribute" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="targetAttribute" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AttributeAssociation")
 public class AttributeAssociation {
 
-    @XmlElement(required = true)
-    @SerializedName("source")
+   
+    @JsonProperty ("source")
     protected String sourceAttribute;
-    @XmlElement(required = true)
-    @SerializedName("target")
+    @JsonProperty ("target")
     protected String targetAttribute;
 
     /**

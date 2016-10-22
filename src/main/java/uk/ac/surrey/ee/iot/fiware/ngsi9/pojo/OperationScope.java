@@ -8,23 +8,18 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OperationScope")
 public class OperationScope {
 
-    @XmlElement(required = true)
+    @JsonProperty("type")
     protected String scopeType;
-    @XmlElement(required = true)
-    protected String scopeValue;
+    @JsonProperty("value")
+    protected Object scopeValue;
     
     public OperationScope(){}
     
-    public OperationScope(String scopeType, String scopeValue){
+    public OperationScope(String scopeType, Object scopeValue){
     
         this.scopeType=scopeType;
         this.scopeValue=scopeValue;
@@ -62,7 +57,7 @@ public class OperationScope {
      *     {@link String }
      *     
      */
-    public String getScopeValue() {
+    public Object getScopeValue() {
         return scopeValue;
     }
 
@@ -74,7 +69,7 @@ public class OperationScope {
      *     {@link String }
      *     
      */
-    public void setScopeValue(String value) {
+    public void setScopeValue(Object value) {
         this.scopeValue = value;
     }
 

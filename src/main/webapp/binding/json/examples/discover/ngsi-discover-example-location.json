@@ -1,0 +1,45 @@
+{
+    "entities": [
+        {
+            "type": "Room",
+            "isPattern": "false",
+            "id": "Room2"
+        }
+    ],
+    "attributes": [
+        "temperature"
+    ],
+    "restriction": {
+        "scopes": [
+            {
+                "type": "IncludeAssociations",
+                "value": "SOURCES"
+            },
+            {
+                "type": "FIWARE::Location",
+                "value": {                    
+                    "polygon": {                        
+                        "vertices": [
+                            {
+                                "latitude": "0",
+                                "longitude": "0"
+                            },
+                            {
+                                "latitude": "0",
+                                "longitude": "6"
+                            },
+                            {
+                                "latitude": "6",
+                                "longitude": "6"
+                            },
+                            {
+                                "latitude": "6",
+                                "longitude": "0"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

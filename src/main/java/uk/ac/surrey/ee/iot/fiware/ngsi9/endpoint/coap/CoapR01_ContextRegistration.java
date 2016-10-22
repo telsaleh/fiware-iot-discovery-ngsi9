@@ -75,18 +75,8 @@ public class CoapR01_ContextRegistration extends CoapResource {
             StringRepresentation sr = new StringRepresentation("");
             
             try {
-            switch (contentType){
+            switch (contentType){               
                 
-                case MediaTypeRegistry.APPLICATION_EXI:
-//              decode first! TODO
-//                 sr = rc.registerXmlHandler(isMsg, acceptType);
-//                 byte[] exiMessage = codeSchemaLess(message);
-//                 response.setPayload(exiMessage);
-                   break;
-                case MediaTypeRegistry.APPLICATION_XML:                    
-                    sr = rc.registerXmlHandler(isMsg, acceptType);
-                    response.setPayload(sr.getText());
-                    break;
                 case MediaTypeRegistry.APPLICATION_JSON:
                     sr = rc.registerJsonHandler(isMsg, acceptType);
                     response.setPayload(sr.getText());
@@ -95,7 +85,7 @@ public class CoapR01_ContextRegistration extends CoapResource {
                     response.setPayload("accept types supported: application/exi; application/xml; application/json");
             }            
            
-        } catch (ResourceException | IOException | JAXBException ex) {
+        } catch (ResourceException ex) {
             Logger.getLogger(CoapR01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex);
         }
             

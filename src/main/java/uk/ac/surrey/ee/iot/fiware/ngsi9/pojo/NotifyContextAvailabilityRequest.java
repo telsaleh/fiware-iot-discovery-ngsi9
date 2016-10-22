@@ -8,45 +8,18 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for NotifyContextAvailabilityRequest complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="NotifyContextAvailabilityRequest">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="subscriptionId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="contextRegistrationResponseList" type="{}ContextRegistrationResponseList" minOccurs="0"/>
- *         &lt;element name="errorCode" type="{}StatusCode" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NotifyContextAvailabilityRequest")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(name = "NotifyContextAvailabilityRequest")
 public class NotifyContextAvailabilityRequest{
 
-    @XmlElement(required = true)
+//    @XmlElement(required = true)
     protected String subscriptionId;
-    @XmlElementWrapper(name="contextRegistrationResponseList")
-    @SerializedName("contextRegistrationResponses")
+//    @XmlElementWrapper(name="contextRegistrationResponseList")
+    @JsonProperty("contextRegistrationResponses")
 //   protected ContextRegistrationResponseList contextRegistrationResponseList;
     protected List<ContextRegistrationResponse> contextRegistrationResponse;
     protected StatusCode errorCode;

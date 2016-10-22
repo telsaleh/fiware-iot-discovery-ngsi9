@@ -31,17 +31,14 @@
 package uk.ac.surrey.ee.iot.fiware.ngsi9.endpoint.coap;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.*;
-import javax.xml.bind.JAXBException;
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.coap.*;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.restlet.data.MediaType;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ResourceException;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource01_ContextRegistration;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource04_AvailabilitySubscriptionUpdate;
 
 public class CoapR04_AvailabilitySubscriptionUpdate extends CoapResource {
@@ -84,19 +81,15 @@ public class CoapR04_AvailabilitySubscriptionUpdate extends CoapResource {
 //                 byte[] exiMessage = codeSchemaLess(message);
 //                 response.setPayload(exiMessage);
                    break;
-                case MediaTypeRegistry.APPLICATION_XML:                    
-                    sr = rc.subscribeXmlHandler(isMsg, acceptType);
-                    response.setPayload(sr.getText());
-                    break;
                 case MediaTypeRegistry.APPLICATION_JSON:
                     sr = rc.subscribeJsonHandler(isMsg, acceptType);
                     response.setPayload(sr.getText());
                     break;
                 default: 
-                    response.setPayload("accept types supported: application/exi; application/xml; application/json");
+                    response.setPayload("accept types supported: application/json");
             }            
            
-        } catch (ResourceException | IOException | JAXBException ex) {
+        } catch (ResourceException ex) {
             Logger.getLogger(CoapR04_AvailabilitySubscriptionUpdate.class.getName()).log(Level.SEVERE, null, ex);
         }
             

@@ -1,35 +1,6 @@
-{
-    "subscriptionId": "52a745e011f5816465943d59",
-    "contextRegistrationResponses": [
-        {
-            "contextRegistration": {
-                "entities": [
-                    {
-                        "type": "Car",
-                        "isPattern": "false",
-                        "id": "Car2"
-                    }
-                ],
-                "attributes": [
-                    {
-                        "name": "location",
-                        "type": "ISO6709",
-                        "isDomain": "false",
-                        "metadatas": [
-                            {
-                                "name": "accuracy",
-                                "type": "float",
-                                "value": "0.8"
-                            }
-                        ]
-                    }
-                ],
-                "providingApplication": "http://mysensors.com/Cars"
-            }
-        }
-    ],
+{    
     "statusCode": {
-        "code": "404",
-        "reasonPhrase": "No context elements found"
+        "code": "200",
+        "reasonPhrase": "OK"
     }
 }

@@ -8,55 +8,25 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo; 
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for ContextRegistration complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="ContextRegistration">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="entityIdList" type="{}EntityIdList" minOccurs="0"/>
- *         &lt;element name="contextRegistrationAttributeList" type="{}ContextRegistrationAttributeList" minOccurs="0"/>
- *         &lt;element name="registrationMetadata" type="{}RegistrationMetadata" minOccurs="0"/>
- *         &lt;element name="providingApplication" type="{http://www.w3.org/2001/XMLSchema}anyURI"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ContextRegistration")
+@JsonRootName ("ContextRegistration")
 public class ContextRegistration {  
 
-    @XmlElementWrapper(name="entityIdList")
-    @SerializedName("entities")
+    @JsonProperty ("entities")
+//    @XmlElementWrapper(name="entityIdList")
     protected List<EntityId> entityId;
-    @XmlElementWrapper(name="contextRegistrationAttributeList")
-    @SerializedName("attributes")
+//    @XmlElementWrapper(name="contextRegistrationAttributeList")
+    @JsonProperty ("attributes")
     protected List<ContextRegistrationAttribute> contextRegistrationAttribute;    
-    @XmlElementWrapper(name="registrationMetadata")
-    @SerializedName("metadatas")
+//    @XmlElementWrapper(name="registrationMetadata")
+    @JsonProperty ("metadatas")
     protected List<ContextMetadata> contextMetadata;
-    @XmlElement(required = true)
-    @XmlSchemaType(name = "anyURI")
+//    @XmlElement(required = true)
+//    @XmlSchemaType(name = "anyURI")
     protected String providingApplication;
     
     

@@ -4,12 +4,11 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.convenience;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import javax.xml.bind.JAXBException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
@@ -58,8 +57,9 @@ public class Resource10_AvailabilitySubscription extends ServerResource {
         
         UnsubscribeContextAvailabilityRequest ucar = new UnsubscribeContextAvailabilityRequest();
         ucar.setSubscriptionId(subsId);        
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        InputStream stream = new ByteArrayInputStream(gson.toJson(ucar).getBytes(StandardCharsets.UTF_8));
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        InputStream stream = new ByteArrayInputStream(objectMapper.writeValueAsBytes(ucar));
 
         Resource05_AvailabilitySubscriptionDeletion ras = new Resource05_AvailabilitySubscriptionDeletion();
         StringRepresentation result = ras.unsubscribeJsonHandler(stream, acceptType);

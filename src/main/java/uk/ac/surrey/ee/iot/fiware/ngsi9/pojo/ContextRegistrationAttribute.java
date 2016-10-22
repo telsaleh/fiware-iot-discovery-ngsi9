@@ -4,62 +4,29 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2013.09.25 at 06:50:50 PM BST 
 //
-
-
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlType; 
 
-
-/**
- * <p>Java class for ContextRegistrationAttribute complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="ContextRegistrationAttribute">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="type" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="isDomain" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="metadata" type="{}ContextMetadataList" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ContextRegistrationAttribute")
+@JsonRootName("EntityId")
 public class ContextRegistrationAttribute {
 
-    @XmlElement(required = true)
+//    @XmlElement(required = true)
     protected String name;
     protected String type;
     protected boolean isDomain;
-     @XmlElementWrapper(name="metadata")
-     @SerializedName("metadatas")
+//    @XmlElementWrapper(name = "metadata")
+    @JsonProperty("metadatas")
     protected List<ContextMetadata> contextMetadata;
 
     /**
      * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getName() {
         return name;
@@ -67,11 +34,9 @@ public class ContextRegistrationAttribute {
 
     /**
      * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setName(String value) {
         this.name = value;
@@ -79,11 +44,9 @@ public class ContextRegistrationAttribute {
 
     /**
      * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getType() {
         return type;
@@ -91,11 +54,9 @@ public class ContextRegistrationAttribute {
 
     /**
      * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setType(String value) {
         this.type = value;
@@ -103,7 +64,7 @@ public class ContextRegistrationAttribute {
 
     /**
      * Gets the value of the isDomain property.
-     * 
+     *
      */
     public boolean isIsDomain() {
         return isDomain;
@@ -111,7 +72,7 @@ public class ContextRegistrationAttribute {
 
     /**
      * Sets the value of the isDomain property.
-     * 
+     *
      */
     public void setIsDomain(boolean value) {
         this.isDomain = value;
@@ -119,23 +80,18 @@ public class ContextRegistrationAttribute {
 
     /**
      * Gets the value of the metadata property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ContextMetadataList }
-     *     
+     *
+     * @return possible object is {@link ContextMetadataList }
+     *
      */
 //    public ContextMetadataList getMetadata() {
 //        return metadata;
 //    }
-
     /**
      * Sets the value of the metadata property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ContextMetadataList }
-     *     
+     *
+     * @param value allowed object is {@link ContextMetadataList }
+     *
      */
 //    public void setMetadata(ContextMetadataList value) {
 //        this.metadata = value;

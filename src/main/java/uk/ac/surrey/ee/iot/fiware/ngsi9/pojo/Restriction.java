@@ -8,21 +8,14 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlType;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Restriction")
 public class Restriction {
 
     protected String attributeExpression;
-    @XmlElementWrapper(name="scope")
-    @SerializedName("scopes")    
+    @JsonProperty("scopes")
     protected List<OperationScope> operationScope;
 
     /**
@@ -59,7 +52,7 @@ public class Restriction {
      */
     public List<OperationScope> getOperationScope() {
         if (operationScope == null) {
-            operationScope = new ArrayList<OperationScope>();
+            operationScope = new ArrayList<>();
         }
         return this.operationScope;
     }

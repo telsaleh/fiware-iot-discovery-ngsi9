@@ -4,13 +4,13 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.convenience;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.DiscoveryContextAvailabilityResponse;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.ContextRegistrationResponseList;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.DiscoveryMarshaller;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +21,6 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource01_ContextRegistration;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterResultFilter;
 
 /**
@@ -59,30 +58,18 @@ public class Resource05_Type extends ServerResource {
             sc = new StatusCode(500,"Internal Error","result");            
         }
         discResp.setErrorCode(sc);
-        String acceptType = "";
-        int size = getClientInfo().getAcceptedMediaTypes().size();
-        if (size > 0) {
-            acceptType = getClientInfo().getAcceptedMediaTypes().get(0).getMetadata().getSubType();
-        }
 
         StringRepresentation discRespSr = new StringRepresentation("");
         String discRespMsg = "";
 
-        if (acceptType.equalsIgnoreCase(MediaType.APPLICATION_JSON.getSubType())) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            discRespMsg = gson.toJson(discResp);
-            discRespSr = new StringRepresentation(discRespMsg, MediaType.APPLICATION_JSON);
-        } else {
-            DiscoveryMarshaller discMar = new DiscoveryMarshaller();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
             try {
-                discRespMsg = discMar.marshallResponse(discResp);
-                discRespSr = new StringRepresentation(discRespMsg, MediaType.APPLICATION_XML);
-            } catch (JAXBException ex) {
-                Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex);
+                discRespMsg = objectMapper.writeValueAsString(discResp);
+            } catch (JsonProcessingException ex) {
+                Logger.getLogger(Resource05_Type.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-
-//        System.out.println("Response To Send: \n" + discRespMsg);
+            discRespSr = new StringRepresentation(discRespMsg, MediaType.APPLICATION_JSON);
 
         return discRespSr;
 

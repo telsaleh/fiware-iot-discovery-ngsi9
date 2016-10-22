@@ -41,8 +41,6 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.restlet.data.MediaType;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ResourceException;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource01_ContextRegistration;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource04_AvailabilitySubscriptionUpdate;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource05_AvailabilitySubscriptionDeletion;
 
 public class CoapR05_AvailabilitySubscriptionDeletion extends CoapResource {
@@ -77,27 +75,17 @@ public class CoapR05_AvailabilitySubscriptionDeletion extends CoapResource {
             StringRepresentation sr = new StringRepresentation("");
             
             try {
-            switch (contentType){
-                
-                case MediaTypeRegistry.APPLICATION_EXI:
-//              decode first! TODO
-//                 sr = rc.registerXmlHandler(isMsg, acceptType);
-//                 byte[] exiMessage = codeSchemaLess(message);
-//                 response.setPayload(exiMessage);
-                   break;
-                case MediaTypeRegistry.APPLICATION_XML:                    
-                    sr = rc.unsubscribeXmlHandler(isMsg, acceptType);
-                    response.setPayload(sr.getText());
-                    break;
+            switch (contentType){                
+                            
                 case MediaTypeRegistry.APPLICATION_JSON:
                     sr = rc.unsubscribeJsonHandler(isMsg, acceptType);
                     response.setPayload(sr.getText());
                     break;
                 default:
-                    response.setPayload("accept types supported: application/exi; application/xml; application/json");
+                    response.setPayload("accept types supported: application/json");
             }            
            
-        } catch (ResourceException | IOException | JAXBException ex) {
+        } catch (ResourceException ex) {
             Logger.getLogger(CoapR05_AvailabilitySubscriptionDeletion.class.getName()).log(Level.SEVERE, null, ex);
         }
             

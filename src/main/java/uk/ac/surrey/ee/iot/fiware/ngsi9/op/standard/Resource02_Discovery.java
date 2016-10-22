@@ -4,25 +4,28 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.DiscoveryMarshaller;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.*;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterResultFilter;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.storage.db4o.RegisterStoreAccess;
@@ -37,9 +40,9 @@ public class Resource02_Discovery extends ServerResource {
 
         String acceptType = "";
         int atSize = 0;
-        try{
-        atSize = getClientInfo().getAcceptedMediaTypes().size();
-        }catch (NullPointerException npe){
+        try {
+            atSize = getClientInfo().getAcceptedMediaTypes().size();
+        } catch (NullPointerException npe) {
             npe.printStackTrace();
         }
         if (atSize > 0) {
@@ -54,17 +57,16 @@ public class Resource02_Discovery extends ServerResource {
         //get NGSI discovery request
         InputStream discoveryReq = new ByteArrayInputStream(entity.getText().getBytes());
 
-        StringRepresentation discRespMsg ;//= null;
-        String contentType = entity.getMediaType().getSubType();
-        System.out.println("Content-Type is: " + contentType);
-        System.out.println("Accept: " + acceptType);
-        if (contentType.equalsIgnoreCase(MediaType.APPLICATION_JSON.getSubType())) {
+        StringRepresentation discRespMsg;//= null;
+//        String contentType = entity.getMediaType().getSubType();
+//        System.out.println("Content-Type is: " + contentType);
+//        System.out.println("Accept: " + acceptType);
+//        if (contentType.equalsIgnoreCase(MediaType.APPLICATION_JSON.getSubType())) {
             //if request payload is JSON
             discRespMsg = discoveryJsonHandler(discoveryReq, acceptType);
-        } else {
-            //request payload is XML
-            discRespMsg = discoveryXmlHandler(discoveryReq, acceptType);
-        }
+//        } else {
+//            discRespMsg = discoveryJsonHandler(discoveryReq, acceptType);
+//        }
 
 //        System.out.println("Respose To Send: \n" + discRespMsg.getText() + "\n");
         return discRespMsg;
@@ -72,68 +74,31 @@ public class Resource02_Discovery extends ServerResource {
 
     public StringRepresentation discoveryJsonHandler(InputStream description, String acceptType) {
 
-        DiscoveryContextAvailabilityRequest discReq ;//= new DiscoveryContextAvailabilityRequest();
-        DiscoveryContextAvailabilityResponse discResp ;//= new DiscoveryContextAvailabilityResponse();
-        String discRespMsg ;//= "";
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        StringRepresentation discRespSr = new StringRepresentation("");
-
-        Reader jsonReader = new InputStreamReader(description);
-        discReq = gson.fromJson(jsonReader, DiscoveryContextAvailabilityRequest.class);
+        DiscoveryContextAvailabilityRequest discReq = new DiscoveryContextAvailabilityRequest();//= new DiscoveryContextAvailabilityRequest();
+        DiscoveryContextAvailabilityResponse discResp;//= new DiscoveryContextAvailabilityResponse();
+        String discRespMsg = "";//= "";
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+            //        Reader jsonReader = new InputStreamReader(description);
+            discReq = objectMapper.readValue(description, DiscoveryContextAvailabilityRequest.class);
+        } catch (IOException ex) {
+            Logger.getLogger(Resource02_Discovery.class.getName()).log(Level.SEVERE, null, ex);
+        }
         discResp = parseDiscoveryRequest(discReq);
 
-        if (acceptType.equalsIgnoreCase(MediaType.APPLICATION_XML.getSubType())) {
-            DiscoveryMarshaller discMar = new DiscoveryMarshaller();
-            try {
-                discRespMsg = discMar.marshallResponse(discResp);
-                discRespSr = new StringRepresentation(discRespMsg, MediaType.APPLICATION_XML);
-            } catch (JAXBException ex) {
-                Logger.getLogger(Resource01_ContextRegistration.class.getName()).log(Level.SEVERE, null, ex);
-//                StatusCode sc = new StatusCode(500, "Internal Error", "Cannot serialize response object");
-            }
-        } else {
-            System.out.println("HELLO");
-            discRespMsg = gson.toJson(discResp);
-            discRespSr = new StringRepresentation(discRespMsg, MediaType.APPLICATION_JSON);
+        StringRepresentation discRespSr = new StringRepresentation("");
+
+//            System.out.println("HELLO");
+        try {
+            discRespMsg = objectMapper.writeValueAsString(discResp);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Resource02_Discovery.class.getName()).log(Level.SEVERE, null, ex);
         }
+        discRespSr = new StringRepresentation(discRespMsg, MediaType.APPLICATION_JSON);
 
         return discRespSr;
-
-    }
-
-    public StringRepresentation discoveryXmlHandler(InputStream discoveryReq, String acceptType) throws ResourceException, IOException {
-        //unmarshall request
-        DiscoveryMarshaller discMar = new DiscoveryMarshaller();
-        DiscoveryContextAvailabilityRequest discReq ;//= new DiscoveryContextAvailabilityRequest();
-        DiscoveryContextAvailabilityResponse discResp = new DiscoveryContextAvailabilityResponse();
-        String discRespMsg = "";
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        try {
-            discReq = discMar.unmarshallRequest(discoveryReq);
-//            System.out.println("Received Request: \n" + discMar.marshallRequest(discReq));
-            discResp = parseDiscoveryRequest(discReq);
-            if (acceptType.equalsIgnoreCase(MediaType.APPLICATION_JSON.getSubType())) {
-                discRespMsg = gson.toJson(discResp);
-            } else {
-                discRespMsg = discMar.marshallResponse(discResp);
-            }
-
-        } catch (JAXBException | java.lang.ClassCastException ex) {
-            //request structure invalid
-            Logger.getLogger(Resource02_Discovery.class.getName()).log(Level.SEVERE, null, ex);
-            StatusCode statusCode = new StatusCode(400, "Bad Request", "Error in XML structure");
-            discResp.setErrorCode(statusCode);
-            try {
-                discRespMsg = discMar.marshallResponse(discResp);
-            } catch (JAXBException ex2) {
-                Logger.getLogger(Resource02_Discovery.class.getName()).log(Level.SEVERE, null, ex2);
-            }
-        }
-        StringRepresentation result = new StringRepresentation(discRespMsg);
-        result.setMediaType(MediaType.APPLICATION_XML);
-
-        return result;
     }
 
     public DiscoveryContextAvailabilityResponse parseDiscoveryRequest(DiscoveryContextAvailabilityRequest discReq) {
@@ -142,11 +107,11 @@ public class Resource02_Discovery extends ServerResource {
         //entityId        
         ArrayList<EntityId> discEIdList = new ArrayList<>();
         int discEntityIdListSize = 0;
-        try{
-        discEntityIdListSize = discReq.getEntityId().size();
-        }catch (NullPointerException npe){
-        System.out.println(npe.getMessage());
-        }        
+        try {
+            discEntityIdListSize = discReq.getEntityId().size();
+        } catch (NullPointerException npe) {
+            System.out.println(npe.getMessage());
+        }
         for (int i = 0; i < discEntityIdListSize; i++) {
             EntityId eId = discReq.getEntityId().get(i);
             if (!eId.getId().isEmpty()) {
@@ -157,10 +122,10 @@ public class Resource02_Discovery extends ServerResource {
         //attributes
         ArrayList<String> discAttrList = new ArrayList<>();
         int discAttrListSize = 0;
-        try{
-        discAttrListSize = discReq.getAttribute().size();
-        }catch (NullPointerException npe){
-        System.out.println(npe.getMessage());
+        try {
+            discAttrListSize = discReq.getAttribute().size();
+        } catch (NullPointerException npe) {
+            System.out.println(npe.getMessage());
         }
         for (int i = 0; i < discAttrListSize; i++) {
             String discAttrId = discReq.getAttribute().get(i);
@@ -172,10 +137,10 @@ public class Resource02_Discovery extends ServerResource {
         //operation scopes
         ArrayList<OperationScope> opScopeList = new ArrayList<>();
         int opScopeListSize = 0;
-        try{
-        opScopeListSize = discReq.getRestriction().getOperationScope().size();
-        }catch (NullPointerException npe){
-        System.out.println(npe.getMessage());
+        try {
+            opScopeListSize = discReq.getRestriction().getOperationScope().size();
+        } catch (NullPointerException npe) {
+            System.out.println(npe.getMessage());
         }
         for (int i = 0; i < opScopeListSize; i++) {
             OperationScope opScope = discReq.getRestriction().getOperationScope().get(i);
@@ -184,7 +149,7 @@ public class Resource02_Discovery extends ServerResource {
             }
         }
 
-        DiscoveryContextAvailabilityResponse discRespMsg ;//= new DiscoveryContextAvailabilityResponse();
+        DiscoveryContextAvailabilityResponse discRespMsg;//= new DiscoveryContextAvailabilityResponse();
         //process discovery request
         discRespMsg = discoverContext(discEIdList, discAttrList, opScopeList);
         return discRespMsg;
@@ -204,14 +169,14 @@ public class Resource02_Discovery extends ServerResource {
 
         try {
             //create context registration response and response list            
-            ContextRegistrationResponse crr ;
+            ContextRegistrationResponse crr;
             List<ContextRegistrationResponse> crrl = new ArrayList<>();
 
             for (EntityId entityId : entityIdList) {
                 try {
                     //...discovery request is for context provider
                     //retreive using IDs
-                    List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);                    
+                    List<RegisterContextRequest> eIdResults = RegisterStoreAccess.getRegByEntityID(entityId, attributeList);
                     //retrieve using attributes
                     crr = regFilter.getCrrContainsEIdAttr(eIdResults, entityId, attributeList);
                     crr = regFilter.removeSharedEntityID(crr, entityIdList);
@@ -225,6 +190,13 @@ public class Resource02_Discovery extends ServerResource {
                         if (opScope.getScopeType().equalsIgnoreCase("IncludeAssociations")) {
 
                             crrl = includeAssociations(crrl, opScope, entityId, attributeList);
+                        }
+                        if (opScope.getScopeType().equalsIgnoreCase("FIWARE::Location")) {
+
+                            crrl = geolocate(crrl, opScope, entityId, attributeList);
+                        } else if (opScope.getScopeType().equalsIgnoreCase("Search")) {
+
+                            crrl = probabilisticSearch(crrl, opScope, entityId, attributeList);
                         }
                     }
                 }
@@ -252,27 +224,32 @@ public class Resource02_Discovery extends ServerResource {
 
     public List<ContextRegistrationResponse> includeAssociations(List<ContextRegistrationResponse> crrl, OperationScope opScope, EntityId discEId, ArrayList<String> discAttrList) {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+
         //instantiate registration filter
         RegisterResultFilter regFilter = new RegisterResultFilter();
-
         ContextRegistrationResponse crr = new ContextRegistrationResponse();
 
         //retrieve using entity ID, attribute, and association
-        String scopeValue = opScope.getScopeValue();
+        String scopeValue = (String) opScope.getScopeValue();
         List<RegisterContextRequest> assocResults;
         assocResults = RegisterStoreAccess.getAssociations(discEId, scopeValue, discAttrList);
         EntityId entityAssocId = new EntityId();
         for (RegisterContextRequest assocResult : assocResults) {
-            
+
             int regMetaSize = assocResult.getContextRegistration().size();
             for (int i = 0; i < regMetaSize; i++) {
-                
+
                 int contMetaSize = assocResult.getContextRegistration().size();
                 for (int j = 0; j < contMetaSize; j++) {
-                    Value association = (Value) assocResult.getContextRegistration().get(i).getContextMetadata().get(j).getValue();
+
+//                    Association association = (Association) assocResult.getContextRegistration().get(i).getContextMetadata().get(j).getValue();
+                    LinkedHashMap assocLHashMap = (LinkedHashMap) assocResult.getContextRegistration().get(i).getContextMetadata().get(j).getValue();
+                    Association association = (Association) objectMapper.convertValue(assocLHashMap, Association.class);
+
                     if (scopeValue.equalsIgnoreCase("SOURCES")) {                        //if field specifies "SOURCES", then get the sourceEntityId                        
                         //entityAssocId = assocResult.getContextRegistration().get(i).getContextMetadata().get(j).getValue().getEntityAssociation().getSourceEntityId();
-                        entityAssocId = association./*getEntityAssociation().*/getSourceEntityId(); 
+                        entityAssocId = association./*getEntityAssociation().*/getSourceEntityId();
                         System.out.println("Source ID is: " + entityAssocId.getId());
                     } else if (scopeValue.equalsIgnoreCase("TARGETS")) {
                         //if field specifies "TARGETS", then get the targetEntityId
@@ -292,5 +269,38 @@ public class Resource02_Discovery extends ServerResource {
 
         return crrl;
     }//end includeAssociations
+
+    private List<ContextRegistrationResponse> geolocate(List<ContextRegistrationResponse> crrl, OperationScope opScope, EntityId entityId, ArrayList<String> attributeList) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        //instantiate registration filter
+        RegisterResultFilter regFilter = new RegisterResultFilter();
+        ContextRegistrationResponse crr = new ContextRegistrationResponse();
+
+        LinkedHashMap shapeHMap = (LinkedHashMap) opScope.getScopeValue();
+        Shape ngsiShape = objectMapper.convertValue(shapeHMap, Shape.class);
+        final GeometryFactory gf = new GeometryFactory();
+        Polygon polygon = ngsiShape.getPolygon();
+        if (!(polygon == null)) {
+            final ArrayList<Coordinate> points = new ArrayList<>();
+            int polygonPoints = polygon.getVertices().size();
+            for (int i = 0; i < polygonPoints; i++) {
+                int lat = Integer.getInteger(polygon.getVertices().get(i).getLatitude());
+                int lon = Integer.getInteger(polygon.getVertices().get(i).getLongitude());                
+                points.add(new Coordinate(lat, lon));
+            }
+            Geometry shape = gf.createPolygon(new LinearRing(new CoordinateArraySequence(points.toArray(
+                    new Coordinate[points.size()])), gf), null);
+            
+        }
+
+        return crrl;
+    }
+
+    private List<ContextRegistrationResponse> probabilisticSearch(List<ContextRegistrationResponse> crrl, OperationScope opScope, EntityId entityId, ArrayList<String> attributeList) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

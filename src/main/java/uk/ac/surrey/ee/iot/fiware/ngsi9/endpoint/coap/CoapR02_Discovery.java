@@ -83,11 +83,7 @@ public class CoapR02_Discovery extends CoapResource {
 //                 sr = rc.registerXmlHandler(isMsg, acceptType);
 //                 byte[] exiMessage = codeSchemaLess(message);
 //                 response.setPayload(exiMessage);
-                   break;
-                case MediaTypeRegistry.APPLICATION_XML:                    
-                    sr = rd.discoveryXmlHandler(isMsg, acceptType);
-                    response.setPayload(sr.getText());
-                    break;
+                   break;                
                 case MediaTypeRegistry.APPLICATION_JSON:
                     sr = rd.discoveryJsonHandler(isMsg, acceptType);
                     response.setPayload(sr.getText());
@@ -96,7 +92,7 @@ public class CoapR02_Discovery extends CoapResource {
                     response.setPayload("accept types supported: application/exi; application/xml; application/json");
             }            
            
-        } catch (ResourceException | IOException ex) {
+        } catch (ResourceException ex) {
             Logger.getLogger(CoapR02_Discovery.class.getName()).log(Level.SEVERE, null, ex);
         }
             

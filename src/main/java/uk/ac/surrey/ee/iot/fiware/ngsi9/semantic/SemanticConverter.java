@@ -5,6 +5,8 @@
  */
 package uk.ac.surrey.ee.iot.fiware.ngsi9.semantic;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import static com.hp.hpl.jena.assembler.JA.OntModel;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
@@ -18,7 +20,6 @@ import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import java.util.Map;
 import javax.xml.bind.JAXBException;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.RegisterMarshaller;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
 
 /**
@@ -77,8 +78,14 @@ public class SemanticConverter {
 
         SemanticConverter ri = new SemanticConverter();
 
-        RegisterMarshaller rm = new RegisterMarshaller();
-        RegisterContextRequest rcr = rm.unmarshallRequest(ri.NGSI_FILE);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+         RegisterContextRequest rcr =  new RegisterContextRequest();
+        try {
+            rcr = objectMapper.readValue(ri.NGSI_FILE, RegisterContextRequest.class);
+        } catch (Exception e) {
+            
+        }
         ri.createJenaModel(rcr);
 
 //        //hMap.put("class", "OnDeviceResource"); 

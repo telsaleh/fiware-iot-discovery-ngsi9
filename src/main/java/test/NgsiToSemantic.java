@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import javax.xml.bind.JAXBException;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.RegisterMarshaller;
+//import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.RegisterMarshaller;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
 
 /**
@@ -111,7 +111,7 @@ public class NgsiToSemantic {
     public static void main(String[] args) throws JAXBException {
 
         NgsiToSemantic ri = new NgsiToSemantic();
-        RegisterMarshaller rm = new RegisterMarshaller();
+//        RegisterMarshaller rm = new RegisterMarshaller();
 //        RegisterContextRequest rcr = rm.unmarshallRequest(ri.NGSI_FILE);
 //        rcr.setTimestamp(Instant.now());
 //        ri.createJenaModel(rcr);

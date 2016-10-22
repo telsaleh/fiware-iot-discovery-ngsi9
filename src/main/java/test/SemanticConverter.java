@@ -5,6 +5,9 @@
  */
 package test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.semantic.*;
 import static com.hp.hpl.jena.assembler.JA.OntModel;
 import com.hp.hpl.jena.ontology.Individual;
@@ -19,9 +22,14 @@ import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import java.time.Instant;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
-import uk.ac.surrey.ee.iot.fiware.ngsi9.marshall.RegisterMarshaller;
+import org.restlet.data.MediaType;
+import org.restlet.representation.StringRepresentation;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.op.standard.Resource01_ContextRegistration;
 import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.RegisterContextRequest;
+import uk.ac.surrey.ee.iot.fiware.ngsi9.pojo.StatusCode;
 
 /**
  *
@@ -130,8 +138,15 @@ public class SemanticConverter {
         
         SemanticConverter ri = new SemanticConverter();
         
-        RegisterMarshaller rm = new RegisterMarshaller();
-        RegisterContextRequest rcr = rm.unmarshallRequest(ri.NGSI_FILE);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+         RegisterContextRequest rcr =  new RegisterContextRequest();
+        try {
+            rcr = objectMapper.readValue(ri.NGSI_FILE, RegisterContextRequest.class);
+        } catch (Exception e) {
+            
+        }
+//        RegisterContextRequest rcr = rm.unmarshallRequest(ri.NGSI_FILE);
         rcr.setTimestamp(Instant.now());
         ri.createJenaModel(rcr);
 

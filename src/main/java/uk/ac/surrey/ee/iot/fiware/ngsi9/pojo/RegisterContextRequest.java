@@ -8,7 +8,7 @@
 
 package uk.ac.surrey.ee.iot.fiware.ngsi9.pojo;
 
-import com.google.gson.annotations.*;
+import com.fasterxml.jackson.annotation.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,42 +18,18 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType; 
 
-
-/**
- * <p>Java class for RegisterContextRequest complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="RegisterContextRequest">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="contextRegistrationList" type="{}ContextRegistrationList" minOccurs="0"/>
- *         &lt;element name="duration" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="registrationId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegisterContextRequest")
 @XmlRootElement(name = "registerContextRequest")
-public class RegisterContextRequest {
+@JsonRootName ("registerContextRequest")
 
-    @SerializedName("contextRegistrations")
-    @XmlElementWrapper(name="contextRegistrationList")
-    //protected ContextRegistrationList contextRegistrationList;
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+
+public class RegisterContextRequest {
+    
+    @JsonProperty ("contextRegistrations")
     protected List<ContextRegistration> contextRegistration;
-    @Expose(deserialize = true)
-//    @SerializedName("duration")
     protected String duration;
-    @Expose(deserialize = true)
-//    @SerializedName("registrationId")
     protected String registrationId;
     
     protected Instant timestamp;
