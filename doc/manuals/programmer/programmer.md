@@ -9,7 +9,7 @@ The subsections below gives an overview of the RESTful API for the NGSI-9 Server
 
 ## NGSI-9 API  
 
-Please refer to the FI-WARE NGSI-9 Open RESTful API [specification][ngsi9-spec] on the details on the API, and also the [NGSI Associations concept][ngsi-associations-concept] for details on how to register and discover associations.  
+Please refer to the FIWARE NGSI-9 Open RESTful API [specification][ngsi9-spec] on the details on the API, and also the [NGSI Associations concept][ngsi-associations-concept] for details on how to register and discover associations.  
 
 The Standard Operations currently supported are:  
 
@@ -41,39 +41,7 @@ The first step is to register some Context Entities. So, using a RESTful client,
 ``` POST http://{hostname}/ngsi9/registerContext ```  
 
 The payload as an example can be the following:  
-```  
-    <?xml version="1.0"?>
-    <registerContextRequest>
-      <contextRegistrationList>
-        <contextRegistration>
-          <entityIdList>
-            <entityId type="Room" isPattern="false">
-              <id>Room1</id>
-            </entityId>
-            <entityId type="Room" isPattern="false">
-              <id>Room2</id>
-            </entityId>
-          </entityIdList>
-          <contextRegistrationAttributeList>
-            <contextRegistrationAttribute>
-              <name>temperature</name>
-              <type>float</type>
-              <isDomain>false</isDomain>
-            </contextRegistrationAttribute>
-            <contextRegistrationAttribute>
-              <name>pressure</name>
-              <type>integer</type>
-              <isDomain>false</isDomain>
-            </contextRegistrationAttribute>
-          </contextRegistrationAttributeList>
-        <providingApplication>
-          http://mysensors.com/Rooms
-        </providingApplication>
-      </contextRegistration>
-      </contextRegistrationList>
-      <duration>P1M</duration>
-    </registerContextRequest>  
-```  
+
 ```   
 {
     "contextRegistrations": [
@@ -111,13 +79,6 @@ The payload as an example can be the following:
 
 Result obtained should be a ***registerContextResponse*** similar to the following, whereby the registration number will be randomly generated.  
 
-``` xml  
-<?xml version="1.0"?>
-<registerContextResponse>
-  <duration>P1M</duration>
-  <registrationId>UniS_0AGGEEdSNK</registrationId>
-</registerContextResponse>  
-```  
 ```json  
 {
   "duration" : "P1M",
@@ -126,39 +87,6 @@ Result obtained should be a ***registerContextResponse*** similar to the followi
 ```  
 #### Registration of Associations
 
-```  
-<?xml version="1.0"?>
-  <registerContextRequest>
-    <contextRegistrationList>
-      <contextRegistration>
-        <registrationMetadata>
-          <contextMetadata>
-            <name>right_neighbour</name>
-            <type>Association</type>
-              <value>
-                <entityAssociation>
-                  <sourceEntityId type="Room" isPattern="false">
-                    <id>Room1</id>
-                  </sourceEntityId>
-                  <targetEntityId type="Room" isPattern="false">
-                    <id>Room2</id>
-                  </targetEntityId>
-                </entityAssociation>
-                <attributeAssociationList>
-                  <attributeAssociation>
-                    <sourceAttribute>temperature</sourceAttribute>
-                    <targetAttribute>temperature</targetAttribute>
-                  </attributeAssociation>
-              </attributeAssociationList>
-            </value>
-          </contextMetadata>
-        </registrationMetadata>
-        <providingApplication>http://www.fi-ware.eu/NGSI/association</providingApplication>
-      </contextRegistration>
-    </contextRegistrationList>
-    <duration>P1M</duration>
-</registerContextRequest>
-```  
 ```  
 {
   "contextRegistrations": [
@@ -198,17 +126,7 @@ Result obtained should be a ***registerContextResponse*** similar to the followi
 #### Discovery of Context Entities
 The next step is to discover the availability of a Context Entity. So, using a REST client, we will send a ***discoverContextAvailabilityRequest *** message like the one shown below:  
 ``` POST http://{hostname}/ngsi9/discoverContextAvailability ```  
-```   
-<?xml version="1.0"?>
-<discoverContextAvailabilityRequest>
-  <entityIdList>
-    <entityId type="Room" isPattern="false">
-      <id>Room1</id>
-    </entityId>
-  </entityIdList>
-  <attributeList/>
-</discoverContextAvailabilityRequest>  
-```  
+
 ```   
 {
     "entities": [
@@ -222,35 +140,6 @@ The next step is to discover the availability of a Context Entity. So, using a R
 ```  
 Result obtained should be a ***discoverContextAvailabilityResponse*** similar to the following:  
 
-``` 
-<?xml version="1.0"?>
-<discoverContextAvailabilityResponse>
-  <contextRegistrationResponseList>
-    <contextRegistrationResponse>
-      <contextRegistration>
-        <entityIdList>
-          <entityId type="Room" isPattern="false">
-            <id>Room1</id>
-          </entityId>
-        </entityIdList>
-        <contextRegistrationAttributeList>
-          <contextRegistrationAttribute>
-            <name>temperature</name>
-            <type>float</type>
-            <isDomain>false</isDomain>
-          </contextRegistrationAttribute>
-          <contextRegistrationAttribute>
-            <name>pressure</name>
-            <type>integer</type>
-            <isDomain>false</isDomain>
-          </contextRegistrationAttribute>
-        </contextRegistrationAttributeList>
-        <providingApplication>http://mysensors.com/Rooms</providingApplication>
-      </contextRegistration>
-    </contextRegistrationResponse>
-  </contextRegistrationResponseList>
-</discoverContextAvailabilityResponse>
-```  
 ``` 
 {
     "contextRegistrationResponses": [
@@ -283,27 +172,7 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
 ```  
 
 #### Discovery of Associations  
-```  
-<?xml version="1.0"?>
-<discoverContextAvailabilityRequest>
-  <entityIdList>
-    <entityId type="Room" isPattern="false">
-      <id>Room2</id>
-    </entityId>
-  </entityIdList>
-  <attributeList>
-    <attribute>temperature</attribute>
-  </attributeList>
-  <restriction>
-    <scope>
-      <operationScope>
-        <scopeType>IncludeAssociations</scopeType>
-        <scopeValue>SOURCES</scopeValue>
-      </operationScope>
-    </scope>
-  </restriction>
-</discoverContextAvailabilityRequest>
-```  
+
 ```  
 {
   "entities": [
@@ -327,56 +196,7 @@ Result obtained should be a ***discoverContextAvailabilityResponse*** similar to
 }
 ```  
 The response:
-```  
-<discoverContextAvailabilityResponse>
-  <contextRegistrationResponseList>
-    <contextRegistrationResponse>
-      <contextRegistration>
-        <entityIdList>
-          <entityId type="Room" isPattern="false">
-            <id>Room1</id>
-          </entityId>
-        </entityIdList>
-        <contextRegistrationAttributeList>
-          <contextRegistrationAttribute>
-            <name>temperature</name>
-            <type>float</type>
-            <isDomain>false</isDomain>
-          </contextRegistrationAttribute>
-        </contextRegistrationAttributeList>
-        <providingApplication>http://mysensors.com/Rooms</providingApplication>
-      </contextRegistration>
-    </contextRegistrationResponse>
-    <contextRegistrationResponse>
-      <contextRegistration>
-        <registrationMetadata>
-          <contextMetadata>
-            <name>right_neighbour</name>
-            <type>Association</type>
-            <value>
-              <entityAssociation>
-                <sourceEntityId type="Room" isPattern="false">
-                  <id>Room1</id>
-                </sourceEntityId>
-                <targetEntityId type="Room" isPattern="false">
-                  <id>Room2</id>
-                </targetEntityId>
-              </entityAssociation>
-              <attributeAssociationList>
-                <attributeAssociation>
-                  <sourceAttribute>temperature</sourceAttribute>
-                  <targetAttribute>temperature</targetAttribute>
-                </attributeAssociation>
-              </attributeAssociationList>
-            </value>
-          </contextMetadata>
-        </registrationMetadata>
-        <providingApplication>http://www.fi-ware.eu/NGSI/association</providingApplication>
-      </contextRegistration>
-    </contextRegistrationResponse>
-  </contextRegistrationResponseList>
-</discoverContextAvailabilityResponse>
-```  
+
 ```  
 {
   "contextRegistrationResponses": [
@@ -436,21 +256,6 @@ The response:
 
 #### Subscription  
 
-``` 
-<?xml version="1.0"?>
-<subscribeContextAvailabilityRequest>
-  <entityIdList>
-    <entityId type="Room" isPattern="true">
-      <id>.*</id>
-    </entityId>
-  </entityIdList>
-  <attributeList>
-    <attribute>temperature</attribute>
-  </attributeList>
-  <reference>http://localhost:1028/accumulate</reference>
-  <duration>P1M</duration>
-</subscribeContextAvailabilityRequest>
-```  
 ``` json  
 {
     "entities": [
@@ -468,13 +273,7 @@ The response:
 }  
 ```  
 Result obtained should be a ***subscribeContextAvailabilityResponse*** similar to the following:  
-``` xml  
-<?xml version="1.0"?>
-<subscribeContextAvailabilityResponse>
-  <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
-  <duration>P1M</duration>
-</subscribeContextAvailabilityResponse>
-```  
+  
 ``` json  
 {
     "duration": "P1M",
@@ -483,19 +282,6 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
 ```  
 #### Update  
 
-```  
-<?xml version="1.0"?>
-<updateContextAvailabilitySubscriptionRequest>
-  <entityIdList>
-    <entityId type="Car" isPattern="true">
-      <id>.*</id>
-    </entityId>
-  </entityIdList>
-  <attributeList/>
-  <duration>P1M</duration>
-  <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
-</updateContextAvailabilitySubscriptionRequest>  
-```  
 ```  
 {
     "entities": [
@@ -510,13 +296,7 @@ Result obtained should be a ***subscribeContextAvailabilityResponse*** similar t
 }
 ```  
 Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** similar to the following:  
-```  
-<?xml version="1.0"?>
-<updateContextAvailabilitySubscriptionResponse>
-  <subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
-  <duration>P1M</duration>
-</updateContextAvailabilitySubscriptionResponse>
-```  
+
 ```  
 {
     "duration": "P1M",
@@ -526,45 +306,6 @@ Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** 
 
 #### Notify  
 
-```  
-<?xml version="1.0" encoding="UTF-8"?>
-<notifyContextAvailabilityRequest>
-	<subscriptionId>UniS_0AGGEEdSNK</subscriptionId>
-	<contextRegistrationResponseList>
-		<contextRegistrationResponse>
-			<contextRegistration>
-				<entityIdList>
-					<entityId type="Room" isPattern="false">
-						<id>ConferenceRoom</id>						
-					</entityId>
-					<entityId type="Room" isPattern="false">
-						<id>OfficeRoom</id>						
-					</entityId>
-				</entityIdList>
-				<contextRegistrationAttributeList>
-					<contextRegistrationAttribute>
-						<name>temperature</name>
-						<type>float</type>
-						<isDomain>false</isDomain>
-						<metadata>
-							<contextMetadata>
-								<name>accuracy</name>
-								<type>float</type>
-								<value>0.8</value>
-							</contextMetadata>							
-						</metadata>
-					</contextRegistrationAttribute>
-				</contextRegistrationAttributeList>
-				<registrationMetadata>									
-				</registrationMetadata>
-				<providingApplication>http://mysensors.com/Rooms
-				</providingApplication>
-			</contextRegistration>
-		</contextRegistrationResponse>
-	</contextRegistrationResponseList>
-</notifyContextAvailabilityRequest>
-  
-```  
 ```  
 {
     "subscriptionId": "UniS_0AGGEEdSNK",
@@ -605,16 +346,6 @@ Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** 
 ```  
 Result obtained should be a **notifyContextAvailabilityResponse** similar to the following:  
 
-```  
-<?xml version="1.0" encoding="UTF-8"?>
-<notifyContextAvailabilityResponse>
-	<responseCode>
-		<code>200</code>
-		<reasonPhrase>Ok</reasonPhrase>
-		<details>a</details>
-	</responseCode>
-</notifyContextAvailabilityResponse>
-```  
 ```  
 {    
     "statusCode": {
