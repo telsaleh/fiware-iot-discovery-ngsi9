@@ -2,6 +2,10 @@ FORMAT: 1A
 HOST: https://app.apiary.io/ngsi9
 TITLE: IoT Discovery GE Open API Specification
 DATE: 17/09/2016
+VERSION: Release_5
+APIARY_PROJECT: ngsi9
+SPEC_URL: http://
+GITHUB_SOURCE: https://github.com/UniSurreyIoT/fiware-iot-discovery-ngsi9/blob/master/doc/apiary/ngsi9-server.apib
 
 # FIWARE NGSI-9 API Core (v1)
 
@@ -13,18 +17,29 @@ The FIWARE version of the OMA NGSI-9 interface is a RESTful API via HTTP. Its pu
 ## Editors
 
   + Tarek Elsaleh (UNIS)
+
+## Copyright
+
+Copyright (c) 2016 UNIS
+
+## License
+
+This specification is licensed under the
+[FIWARE Open Specification License (implicit patent license)](https://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Implicit_Patents_License).
   
 ## Acknowledgements
 
-Contributers to the NGSI-9 Binding Specification: 
+Main contributers to the FIWARE NGSI-9 Binding Specification: 
 
-Fermin Galan Marquez(TID), Tobias Jacobs (NEC), Ken Gunner (TID), Salvatore Longo (NEC), Martin Bauer (NEC), Juanjo Hierro (TID), Boris Moltchanov (TI), Laurent Artusio (FT)
+Fermin Galan Marquez (TID), Tobias Jacobs (NEC), Ken Gunner (TID), Salvatore Longo (NEC), Martin Bauer (NEC), Juanjo Hierro (TID), Boris Moltchanov (TI), Laurent Artusio (FT)
 
 ## Versions
 
 + This Version: http://docs.ngsi9.apiary.io/
 
 ## Status
+
+FIWARE Release 5
 
 ## Conformance
 
@@ -368,12 +383,17 @@ object containing a NotifyContextAvailabilityRequest message, and receives from 
             
 # Convenience operations [/]
 
+Instances of this resource type are used for retrieving which information about a certain context entity is available. Furthermore, the availability of context information about this entity can be announced by interaction with this resource.
+
+The {entitityID} part of the resource URI must denote the ID of an individual entity. The usage of regular expressions in {entityID} is supported neither here nor for any subresource.
+
 ## Convenience operation - Individual Context Entity    [/contextEntities/{EntityID}]
 
 ### Register Context  [POST]
 
-You may create your own request using this action. It takes a JSON
-object containing a RegisterContextRequest message.
+This operation registers the availability of context information about the entity identified by the {entityID} part of the resource URI. Note that this operation can be used both for new registrations and for updates of existing registrations; in the latter case the request message should include the RegistrationId field.
+
+The request message is an instance of registerProviderRequest. The response message is an instance of registerContextResponse.
 
 + Request (application/json)
 
@@ -426,7 +446,10 @@ object containing a RegisterContextRequest message.
 
 ### Discover Context [GET]
 
-TODO
+Retrieve all availability information about the context entity represented by the resource (i.e. URIs of all applications that provide context information about the entity).
+The response body is an instance of DiscoverContextAvailabilityResponse. Its ContextRegistrationResponseList contains context availability information related to the context entity that is determined by the {entitityID} part of the resource URI.
+
+Use a GET request to retreive results for the {EntityID} specified in the URL path.
 
 + Response 200 (application/json)
 
@@ -459,50 +482,14 @@ TODO
             }
             ]
             }
-            
-## Convenience operation - Attribute Container of Individual Context Entity    [/contextEntities/{EntityID}/attributes]
 
-### Discover Context [GET]
-
-TODO
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Location: /ngsi9
-
-    + Body
-
-            {
-            "contextRegistrationResponses": [
-            {
-            "contextRegistration": {
-            "attributes": [
-            {
-              "isDomain": "false",
-              "name": "temperature",
-              "type": "float"
-            }
-            ],
-            "entities": [
-            {
-              "id": "Room1",
-              "isPattern": "false",
-              "type": "Room"
-            }
-            ],
-            "providingApplication": "http://mysensors.com/Rooms"
-            }
-            }
-            ]
-            }
-            
 ## Convenience operation - Attribute of Individual Context Entity    [/contextEntities/{EntityID}/attributes/{attributeName}]
 
 ### Discover Context [GET]
 
-TODO
+Retrieve all availability information about the attribute represented by the resource, including the respective metadata. The response body is an instance of DiscoverContextAvailabilityResponse, where the same restrictions as for GET operations on context entity resources apply. Additionally, only availability information related to the attribute determined by the {attributeName} part of the resource URI must be contained in the response.
+
+Use a GET request to retreive results for the {EntityID} and {attributeName} specified in the URL path.
 
 + Response 200 (application/json)
 
@@ -538,9 +525,12 @@ TODO
             
 ## Convenience operation - Context Entity Type    [/contextEntities/ContextEntityType/{typeName}]
 
+Instances of this resource are used for retrieving availability information about context entities of the type represented by the resourceand announce the availability of such information.
+
 ### Discover Context [GET]
 
-TODO
+Retrieve availability of information about context entities of the type represented by this resource. The response body is an instance of discoverContextAvailabilityResponse, which only contains availability information related to entities having type {typeName}.
+Use a GET request to retreive results for the {typeName} specified in the URL path.
 
 + Response 200 (application/json)
 
@@ -574,49 +564,13 @@ TODO
             ]
             }
 
-## Convenience operation - Attribute container of Context Entity Type    [/contextEntityTypes/{typeName}/attributes]
-
-### Discover Context [GET]
-
-TODO
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Location: /ngsi9
-
-    + Body
-
-            {
-            "contextRegistrationResponses": [
-            {
-            "contextRegistration": {
-            "attributes": [
-            {
-              "isDomain": "false",
-              "name": "temperature",
-              "type": "float"
-            }
-            ],
-            "entities": [
-            {
-              "id": "Room1",
-              "isPattern": "false",
-              "type": "Room"
-            }
-            ],
-            "providingApplication": "http://mysensors.com/Rooms"
-            }
-            }
-            ]
-            }
-            
 ## Convenience operation - Attribute of Context Entity Type    [/contextEntityTypes/{typeName}/attributes/{attributeName}]
 
+Instances of this resource are used for retrieving availability information regarding a specific attribute of all context entities having a certain type, and for announcing the availability of such kind of information.
+
 ### Discover Context [GET]
 
-TODO
+Retrieve information on where values of the the attribute represented by the resource is available, and what the respective metadata is. The context entities of interest are all context entities of the type represented by the {typeName} part of the access URI.
 
 + Response 200 (application/json)
 
@@ -652,10 +606,13 @@ TODO
 
 ## Convenience operation - Availability Subscription [/contextAvailabilitySubscriptions]
 
+This is a container resource for context availability subscriptions, where new subscriptions are created via POST.
+
 ### Create a new availability subscription [POST]
 
-You may create your own request using this action. It takes a JSON
-object containing a subscribeContextAvailability message.
+Create a new context availability subscription. The type of the request and response body is SubscribeContextAvailabilityRequest and SubscribeContextAvailabilityResponse, respectively. The subscription will be represented by a new child resource, whose URI is determined by the subscription ID inside the response body. The recipient URI of the subscription is to be specified in the Reference field of the the request body.
+
+You may create your own request using this action. It takes a JSON object containing a subscribeContextAvailability message.
 
 + Request (application/json)
 
@@ -689,10 +646,13 @@ object containing a subscribeContextAvailability message.
 
 ## Convenience operation - Availability Subscription Container [/contextAvailabilitySubscriptions/{subscriptionID}]
 
+Instances of this resource represent context availability subscriptions. They can be interacted with via PUT and DELETE. Creation of new availability subscriptions is done by interaction with the parent resource.
+
 ### Update Subscription [PUT]
 
-You may create your own request using this action. It takes a JSON
-object containing a updateContextAvailabilitySubscriptionRequest message.
+This operation updates a context availability subscription. The request and response body is updateContextAvailabilitySubscriptionRequest and updateContextAvailabilitySubscriptionResponse, respectively. The subscriptionId field inside the request message must equal the {subscriptionID} part of the access URI, otherwise an error shall be returned.
+
+You may create your own request using this action. It takes a JSON object containing a updateContextAvailabilitySubscriptionRequest message.
 
 + Request (application/json)
 
@@ -726,8 +686,9 @@ object containing a updateContextAvailabilitySubscriptionRequest message.
 
 ### Cancel Subscription [DELETE]
 
-You may create your own request using this action. It takes a JSON
-object containing a updateContextAvailabilitySubscriptionRequest message.
+This operation is used for deleting a context availability subscription, which corresponds to an unsubscribeContextAvailability operation. The request contains no body, and the response body is of type UnsubscribeContextAvailabilityResponse.
+
+You may create your own request using this action. It takes a JSON object containing a updateContextAvailabilitySubscriptionRequest message.
 
 + Request (application/json)
 
