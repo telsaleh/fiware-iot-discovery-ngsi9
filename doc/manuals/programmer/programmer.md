@@ -383,7 +383,7 @@ This can be done using the URL structure below, where {typeName} is replaced by 
 GET http://{hostname}/ngsi9/contextEntityTypes/{typeName}
 ``` 
 
-###Note on Registering Entities and their Attributes:
+### Note on Registering Entities and their Attributes:
 
  - The "**isPattern**" field is not used for registrations but rather for discovery requests for Context Entities. 
  - **Attributes** can be specified as **Attribute Domains** by setting the "**isDomain**" field as "**true**".
