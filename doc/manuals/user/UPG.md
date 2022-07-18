@@ -403,7 +403,7 @@ Result obtained should be a ***updateContextAvailabilitySubscriptionResponse*** 
     "subscriptionId": "UniS_0AGGEEdSNK"
 }
 ```
-##Sense2Web API
+## Sense2Web API
 The diagram below illustrates the structure of RESTful API:
 
 
