@@ -407,7 +407,7 @@ The diagram below illustrates the structure of RESTful API:
 | Verb  | URI           | Description|  
 | ------|:-------------| :-------|  
 | GET | //{hostname}/s2w/repository/getVersion | ***getVersion***: returns the current version of the GEi|  
-| POST  | //{hostname}/s2w/repository/register/iot-a/{descriptionType} |   ***registerMultipleDescriptions***: registers a set of descriptions with the Sense2Web platform. {descriptionType} can be "resource","entity" or "service". The descriptions that are submitted is must conform with the IoT-A ontologies. NOTE for Release 2: This will trigger the training process to be executed, but associations will not be created. |
+| POST  | //{hostname}/s2w/repository/register/iot-a/{descriptionType} |   ***registerMultipleDescriptions***: registers a set of descriptions with the Sense2Web platform. {descriptionType} can be "resource","entity" or "service". The descriptions that are submitted is must conform with the IoT-A ontologies. |
 | POST  | //{hostname}/s2w/repository/register/iot-a/{descriptionType}/{objectID} | ***registerDescription***: registers a description with the Sense2Web paltform. {descriptionType} can be "resource","entity" or "service". The description that is submitted is must conform with the IoT-A ontologies.
 | GET | //{hostname}/s2w/repository/lookup/iot-a/{descriptionType}/{objectID}?resultFormat={resultFormat} | ***lookupDescription***: looks up a description with a specific ID and retrieves it in a specific format; "RDF/XML", "RDF/JSON", "N3", "N-TRIPLE", "TURTLE".|
 | PUT  | //{hostname}/s2w/repository/update/iot-a/{descriptionType}/{objectID} |   ***updateDescription***: updates a description with a specific ID that is already registered with the platform's repository |
