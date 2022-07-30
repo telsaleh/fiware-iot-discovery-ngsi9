@@ -28,7 +28,7 @@ Check out IoT Discovery from the FIWARE [catalogue](http://catalogue.fiware.org/
  * [ API Reference Documentation](http://docs.ngsi9.apiary.io/#) 
  * [IoT Discovery GE Open Specification](http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/FIWARE.OpenSpecification.IoT.Backend.IoTDiscovery)
 
-##Introduction
+## Introduction
 
 This is the reference implementation for IoT Discovery GE. Its role is to act as a meeting point for IoT Context Producers to register the availability of their Things and Sensor devices, and IoT Context Consumers to discover them, using either the OMA NGSI-9 messaging protocol – a simple but powerful API for contextual information exchange, or the Sense2Web API that supports Linked Open Data. 
 
